@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ThemeSwitcher } from "./ThemeSwitcher";
 
 export default function Header() {
   return (
@@ -19,6 +20,9 @@ export default function Header() {
           </div>
           <div>
             <Link href="/Contact">Contact</Link>
+          </div>
+          <div className="m-auto">
+            <ThemeSwitcher />
           </div>
         </nav>
       </div>

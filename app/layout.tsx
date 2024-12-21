@@ -24,7 +24,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${caveat.className} container mx-auto antialiased`}>
+      <body className={`${caveat.className} antialiased`}>
         <Providers>
           {/* <Alert /> */}
           <Header />

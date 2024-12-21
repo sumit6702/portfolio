@@ -8,6 +8,10 @@
   box-sizing: border-box;
 }
 
+body > * {
+  @apply container mx-auto;
+}
+
 body > div {
   display: flex;
   flex-direction: column;

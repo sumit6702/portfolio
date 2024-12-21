@@ -19,7 +19,7 @@ export default function Footer() {
             <FaLinkedinIn className="group-hover/link:animate-bounce group-hover/link:transition-all" />
           </Link>
           <Link
-            href="https://www.github.com/sumitk6702"
+            href="https://www.github.com/sumit6702"
             className="group/link p-1"
             target="_blank"
           >
