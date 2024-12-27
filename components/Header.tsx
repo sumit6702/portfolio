@@ -6,20 +6,20 @@ export default function Header() {
     <header>
       <div className="flex justify-between my-4">
         <Link href="/">
-          <h2 className="text-2xl font-bold">Sumit K.</h2>
+          <h2 className="text-2xl font-bold text-main_text">Sumit K.</h2>
         </Link>
         <nav className="flex gap-4 my-auto">
           <div>
             <Link href="/">Home</Link>
           </div>
           <div>
-            <Link href="/Works">Works</Link>
-          </div>
-          <div>
-            <Link href="/blogs">Blogs</Link>
-          </div>
-          <div>
-            <Link href="/Contact">Contact</Link>
+            <Link
+              target="_blank"
+              className="underline text-main_text"
+              href="https://drive.google.com/file/d/10UJxkEzk7ExltpHaIeGKDfEChwtBx2rT/view?usp=sharing"
+            >
+              Resume
+            </Link>
           </div>
           <div className="m-auto">
             <ThemeSwitcher />

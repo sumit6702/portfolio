@@ -17,7 +17,7 @@ body > div {
   flex-direction: column;
   height: 100%;
   min-height: 100vh;
-  padding: 1rem;
+  @apply p-8 lg:p-24;
 }
 
 main {

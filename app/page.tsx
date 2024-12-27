@@ -1,15 +1,17 @@
+"use client";
+import Card from "@/components/Card";
 import Image from "next/image";
+import data from "@/assets/projects";
 
 export default function Home() {
   return (
     <main>
       <section className="grid lg:grid-cols-12">
-        <div className="lg:col-span-8 m-auto p-2">
-          <h1 className="text-6xl">Hi, I'm Sumit K.</h1>
-          <p className="text-xl lg:w-[70%]">
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Blanditiis
-            quod provident corporis dolores sapiente? Rem neque fugiat veritatis
-            dolores laboriosam!
+        <div className="lg:col-span-8 my-auto p-2 ">
+          <h1 className="text-4xl">Hi, I'm Sumit K.</h1>
+          <p className="text-lg">
+            I a'm a Computer Science Enthusiast and devotee of Lord Cat.
+            <br />I am currently working as Job hunter.
           </p>
         </div>
         <div className="lg:col-span-4">
@@ -17,22 +19,26 @@ export default function Home() {
             className="m-auto"
             src="/car_.png"
             alt="cat"
-            width={300}
-            height={300}
+            width={200}
+            height={200}
           />
         </div>
-      </section>
-      <section className="my-6 py-3 border-t border-b">
-        <h1 className="text-4xl text-center underline mb-4">Today's Quote</h1>
-        <p className="text-4xl text-center">
-          "You don't own the cat, Cat owns you. Get your knee and give lord Cat
-          Catnip"
-        </p>
       </section>
       {/* <section>
         <h1 className="text-4xl text-center m-6">Lord Cat Gallery</h1>
         <div className="grid lg:grid-cols-3 gap-4"></div>
       </section> */}
+      <section className="grid lg:grid-cols-5 gap-4">
+        {data.map((project) => (
+          <Card
+            key={project.id}
+            href={project.href}
+            imageSrc={project.image}
+            altText={project.title}
+            title={project.title}
+          />
+        ))}
+      </section>
     </main>
   );
 }

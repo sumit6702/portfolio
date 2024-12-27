@@ -13,6 +13,7 @@ export default {
       colors: {
         charcol_dark: "#333333",
         warm_light: "#F5F5F5",
+        main_text: "#9381ff",
       },
     },
   },
