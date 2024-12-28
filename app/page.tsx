@@ -24,10 +24,6 @@ export default function Home() {
           />
         </div>
       </section>
-      {/* <section>
-        <h1 className="text-4xl text-center m-6">Lord Cat Gallery</h1>
-        <div className="grid lg:grid-cols-3 gap-4"></div>
-      </section> */}
       <section className="grid lg:grid-cols-5 gap-4">
         {data.map((project) => (
           <Card

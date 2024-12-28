@@ -1,10 +1,8 @@
 import type { Metadata } from "next";
-import localFont from "next/font/local";
 import "./globals.css";
 import Header from "@/components/Header";
 import { Caveat } from "next/font/google";
 import Footer from "@/components/Footer";
-import Alert from "@/components/alert";
 import { Providers } from "./providers";
 
 const caveat = Caveat({
@@ -26,7 +24,6 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={`${caveat.className} antialiased`}>
         <Providers>
-          {/* <Alert /> */}
           <Header />
           {children}
           <Footer />
