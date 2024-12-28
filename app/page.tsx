@@ -16,7 +16,7 @@ export default function Home() {
         </div>
         <div className="lg:col-span-4">
           <Image
-            className="m-auto"
+            className="m-auto filter dark:invert"
             src="/car_.png"
             alt="cat"
             width={200}
