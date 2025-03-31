@@ -1,4 +1,3 @@
-```markdown
 # Portfolio 🚀
 
 A personal portfolio website built with Next.js and TypeScript.
@@ -85,4 +84,3 @@ This project does not have a license file. All rights are reserved.
 ## Homepage 🌐
 
 [https://sumitkr.vercel.app](https://sumitkr.vercel.app)
-```
