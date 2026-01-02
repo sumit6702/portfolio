@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Header from "@/components/Header";
-import { Caveat } from "next/font/google";
 import Footer from "@/components/Footer";
 import { Providers } from "./providers";
 import { certia, main } from "./fonts";
