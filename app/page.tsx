@@ -91,7 +91,7 @@ export default function Home() {
         </Link>
       </div>
       {/* Last Grid */}
-      <div className="  flex flex-col gap-6 h-full">
+      <div className="  flex flex-row lg:flex-col gap-6 h-full">
         <div className="relative flex-[1] rounded-[2rem] overflow-hidden">
           <Link
             className="group h-full w-full block"
