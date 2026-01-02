@@ -4,6 +4,7 @@ import Header from "@/components/Header";
 import { Caveat } from "next/font/google";
 import Footer from "@/components/Footer";
 import { Providers } from "./providers";
+import { certia, main } from "./fonts";
 
 const caveat = Caveat({
   weight: "400",
@@ -22,7 +23,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${caveat.className} antialiased`}>
+      <body className={`${main.variable} ${certia.variable} antialiased`}>
         <Providers>
           <Header />
           {children}

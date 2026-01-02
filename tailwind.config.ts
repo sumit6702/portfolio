@@ -13,8 +13,12 @@ export default {
       colors: {
         charcol_dark: "#333333",
         warm_light: "#F5F5F5",
-        main_text: "#9381ff",
+        main_text: "#52b788",
       },
+      fontFamily: {
+        header: ['var(--font-main)', 'serif'],
+        body: ['var(--font-certia)', 'sans-serif'],
+      }
     },
   },
   darkMode: "class",
@@ -24,12 +28,12 @@ export default {
       themes: {
         dark: {
           colors: {
-            background: "#171717",
+            background: "#151515",
           },
         },
         light: {
           colors: {
-            background: "#f8f7eb",
+            background: "#ffffff",
           },
         },
       },
