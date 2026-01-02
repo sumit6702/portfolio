@@ -6,11 +6,6 @@ import Footer from "@/components/Footer";
 import { Providers } from "./providers";
 import { certia, main } from "./fonts";
 
-const caveat = Caveat({
-  weight: "400",
-  subsets: ["latin"],
-});
-
 export const metadata: Metadata = {
   title: "Sumit K.",
   description: "Hi, I'm Sumit K.",
