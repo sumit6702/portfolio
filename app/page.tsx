@@ -30,7 +30,7 @@ const projects = [
     id: 4,
     title: "unblurred Packaging",
     slug: "unblurred",
-    img: "http://seafile.sumitk.in/thumbnail/3cf012e47ba34f97827c/1024/unblur4.png",
+    img: "https://seafile.sumitk.in/thumbnail/3cf012e47ba34f97827c/1024/unblur4.png",
     className: "",
   },
   {
