@@ -17,16 +17,16 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: "https",
-        hostname: "seafile.sumitk.in",
+        hostname: "ik.imagekit.io",
         port: "",
         pathname: "/**",
       },
       {
         protocol: "https",
-        hostname: "cdn.dribbble.com",
+        hostname: "imagekit.io",
         port: "",
         pathname: "/**",
-      }
+      },
     ],
   },
 };
