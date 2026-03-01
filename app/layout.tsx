@@ -19,9 +19,9 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={`${main.variable} ${certia.variable} antialiased`}>
         <Providers>
-          <Header />
+          {/* <Header /> */}
           {children}
-          <Footer />
+          {/* <Footer /> */}
         </Providers>
       </body>
     </html>
