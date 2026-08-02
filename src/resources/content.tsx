@@ -72,14 +72,14 @@ const home: Home = {
     display: true,
     title: (
       <Row gap="12" vertical="center">
-        <strong className="ml-4">UNBLUR Packaging</strong>{" "}
+        <strong className="ml-4">Crunchy Piper</strong>{" "}
         <Line background="brand-alpha-strong" vert height="20" />
         <Text marginRight="4" onBackground="brand-medium">
           Featured work
         </Text>
       </Row>
     ),
-    href: "https://www.behance.net/gallery/242975295/UNBLUR",
+    href: "https://www.behance.net/gallery/242951051/Crunchy-Piper",
   },
   subline: (
     <>
