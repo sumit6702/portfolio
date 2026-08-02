@@ -44,7 +44,7 @@
 }
 
 [data-theme="light"] .moving-gradient-container {
-  opacity: 0.18; /* Lighter opacity for light theme readability */
+  opacity: 0.45; /* Make background colors appear more in light mode */
 }
 
 .gradient-blob {
