@@ -38,7 +38,7 @@
   z-index: 0;
   pointer-events: none;
   overflow: hidden;
-  filter: blur(120px);
+  filter: blur(70px);
   opacity: 0.28; /* Subtly visible background glow */
   transition: opacity 0.5s ease;
 }
@@ -62,20 +62,20 @@
 .blob-1 {
   top: -20%;
   left: -10%;
-  background: radial-gradient(circle, var(--brand-solid, #10b981) 0%, transparent 70%);
-  animation: moving-blur 25s infinite ease-in-out;
+  background: radial-gradient(circle, #7c3aed 0%, transparent 70%); /* Deep Violet/Purple */
+  animation: moving-blur 12s infinite ease-in-out;
 }
 
 .blob-2 {
   bottom: -20%;
   right: -10%;
-  background: radial-gradient(circle, var(--accent-solid, #059669) 0%, transparent 70%);
-  animation: moving-blur-reverse 30s infinite ease-in-out;
+  background: radial-gradient(circle, #0891b2 0%, transparent 70%); /* Bright Cyan */
+  animation: moving-blur-reverse 15s infinite ease-in-out;
 }
 
 .blob-3 {
   top: 30%;
   left: 20%;
-  background: radial-gradient(circle, var(--brand-alpha-strong, rgba(16, 185, 129, 0.4)) 0%, transparent 60%);
-  animation: moving-blur 22s infinite ease-in-out;
+  background: radial-gradient(circle, rgba(16, 185, 129, 0.45) 0%, transparent 60%); /* Emerald Green */
+  animation: moving-blur 10s infinite ease-in-out;
 }
