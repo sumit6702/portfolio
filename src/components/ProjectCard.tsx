@@ -8,6 +8,7 @@ import {
   Heading,
   SmartLink,
   Text,
+  Button,
 } from "@once-ui-system/core";
 
 interface ProjectCardProps {
@@ -63,23 +64,18 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({
               </Text>
             )}
             <Flex gap="24" wrap>
-              {content?.trim() && (
-                <SmartLink
-                  suffixIcon="arrowRight"
-                  style={{ margin: "0", width: "fit-content" }}
+              {href && (
+                <Button
                   href={href}
-                >
-                  <Text variant="body-default-s">Read case study</Text>
-                </SmartLink>
-              )}
-              {link && (
-                <SmartLink
-                  suffixIcon="arrowUpRightFromSquare"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  variant="primary"
+                  size="m"
+                  weight="strong"
+                  suffixIcon="arrowUpRight"
+                  label="Read case study"
                   style={{ margin: "0", width: "fit-content" }}
-                  href={link}
-                >
-                  <Text variant="body-default-s">View project</Text>
-                </SmartLink>
+                />
               )}
             </Flex>
           </Column>

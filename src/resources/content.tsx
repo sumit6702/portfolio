@@ -79,7 +79,7 @@ const home: Home = {
         </Text>
       </Row>
     ),
-    href: "/work/unblur",
+    href: "https://www.behance.net/gallery/242975295/UNBLUR",
   },
   subline: (
     <>
