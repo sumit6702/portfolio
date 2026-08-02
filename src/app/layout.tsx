@@ -113,6 +113,11 @@ export default async function RootLayout({
           padding="0"
           horizontal="center"
         >
+          <div className="moving-gradient-container">
+            <div className="gradient-blob blob-1"></div>
+            <div className="gradient-blob blob-2"></div>
+            <div className="gradient-blob blob-3"></div>
+          </div>
           <RevealFx fill position="absolute">
             <Background
               mask={{
