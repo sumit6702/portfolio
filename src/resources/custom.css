@@ -79,3 +79,26 @@
   background: radial-gradient(circle, rgba(16, 185, 129, 0.45) 0%, transparent 60%); /* Emerald Green */
   animation: moving-blur 10s infinite ease-in-out;
 }
+
+/* Mobile Responsive Adjustments for Background Blobs */
+@media (max-width: 768px) {
+  .moving-gradient-container {
+    filter: blur(45px); /* Reduce blur to keep colors distinct on small screens */
+  }
+  .gradient-blob {
+    width: 100vw; /* Larger scale blobs relative to mobile layout */
+    height: 100vw;
+  }
+  .blob-1 {
+    top: -15%;
+    left: -20%;
+  }
+  .blob-2 {
+    bottom: -15%;
+    right: -20%;
+  }
+  .blob-3 {
+    top: 35%;
+    left: -10%;
+  }
+}
