@@ -37,6 +37,7 @@ export default async function RootLayout({
       as="html"
       lang={person.locale ?? "en"}
       fillWidth
+      background="page"
       className={classNames(
         fonts.heading.variable,
         fonts.body.variable,
@@ -106,7 +107,6 @@ export default async function RootLayout({
       <Providers>
         <Column
           as="body"
-          background="page"
           fillWidth
           style={{ minHeight: "100vh" }}
           margin="0"
