@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState } from "react";
 import Link from "next/link";
-import { ToggleButton, Column, Row } from "@once-ui-system/core";
+import { ToggleButton, Column } from "@once-ui-system/core";
 import { projectsList, getImageUrl } from "@/resources/projects";
 
 interface ProjectsProps {
@@ -13,7 +13,6 @@ interface ProjectsProps {
 
 export function Projects({ range, exclude, showFilters = false }: ProjectsProps) {
   const [activeCategory, setActiveCategory] = useState<string>("All");
-  const carouselRef = useRef<HTMLDivElement>(null);
 
   // Get unique categories from the projects list
   const categories = ["All", ...Array.from(new Set(projectsList.map((p) => p.category)))];
@@ -34,20 +33,10 @@ export function Projects({ range, exclude, showFilters = false }: ProjectsProps)
     ? filtered.slice(range[0] - 1, range[1] ?? filtered.length)
     : filtered;
 
-  // Scroll function for left/right navigation
-  const scroll = (direction: "left" | "right") => {
-    if (carouselRef.current) {
-      // Calculate scroll offset based on viewport width
-      const cardWidth = window.innerWidth; // 100vw width
-      const offset = direction === "left" ? -cardWidth : cardWidth;
-      carouselRef.current.scrollBy({ left: offset, behavior: "smooth" });
-    }
-  };
-
   return (
-    <Column fillWidth gap="xl" horizontal="center">
+    <Column fillWidth gap="xl">
       {showFilters && (
-        <div className="filter-tabs-container" style={{ padding: "0 24px" }}>
+        <div className="filter-tabs-container">
           {categories.map((category) => (
             <ToggleButton
               key={category}
@@ -59,58 +48,39 @@ export function Projects({ range, exclude, showFilters = false }: ProjectsProps)
         </div>
       )}
 
-      {/* Center Carousel Track */}
-      <div className="project-carousel-container" ref={carouselRef}>
+      {/* Simple Grid Layout */}
+      <div className="simple-project-grid">
         {displayedProjects.map((project, index) => (
-          <div key={project.slug} className="card-3d-wrapper">
-            <div className="card-3d-inner" style={{ animationDelay: `${index * 0.1}s` }}>
-              <div className="card-image-wrap">
+          <div
+            key={project.slug}
+            className="simple-grid-item"
+            style={{ animationDelay: `${index * 0.05}s` }}
+          >
+            <Link href={`/work/${project.slug}`} className="simple-item-link">
+              <div className="simple-item-container">
                 <img
                   src={getImageUrl(project.coverImage)}
                   alt={project.title}
-                  loading={index < 2 ? "eager" : "lazy"}
+                  className="simple-item-image"
+                  loading="lazy"
                 />
-              </div>
-              <div className="card-overlay-content">
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", width: "100%" }}>
-                  <span className="card-tag">{project.category}</span>
-                  <div className="card-spin-badge">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <div className="simple-item-overlay">
+                  <div className="simple-item-badge">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                       <line x1="7" y1="17" x2="17" y2="7"></line>
                       <polyline points="7 7 17 7 17 17"></polyline>
                     </svg>
                   </div>
-                </div>
-                <div style={{ display: "flex", flexDirection: "column", gap: "12px", width: "100%" }}>
-                  <h3 className="card-spin-title">{project.title}</h3>
-                  <p className="card-spin-desc">{project.description}</p>
-                  <Link href={`/work/${project.slug}`} className="card-spin-btn">
-                    View Project Case Study
-                  </Link>
+                  <div className="simple-item-info">
+                    <span className="simple-item-category">{project.category}</span>
+                    <h3 className="simple-item-title">{project.title}</h3>
+                  </div>
                 </div>
               </div>
-            </div>
+            </Link>
           </div>
         ))}
       </div>
-
-      {/* Navigation Arrow buttons */}
-      {displayedProjects.length > 1 && (
-        <Row gap="16" horizontal="center" marginTop="16" marginBottom="l">
-          <button className="carousel-nav-btn" onClick={() => scroll("left")} aria-label="Scroll left">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <line x1="19" y1="12" x2="5" y2="12"></line>
-              <polyline points="12 19 5 12 12 5"></polyline>
-            </svg>
-          </button>
-          <button className="carousel-nav-btn" onClick={() => scroll("right")} aria-label="Scroll right">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <line x1="5" y1="12" x2="19" y2="12"></line>
-              <polyline points="12 5 19 12 12 19"></polyline>
-            </svg>
-          </button>
-        </Row>
-      )}
     </Column>
   );
 }
