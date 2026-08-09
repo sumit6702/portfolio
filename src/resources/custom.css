@@ -131,12 +131,13 @@
 /* Carousel & 3D Rotating Playing Card Styles */
 .project-carousel-container {
   display: flex;
-  gap: 24px;
+  gap: 0; /* No gap for a seamless full-width carousel */
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   padding: 24px 0;
-  width: 100%;
-  max-width: 100%;
+  width: 100vw;
+  box-sizing: border-box;
+  margin-left: calc(-50vw + 50%); /* Full-bleed layout across screen width */
   scroll-behavior: smooth;
   position: relative;
   z-index: 2;
@@ -152,26 +153,26 @@
 }
 
 .card-3d-wrapper {
-  flex: 0 0 75%;
-  max-width: 680px;
-  height: 480px;
-  perspective: 1200px; /* 3D context depth */
+  flex: 0 0 100vw;
+  height: 520px;
+  perspective: 1500px; /* 3D context depth */
   scroll-snap-align: center;
   position: relative;
-  margin: 0 auto; /* Centered by default */
+  box-sizing: border-box;
+  padding: 0 64px; /* Inner padding to align card inside 100vw screen */
 }
 
 @media (max-width: 1024px) {
   .card-3d-wrapper {
-    flex: 0 0 80%;
-    height: 420px;
+    height: 440px;
+    padding: 0 40px;
   }
 }
 
 @media (max-width: 768px) {
   .card-3d-wrapper {
-    flex: 0 0 85%;
     height: 380px;
+    padding: 0 24px;
   }
 }
 
@@ -187,13 +188,13 @@
   overflow: hidden;
   border: 1px solid var(--neutral-border-weak);
   background: var(--neutral-alpha-weak);
-  box-shadow: 0 10px 30px -10 rgba(0, 0, 0, 0.1);
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.1);
 }
 
 .card-3d-wrapper:hover .card-3d-inner {
-  transform: rotateY(-15deg) rotateX(3deg) scale(1.02); /* Less rotating, premium subtle 3D tilt */
+  transform: rotateY(-8deg) rotateX(1.5deg) scale(1.005); /* Less rotating, premium subtle 3D tilt */
   border-color: var(--brand-alpha-strong);
-  box-shadow: -15px 20px 40px -15px rgba(16, 185, 129, 0.22); /* Emerald brand glow shadow matching tilt */
+  box-shadow: -8px 15px 35px -12px rgba(16, 185, 129, 0.22); /* Emerald brand glow shadow matching tilt */
 }
 
 .card-image-wrap {

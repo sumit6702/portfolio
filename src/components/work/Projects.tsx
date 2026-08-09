@@ -38,7 +38,7 @@ export function Projects({ range, exclude, showFilters = false }: ProjectsProps)
   const scroll = (direction: "left" | "right") => {
     if (carouselRef.current) {
       // Calculate scroll offset based on viewport width
-      const cardWidth = window.innerWidth * 0.6 + 32; // 60vw width + 32px gap
+      const cardWidth = window.innerWidth; // 100vw width
       const offset = direction === "left" ? -cardWidth : cardWidth;
       carouselRef.current.scrollBy({ left: offset, behavior: "smooth" });
     }

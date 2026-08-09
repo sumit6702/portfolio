@@ -111,7 +111,7 @@ export default async function RootLayout({
         <Column
           as="body"
           fillWidth
-          style={{ minHeight: "100vh" }}
+          style={{ minHeight: "100vh", overflowX: "hidden" }}
           margin="0"
           padding="0"
           horizontal="center"
