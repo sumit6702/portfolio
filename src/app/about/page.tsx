@@ -164,7 +164,7 @@ export default function About() {
                 data-border="rounded"
               >
                 {social
-                      .filter((item) => item.essential)
+                      .filter((item) => item.essential && item.name !== "Website")
                       .map(
                   (item) =>
                     item.link && (

@@ -102,3 +102,28 @@
     left: -10%;
   }
 }
+
+/* Blinking/pulsing animation for the About Me chip on Homepage */
+@keyframes chip-pulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4);
+    border-color: rgba(16, 185, 129, 0.3);
+  }
+  50% {
+    transform: scale(1.03);
+    box-shadow: 0 0 16px 6px rgba(16, 185, 129, 0.2);
+    border-color: rgba(16, 185, 129, 0.8);
+  }
+}
+
+#about {
+  animation: chip-pulse 2.2s infinite ease-in-out;
+  transition: all 0.3s ease;
+}
+
+#about:hover {
+  animation: none;
+  transform: scale(1.05);
+  box-shadow: 0 0 20px 8px rgba(16, 185, 129, 0.3);
+}
