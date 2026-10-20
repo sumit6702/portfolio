@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Menu, X, Lock, Download, ArrowUpRight } from 'lucide-react';
+import { Menu, X, Lock, Download } from 'lucide-react';
 import ThemeToggle from '@/components/theme/ThemeToggle';
 
 export default function Navbar() {
@@ -20,10 +20,10 @@ export default function Navbar() {
   }, []);
 
   const navLinks = [
-    { name: 'Projects', href: '/projects' },
-    { name: 'Videos', href: '/videos' },
-    { name: 'About', href: '/#about' },
-    { name: 'Contact', href: '/#contact' },
+    { name: 'Projects', href: '/projects', pastel: 'hover:bg-periwinkle-light' },
+    { name: 'Videos', href: '/videos', pastel: 'hover:bg-babyPink-light' },
+    { name: 'About', href: '/#about', pastel: 'hover:bg-butterYellow-light' },
+    { name: 'Contact', href: '/#contact', pastel: 'hover:bg-mint-light' },
   ];
 
   const isActive = (href: string) => {
@@ -36,26 +36,28 @@ export default function Navbar() {
     <header
       className={`sticky top-0 z-50 transition-all duration-300 ${
         isScrolled
-          ? 'bg-cream/80 dark:bg-[#071918]/85 backdrop-blur-md py-3 border-b border-mint/40 dark:border-[#1A4543]/40 shadow-sm'
-          : 'bg-transparent py-5'
+          ? 'bg-bg/85 dark:bg-[#161426]/85 backdrop-blur-md py-3 border-b border-lavender/30 dark:border-white/10 shadow-sm'
+          : 'bg-transparent py-4 sm:py-5'
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between">
-          {/* Brand Logo in the style of beblessed.io ('b.') -> ('s.') */}
+          
+          {/* Brand Logo: 's.' in bold serif with periwinkle/lavender dot */}
           <Link
             href="/"
-            className="group flex items-baseline gap-1.5 no-underline select-none"
+            className="group flex items-baseline gap-1 no-underline select-none"
           >
-            <span className="font-display font-black text-4xl sm:text-5xl text-deepTeal dark:text-white tracking-tighter leading-none group-hover:text-primary transition-colors">
+            <span className="font-serif font-black text-4xl sm:text-5xl text-deepInk dark:text-white tracking-tighter leading-none group-hover:text-deepInk/80 transition-colors">
               s
             </span>
-            <span className="w-2.5 h-2.5 rounded-full bg-primary inline-block group-hover:scale-125 transition-transform" />
+            <span className="w-2.5 h-2.5 rounded-full bg-periwinkle group-hover:bg-lavender inline-block group-hover:scale-125 transition-transform" />
           </Link>
 
-          {/* Desktop Navigation Pills */}
-          <div className="hidden md:flex items-center gap-2">
-            <nav className="flex items-center gap-1.5 bg-white/70 dark:bg-[#0D2625]/70 backdrop-blur-md px-3 py-1.5 rounded-full border border-mint/60 dark:border-[#1E524F]/60 shadow-[0_2px_8px_rgba(15,76,74,0.04)]">
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex items-center gap-3">
+            {/* Pill container with pastel link pills */}
+            <nav className="flex items-center gap-1.5 bg-white/80 dark:bg-[#1E1B33]/80 backdrop-blur-md px-2.5 py-1.5 rounded-full border border-lavender/40 dark:border-white/10 shadow-[0_2px_8px_rgba(46,42,79,0.04)]">
               {navLinks.map((link) => {
                 const active = isActive(link.href);
                 return (
@@ -64,8 +66,8 @@ export default function Navbar() {
                     href={link.href}
                     className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all ${
                       active
-                        ? 'bg-primary text-white shadow-sm'
-                        : 'text-deepTeal/80 dark:text-mint/80 hover:text-primary hover:bg-mint/40 dark:hover:bg-[#113B39]/50'
+                        ? 'bg-deepInk text-white shadow-sm'
+                        : `text-deepInk dark:text-lavender-light ${link.pastel} dark:hover:bg-white/10`
                     }`}
                   >
                     {link.name}
@@ -74,22 +76,22 @@ export default function Navbar() {
               })}
             </nav>
 
-            {/* Quick Resume Button */}
+            {/* White-outlined Resume Pill per prompt: "with a white-outlined Resume pill" */}
             <a
               href="/resume-sumit-kumar.pdf"
               download="Sumit-Kumar-Resume.pdf"
-              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-mint dark:bg-[#113B39] text-deepTeal dark:text-mint text-xs font-extrabold border border-mint-border dark:border-[#1E615D] hover:bg-primary hover:text-white transition-colors shadow-sm"
+              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-white dark:bg-white/10 text-deepInk dark:text-white text-xs font-bold border-2 border-white dark:border-white/20 shadow-[0_2px_8px_rgba(46,42,79,0.06)] hover:bg-mint hover:border-mint-border transition-all"
             >
               <Download className="w-3.5 h-3.5" />
               Resume
             </a>
 
-            {/* Admin shortcut */}
+            {/* Admin shortcut round button */}
             <Link
               href="/admin"
               aria-label="Admin Portal"
               title="Admin Portal"
-              className="w-9 h-9 rounded-full bg-white dark:bg-[#0D2625] border border-mint/60 dark:border-[#1E524F]/60 text-deepTeal-muted dark:text-mint/70 flex items-center justify-center hover:text-primary transition-colors"
+              className="w-9 h-9 rounded-full bg-white dark:bg-[#1E1B33] border border-lavender/40 dark:border-white/10 text-bodyText-muted dark:text-lavender-light hover:text-deepInk flex items-center justify-center transition-colors shadow-sm"
             >
               <Lock className="w-3.5 h-3.5" />
             </Link>
@@ -104,7 +106,7 @@ export default function Navbar() {
 
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="p-2.5 rounded-2xl bg-white dark:bg-[#0D2625] border-2 border-mint dark:border-[#1E524F] text-deepTeal dark:text-white shadow-sm active:translate-y-0.5"
+              className="p-2.5 rounded-2xl bg-white dark:bg-[#1E1B33] border border-lavender/40 dark:border-white/10 text-deepInk dark:text-white shadow-sm active:translate-y-0.5"
               aria-label="Toggle Navigation Menu"
             >
               {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -115,7 +117,7 @@ export default function Navbar() {
 
       {/* Mobile Menu Dropdown */}
       {isOpen && (
-        <div className="md:hidden px-4 pt-4 pb-6 mt-2 mx-4 bg-white dark:bg-[#0D2625] rounded-3xl border-2 border-mint dark:border-[#1E524F] shadow-xl">
+        <div className="md:hidden px-4 pt-4 pb-6 mt-2 mx-4 bg-white dark:bg-[#1E1B33] rounded-3xl border border-lavender/50 dark:border-white/10 shadow-xl">
           <div className="flex flex-col gap-2">
             {navLinks.map((link) => (
               <Link
@@ -124,8 +126,8 @@ export default function Navbar() {
                 onClick={() => setIsOpen(false)}
                 className={`px-4 py-2.5 rounded-2xl text-sm font-bold transition-colors ${
                   isActive(link.href)
-                    ? 'bg-mint dark:bg-[#153D3B] text-deepTeal dark:text-mint'
-                    : 'text-deepTeal dark:text-white hover:bg-cream dark:hover:bg-[#113331]'
+                    ? 'bg-lavender-light dark:bg-white/15 text-deepInk dark:text-white'
+                    : 'text-deepInk dark:text-white hover:bg-bg dark:hover:bg-white/5'
                 }`}
               >
                 {link.name}
@@ -136,14 +138,14 @@ export default function Navbar() {
               href="/resume-sumit-kumar.pdf"
               download="Sumit-Kumar-Resume.pdf"
               onClick={() => setIsOpen(false)}
-              className="px-4 py-2.5 rounded-2xl text-sm font-bold bg-mint dark:bg-[#113B39] text-deepTeal dark:text-mint flex items-center justify-between"
+              className="px-4 py-2.5 rounded-2xl text-sm font-bold bg-mint dark:bg-mint/20 text-deepInk dark:text-mint flex items-center justify-between"
             >
               <span>Download Resume</span>
               <Download className="w-4 h-4" />
             </a>
 
-            <div className="pt-3 border-t border-mint dark:border-[#1E524F]/60 flex items-center justify-between text-xs">
-              <span className="font-bold text-deepTeal-muted dark:text-mint/70 uppercase">Theme Mode</span>
+            <div className="pt-3 border-t border-lavender/40 dark:border-white/10 flex items-center justify-between text-xs">
+              <span className="font-bold text-bodyText-muted dark:text-lavender-light/70 uppercase">Theme Mode</span>
               <ThemeToggle variant="segmented" />
             </div>
           </div>

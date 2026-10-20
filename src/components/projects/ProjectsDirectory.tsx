@@ -3,20 +3,20 @@
 import React, { useState, useMemo } from 'react';
 import { Project, ProjectCategory } from '@/lib/types';
 import ProjectCard from '@/components/projects/ProjectCard';
-import ClayShape from '@/components/3d/ClayShape';
-import { Sparkles, Search, SlidersHorizontal } from 'lucide-react';
+import DecorSlot from '@/components/decor/DecorSlot';
+import { Sparkles, Search } from 'lucide-react';
 
 interface ProjectsDirectoryProps {
   initialProjects: Project[];
 }
 
-const CATEGORIES: ProjectCategory[] = [
-  'All',
-  '3D Design',
-  'Motion Graphics',
-  'Packaging',
-  'Branding',
-  'AI Video',
+const CATEGORIES: { label: ProjectCategory; pastel: string }[] = [
+  { label: 'All', pastel: 'hover:bg-lavender-light' },
+  { label: '3D Design', pastel: 'hover:bg-periwinkle-light' },
+  { label: 'Motion Graphics', pastel: 'hover:bg-babyPink-light' },
+  { label: 'Packaging', pastel: 'hover:bg-peach-light' },
+  { label: 'Branding', pastel: 'hover:bg-mint-light' },
+  { label: 'AI Video', pastel: 'hover:bg-butterYellow-light' },
 ];
 
 export default function ProjectsDirectory({ initialProjects }: ProjectsDirectoryProps) {
@@ -39,25 +39,22 @@ export default function ProjectsDirectory({ initialProjects }: ProjectsDirectory
 
   return (
     <div className="py-12 md:py-20 relative overflow-hidden">
-      {/* Decorative 3D background shapes */}
-      <div className="absolute top-10 right-10 opacity-20 dark:opacity-10 pointer-events-none">
-        <ClayShape type="torus" color="teal" size="xl" />
-      </div>
-      <div className="absolute top-1/2 left-4 opacity-20 dark:opacity-10 pointer-events-none">
-        <ClayShape type="sphere" color="coral" size="lg" />
+      {/* 3D Decor Slot: Cube in safe negative corner */}
+      <div className="max-w-7xl mx-auto px-4 relative">
+        <DecorSlot slot="cube" />
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Page Header */}
         <div className="text-center max-w-3xl mx-auto mb-12">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-mint dark:bg-[#113B39] text-deepTeal dark:text-mint text-xs font-extrabold uppercase tracking-wider border border-mint-border dark:border-[#1E615D] shadow-sm mb-3">
-            <Sparkles className="w-3.5 h-3.5 text-primary" />
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-lavender-light dark:bg-lavender-dark/20 text-deepInk dark:text-lavender-light text-xs font-bold uppercase tracking-wider border border-lavender-border/50 dark:border-lavender/20 shadow-sm mb-3">
+            <Sparkles className="w-3.5 h-3.5 text-deepInk dark:text-lavender-light" />
             <span>Creative Showcase</span>
           </div>
-          <h1 className="font-display font-black text-4xl sm:text-5xl lg:text-6xl text-deepTeal dark:text-white tracking-tight">
+          <h1 className="font-serif font-black text-4xl sm:text-5xl lg:text-6xl text-deepInk dark:text-white tracking-tight">
             Projects & Case Studies
           </h1>
-          <p className="mt-3 text-base sm:text-lg text-deepTeal-muted dark:text-mint/70 font-medium">
+          <p className="mt-3 text-base sm:text-lg text-bodyText dark:text-lavender-light/80 font-medium">
             Explore 3D product renders, soft-drink packaging, kinetic motion reels, and brand systems created with Blender, After Effects, and AI pipelines.
           </p>
         </div>
@@ -66,20 +63,20 @@ export default function ProjectsDirectory({ initialProjects }: ProjectsDirectory
         <div className="mb-12 space-y-6">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             {/* Category Filter Pills */}
-            <div className="flex flex-wrap items-center justify-center gap-2 bg-white/80 dark:bg-[#0D2625]/85 backdrop-blur-md p-2 rounded-3xl border-2 border-mint dark:border-[#1E524F] shadow-[0_4px_0_#99F6E4] dark:shadow-[0_4px_0_#071918]">
-              {CATEGORIES.map((cat) => {
-                const active = selectedCategory === cat;
+            <div className="flex flex-wrap items-center justify-center gap-2 bg-white/80 dark:bg-[#1E1B33]/80 backdrop-blur-md p-2 rounded-full border border-lavender/40 dark:border-white/10 shadow-[0_2px_8px_rgba(46,42,79,0.04)]">
+              {CATEGORIES.map(({ label, pastel }) => {
+                const active = selectedCategory === label;
                 return (
                   <button
-                    key={cat}
-                    onClick={() => setSelectedCategory(cat)}
-                    className={`px-4 py-2 rounded-2xl text-xs sm:text-sm font-extrabold transition-all duration-150 ${
+                    key={label}
+                    onClick={() => setSelectedCategory(label)}
+                    className={`px-4 py-2 rounded-full text-xs sm:text-sm font-bold transition-all duration-150 ${
                       active
-                        ? 'bg-primary text-white shadow-[0_3px_0_#0D9488] -translate-y-0.5'
-                        : 'text-deepTeal dark:text-mint/80 hover:bg-mint dark:hover:bg-[#113B39] active:translate-y-0.5'
+                        ? 'bg-deepInk text-white shadow-sm'
+                        : `text-deepInk dark:text-lavender-light ${pastel} dark:hover:bg-white/10`
                     }`}
                   >
-                    {cat}
+                    {label}
                   </button>
                 );
               })}
@@ -92,9 +89,9 @@ export default function ProjectsDirectory({ initialProjects }: ProjectsDirectory
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search projects or tools..."
-                className="w-full pl-10 pr-4 py-2.5 rounded-2xl bg-white dark:bg-[#0D2625] border-2 border-mint dark:border-[#1E524F] text-deepTeal dark:text-white text-xs sm:text-sm font-bold focus:outline-none focus:border-primary focus:ring-2 focus:ring-mint dark:focus:ring-teal-900 shadow-[0_3px_0_#99F6E4] dark:shadow-[0_3px_0_#071918] transition-all"
+                className="w-full pl-10 pr-4 py-2.5 rounded-full bg-white dark:bg-[#1E1B33] border border-lavender/50 dark:border-white/10 text-deepInk dark:text-white text-xs sm:text-sm font-medium focus:outline-none focus:border-deepInk shadow-sm transition-all"
               />
-              <Search className="w-4 h-4 text-deepTeal-muted dark:text-mint/60 absolute left-3.5 top-1/2 -translate-y-1/2" />
+              <Search className="w-4 h-4 text-bodyText-muted dark:text-lavender-light/60 absolute left-3.5 top-1/2 -translate-y-1/2" />
             </div>
           </div>
         </div>
@@ -107,11 +104,11 @@ export default function ProjectsDirectory({ initialProjects }: ProjectsDirectory
             ))}
           </div>
         ) : (
-          <div className="bg-white dark:bg-[#0D2625] rounded-3xl border-2 border-mint dark:border-[#1A4543] p-12 text-center max-w-md mx-auto shadow-[0_6px_0_#99F6E4] dark:shadow-[0_6px_0_#071918]">
-            <p className="font-display font-bold text-xl text-deepTeal dark:text-white mb-2">
+          <div className="bg-white dark:bg-[#1E1B33] rounded-[32px] border border-lavender/50 dark:border-white/10 p-12 text-center max-w-md mx-auto shadow-sm">
+            <p className="font-serif font-bold text-xl text-deepInk dark:text-white mb-2">
               No projects found
             </p>
-            <p className="text-sm text-deepTeal-muted dark:text-mint/70 font-medium mb-4">
+            <p className="text-sm text-bodyText-muted dark:text-lavender-light/70 font-medium mb-4">
               Try selecting another category or clearing your search keywords.
             </p>
             <button
@@ -119,7 +116,7 @@ export default function ProjectsDirectory({ initialProjects }: ProjectsDirectory
                 setSelectedCategory('All');
                 setSearchQuery('');
               }}
-              className="px-5 py-2.5 rounded-xl bg-primary text-white text-xs font-bold shadow-[0_3px_0_#0D9488]"
+              className="px-5 py-2.5 rounded-full bg-deepInk text-white text-xs font-bold shadow-sm hover:bg-deepInk-hover"
             >
               Reset Filters
             </button>

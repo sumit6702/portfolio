@@ -1,22 +1,28 @@
 import type { Metadata } from 'next';
-import { Outfit, Fredoka } from 'next/font/google';
+import { Fraunces, Plus_Jakarta_Sans, Caveat } from 'next/font/google';
 import './globals.css';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import { ThemeProvider } from '@/components/theme/ThemeProvider';
 
-const outfit = Outfit({
+const fraunces = Fraunces({
   subsets: ['latin'],
   display: 'swap',
-  variable: '--font-outfit',
-  weight: ['300', '400', '500', '600', '700', '800'],
+  variable: '--font-fraunces',
 });
 
-const fredoka = Fredoka({
+const plusJakartaSans = Plus_Jakarta_Sans({
   subsets: ['latin'],
   display: 'swap',
-  variable: '--font-fredoka',
-  weight: ['400', '500', '600', '700'],
+  variable: '--font-sans',
+  weight: ['400', '500', '600', '700', '800'],
+});
+
+const caveat = Caveat({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-caveat',
+  weight: ['400', '600', '700'],
 });
 
 export const metadata: Metadata = {
@@ -57,7 +63,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${outfit.variable} ${fredoka.variable} scroll-smooth`} suppressHydrationWarning>
+    <html
+      lang="en"
+      className={`${fraunces.variable} ${plusJakartaSans.variable} ${caveat.variable} scroll-smooth`}
+      suppressHydrationWarning
+    >
       <head>
         {/* Anti-FOUC Theme Script: default is System */}
         <script
@@ -78,7 +88,7 @@ export default function RootLayout({
           }}
         />
       </head>
-      <body className="min-h-screen flex flex-col bg-cream dark:bg-[#071918] text-deepTeal dark:text-[#E6FFFA] antialiased selection:bg-primary selection:text-white transition-colors duration-200">
+      <body className="min-h-screen flex flex-col bg-bg text-bodyText dark:bg-[#161426] dark:text-[#E7E4F5] antialiased selection:bg-lavender selection:text-deepInk transition-colors duration-200">
         <ThemeProvider>
           <Navbar />
           <main className="flex-1">{children}</main>

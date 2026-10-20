@@ -1,10 +1,8 @@
 import React from 'react';
-import Link from 'next/link';
 import { Sparkles, ArrowRight } from 'lucide-react';
 import { Project } from '@/lib/types';
 import ProjectCard from '@/components/projects/ProjectCard';
 import ClayButton from '@/components/3d/ClayButton';
-import ClayShape from '@/components/3d/ClayShape';
 
 interface FeaturedProjectsProps {
   projects: Project[];
@@ -16,23 +14,19 @@ export default function FeaturedProjects({ projects }: FeaturedProjectsProps) {
 
   return (
     <section className="py-20 relative overflow-hidden">
-      {/* Decorative background shape */}
-      <div className="absolute top-12 right-[5%] opacity-30 dark:opacity-15 pointer-events-none">
-        <ClayShape type="sphere" color="teal" size="lg" />
-      </div>
-
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
           <div>
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-mint dark:bg-[#113B39] text-deepTeal dark:text-mint text-xs font-extrabold uppercase tracking-wider border border-mint-border dark:border-[#1E615D] shadow-sm mb-3">
-              <Sparkles className="w-3.5 h-3.5 text-primary" />
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-periwinkle-light dark:bg-periwinkle/20 text-deepInk dark:text-periwinkle-light text-xs font-bold uppercase tracking-wider border border-periwinkle-border/50 dark:border-periwinkle/20 shadow-sm mb-3">
+              <Sparkles className="w-3.5 h-3.5 text-deepInk dark:text-periwinkle-light" />
               <span>Selected Portfolio</span>
             </div>
-            <h2 className="font-display font-extrabold text-3xl sm:text-4xl lg:text-5xl text-deepTeal dark:text-white tracking-tight">
+            <h2 className="font-serif font-black text-3xl sm:text-4xl lg:text-5xl text-deepInk dark:text-white tracking-tight">
               Featured Case Studies
             </h2>
-            <p className="mt-2 text-base text-deepTeal-muted dark:text-mint/70 max-w-xl font-medium">
+            <p className="mt-2 text-base text-bodyText dark:text-lavender-light/80 max-w-xl font-normal">
               Dive into 3D brand systems, soft-drink packaging, and high-impact motion reels designed with precision and playfulness.
             </p>
           </div>

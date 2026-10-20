@@ -5,7 +5,6 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import {
-  LayoutDashboard,
   FolderKanban,
   Film,
   UserCheck,
@@ -15,11 +14,9 @@ import {
   Trash2,
   ExternalLink,
   LogOut,
-  Sparkles,
   Database,
   Star,
   CheckCircle2,
-  Search,
 } from 'lucide-react';
 import { checkAdminSession, logoutAdmin, AdminUser } from '@/lib/auth';
 import {
@@ -165,30 +162,31 @@ export default function AdminDashboardPage() {
   if (!currentUser) {
     return (
       <div className="min-h-[60vh] flex items-center justify-center">
-        <div className="w-8 h-8 rounded-full border-4 border-primary border-t-transparent animate-spin" />
+        <div className="w-8 h-8 rounded-full border-4 border-deepInk border-t-transparent animate-spin" />
       </div>
     );
   }
 
   return (
     <div className="min-h-screen py-8 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto transition-colors duration-200">
+      
       {/* Top Header Bar */}
-      <div className="bg-white dark:bg-[#0D2625] rounded-3xl md:rounded-4xl border-2 border-mint dark:border-[#1E524F] p-6 shadow-[0_8px_0_#99F6E4] dark:shadow-[0_8px_0_#071918] mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="bg-white dark:bg-[#1E1B33] rounded-[32px] md:rounded-[40px] border border-lavender/50 dark:border-white/10 p-6 shadow-soft-sm mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div className="flex items-center gap-4">
-          <div className="w-14 h-14 rounded-2xl bg-primary text-white flex items-center justify-center font-display font-black text-2xl shadow-[0_4px_0_#0D9488]">
+          <div className="w-14 h-14 rounded-2xl bg-deepInk text-white flex items-center justify-center font-serif font-black text-2xl shadow-sm">
             S
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <h1 className="font-display font-black text-2xl text-deepTeal dark:text-white">
+              <h1 className="font-serif font-black text-2xl text-deepInk dark:text-white">
                 Portfolio Studio Admin
               </h1>
-              <span className="px-2.5 py-0.5 rounded-full bg-mint dark:bg-[#113B39] text-deepTeal dark:text-mint text-[11px] font-extrabold uppercase">
+              <span className="px-3 py-0.5 rounded-full bg-mint-light dark:bg-mint/20 text-deepInk dark:text-mint-light text-[11px] font-bold uppercase border border-mint-border/50">
                 {currentUser.isSupabaseAuth ? 'Supabase Live' : 'Local Sandbox'}
               </span>
             </div>
-            <p className="text-xs font-semibold text-deepTeal-muted dark:text-mint/70">
-              Logged in as <span className="font-bold text-deepTeal dark:text-white">{currentUser.email}</span>
+            <p className="text-xs font-semibold text-bodyText-muted dark:text-lavender-light/70 mt-0.5">
+              Logged in as <span className="font-bold text-deepInk dark:text-white">{currentUser.email}</span>
             </p>
           </div>
         </div>
@@ -199,7 +197,7 @@ export default function AdminDashboardPage() {
           <Link
             href="/"
             target="_blank"
-            className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-2xl bg-cream dark:bg-[#071918] border border-mint dark:border-[#1E524F] text-deepTeal dark:text-mint text-xs font-bold hover:bg-mint dark:hover:bg-[#113B39] transition-colors shadow-sm"
+            className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-full bg-bg dark:bg-[#161426] border border-lavender/40 dark:border-white/10 text-deepInk dark:text-lavender-light text-xs font-bold hover:bg-lavender-light transition-colors shadow-sm"
           >
             <ExternalLink className="w-3.5 h-3.5" />
             View Live Site
@@ -207,7 +205,7 @@ export default function AdminDashboardPage() {
 
           <button
             onClick={handleLogout}
-            className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-2xl bg-rose-50 dark:bg-rose-950/60 border border-rose-200 dark:border-rose-900 text-rose-700 dark:text-rose-300 text-xs font-bold hover:bg-rose-100 dark:hover:bg-rose-900/60 transition-colors"
+            className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-full bg-babyPink-light dark:bg-babyPink/20 border border-babyPink-border text-deepInk dark:text-babyPink-light text-xs font-bold hover:bg-babyPink transition-colors"
           >
             <LogOut className="w-3.5 h-3.5" />
             Sign Out
@@ -217,20 +215,20 @@ export default function AdminDashboardPage() {
 
       {/* Instant Success Notification Toast */}
       {actionSuccess && (
-        <div className="fixed bottom-6 right-6 z-50 p-4 rounded-2xl bg-deepTeal text-white text-xs font-bold shadow-xl border-2 border-primary flex items-center gap-2 animate-bounce-subtle">
-          <CheckCircle2 className="w-4 h-4 text-primary" />
+        <div className="fixed bottom-6 right-6 z-50 p-4 rounded-2xl bg-deepInk text-white text-xs font-bold shadow-xl border border-lavender/40 flex items-center gap-2 animate-bounce-subtle">
+          <CheckCircle2 className="w-4 h-4 text-mint" />
           <span>{actionSuccess}</span>
         </div>
       )}
 
       {/* Navigation Tabs */}
-      <div className="flex flex-wrap items-center gap-2 mb-8 bg-white/80 dark:bg-[#0D2625]/85 backdrop-blur-md p-2 rounded-3xl border-2 border-mint dark:border-[#1E524F] shadow-[0_4px_0_#99F6E4] dark:shadow-[0_4px_0_#071918]">
+      <div className="flex flex-wrap items-center gap-2 mb-8 bg-white/80 dark:bg-[#1E1B33]/80 backdrop-blur-md p-2 rounded-full border border-lavender/40 dark:border-white/10 shadow-sm">
         <button
           onClick={() => setActiveTab('projects')}
-          className={`flex items-center gap-2 px-5 py-2.5 rounded-2xl text-xs sm:text-sm font-extrabold transition-all ${
+          className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold transition-all ${
             activeTab === 'projects'
-              ? 'bg-primary text-white shadow-[0_3px_0_#0D9488]'
-              : 'text-deepTeal dark:text-mint/70 hover:bg-mint dark:hover:bg-[#113B39]'
+              ? 'bg-deepInk text-white shadow-sm'
+              : 'text-deepInk dark:text-lavender-light hover:bg-lavender-light'
           }`}
         >
           <FolderKanban className="w-4 h-4" />
@@ -239,10 +237,10 @@ export default function AdminDashboardPage() {
 
         <button
           onClick={() => setActiveTab('videos')}
-          className={`flex items-center gap-2 px-5 py-2.5 rounded-2xl text-xs sm:text-sm font-extrabold transition-all ${
+          className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold transition-all ${
             activeTab === 'videos'
-              ? 'bg-primary text-white shadow-[0_3px_0_#0D9488]'
-              : 'text-deepTeal dark:text-mint/70 hover:bg-mint dark:hover:bg-[#113B39]'
+              ? 'bg-deepInk text-white shadow-sm'
+              : 'text-deepInk dark:text-lavender-light hover:bg-lavender-light'
           }`}
         >
           <Film className="w-4 h-4" />
@@ -251,10 +249,10 @@ export default function AdminDashboardPage() {
 
         <button
           onClick={() => setActiveTab('profile')}
-          className={`flex items-center gap-2 px-5 py-2.5 rounded-2xl text-xs sm:text-sm font-extrabold transition-all ${
+          className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold transition-all ${
             activeTab === 'profile'
-              ? 'bg-primary text-white shadow-[0_3px_0_#0D9488]'
-              : 'text-deepTeal dark:text-mint/70 hover:bg-mint dark:hover:bg-[#113B39]'
+              ? 'bg-deepInk text-white shadow-sm'
+              : 'text-deepInk dark:text-lavender-light hover:bg-lavender-light'
           }`}
         >
           <UserCheck className="w-4 h-4" />
@@ -263,10 +261,10 @@ export default function AdminDashboardPage() {
 
         <button
           onClick={() => setActiveTab('inquiries')}
-          className={`flex items-center gap-2 px-5 py-2.5 rounded-2xl text-xs sm:text-sm font-extrabold transition-all ${
+          className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold transition-all ${
             activeTab === 'inquiries'
-              ? 'bg-primary text-white shadow-[0_3px_0_#0D9488]'
-              : 'text-deepTeal dark:text-mint/70 hover:bg-mint dark:hover:bg-[#113B39]'
+              ? 'bg-deepInk text-white shadow-sm'
+              : 'text-deepInk dark:text-lavender-light hover:bg-lavender-light'
           }`}
         >
           <Mail className="w-4 h-4" />
@@ -275,10 +273,10 @@ export default function AdminDashboardPage() {
 
         <button
           onClick={() => setActiveTab('setup')}
-          className={`flex items-center gap-2 px-5 py-2.5 rounded-2xl text-xs sm:text-sm font-extrabold transition-all ${
+          className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold transition-all ${
             activeTab === 'setup'
-              ? 'bg-primary text-white shadow-[0_3px_0_#0D9488]'
-              : 'text-deepTeal dark:text-mint/70 hover:bg-mint dark:hover:bg-[#113B39]'
+              ? 'bg-deepInk text-white shadow-sm'
+              : 'text-deepInk dark:text-lavender-light hover:bg-lavender-light'
           }`}
         >
           <Database className="w-4 h-4" />
@@ -291,16 +289,16 @@ export default function AdminDashboardPage() {
         <div className="space-y-6">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
-              <h2 className="font-display font-extrabold text-2xl text-deepTeal dark:text-white">
+              <h2 className="font-serif font-black text-2xl text-deepInk dark:text-white">
                 Manage Portfolio Projects
               </h2>
-              <p className="text-xs text-deepTeal-muted dark:text-mint/70 font-semibold">
+              <p className="text-xs text-bodyText-muted dark:text-lavender-light/70 font-semibold">
                 Add, edit, or delete case studies shown across the website.
               </p>
             </div>
 
             <ClayButton
-              variant="teal"
+              variant="dark"
               size="sm"
               onClick={() => {
                 setEditingProject(null);
@@ -316,10 +314,10 @@ export default function AdminDashboardPage() {
             {projects.map((proj) => (
               <div
                 key={proj.id}
-                className="bg-white dark:bg-[#0D2625] rounded-3xl border-2 border-mint dark:border-[#1A4543] p-4 shadow-[0_6px_0_#99F6E4] dark:shadow-[0_6px_0_#071918] flex flex-col justify-between"
+                className="bg-white dark:bg-[#1E1B33] rounded-[28px] border border-lavender/50 dark:border-white/10 p-4 shadow-soft-sm flex flex-col justify-between"
               >
                 <div>
-                  <div className="relative aspect-[16/10] rounded-2xl overflow-hidden bg-cream dark:bg-[#071918] mb-3">
+                  <div className="relative aspect-[16/10] rounded-2xl overflow-hidden bg-bg dark:bg-[#161426] mb-3">
                     <Image
                       src={proj.coverImage}
                       alt={proj.title}
@@ -328,26 +326,26 @@ export default function AdminDashboardPage() {
                       className="object-cover"
                     />
                     {proj.featured && (
-                      <span className="absolute top-2 right-2 px-2.5 py-1 rounded-full bg-butterYellow text-deepTeal text-[10px] font-black uppercase flex items-center gap-1 shadow-sm">
-                        <Star className="w-3 h-3 fill-deepTeal" />
+                      <span className="absolute top-2 right-2 px-2.5 py-1 rounded-full bg-butterYellow text-deepInk text-[10px] font-bold uppercase flex items-center gap-1 shadow-sm">
+                        <Star className="w-3 h-3 fill-deepInk" />
                         Featured
                       </span>
                     )}
-                    <span className="absolute bottom-2 left-2 px-2 py-0.5 rounded-md bg-deepTeal/85 text-white text-[10px] font-bold">
+                    <span className="absolute bottom-2 left-2 px-2.5 py-0.5 rounded-full bg-deepInk/85 text-white text-[10px] font-bold">
                       {proj.category}
                     </span>
                   </div>
 
-                  <h3 className="font-display font-bold text-base text-deepTeal dark:text-white line-clamp-1">
+                  <h3 className="font-serif font-bold text-base text-deepInk dark:text-white line-clamp-1">
                     {proj.title}
                   </h3>
-                  <p className="text-xs text-deepTeal-muted dark:text-mint/60 line-clamp-2 mt-1">
+                  <p className="text-xs text-bodyText-muted dark:text-lavender-light/70 line-clamp-2 mt-1">
                     {proj.description}
                   </p>
                 </div>
 
-                <div className="mt-4 pt-3 border-t border-mint dark:border-[#1A4543]/60 flex items-center justify-between">
-                  <span className="text-[11px] font-bold text-deepTeal-muted dark:text-mint/60">
+                <div className="mt-4 pt-3 border-t border-lavender/30 dark:border-white/10 flex items-center justify-between">
+                  <span className="text-[11px] font-bold text-bodyText-muted dark:text-lavender-light/60">
                     {proj.year} • {proj.tools.length} Tools
                   </span>
 
@@ -357,14 +355,14 @@ export default function AdminDashboardPage() {
                         setEditingProject(proj);
                         setIsProjectModalOpen(true);
                       }}
-                      className="p-2 rounded-xl bg-mint dark:bg-[#113B39] text-deepTeal dark:text-mint hover:bg-primary hover:text-white transition-colors"
+                      className="p-2 rounded-full bg-lavender-light dark:bg-white/10 text-deepInk dark:text-white hover:bg-deepInk hover:text-white transition-colors"
                       title="Edit Project"
                     >
                       <Edit className="w-4 h-4" />
                     </button>
                     <button
                       onClick={() => handleDeleteProject(proj.id, proj.title)}
-                      className="p-2 rounded-xl bg-rose-50 dark:bg-rose-950/60 text-rose-600 dark:text-rose-400 hover:bg-rose-100 dark:hover:bg-rose-900/60 transition-colors"
+                      className="p-2 rounded-full bg-babyPink-light dark:bg-babyPink/20 text-deepInk dark:text-babyPink-light hover:bg-babyPink transition-colors"
                       title="Delete Project"
                     >
                       <Trash2 className="w-4 h-4" />
@@ -382,16 +380,16 @@ export default function AdminDashboardPage() {
         <div className="space-y-6">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
-              <h2 className="font-display font-extrabold text-2xl text-deepTeal dark:text-white">
+              <h2 className="font-serif font-black text-2xl text-deepInk dark:text-white">
                 Manage Motion & 3D Video Showcase
               </h2>
-              <p className="text-xs text-deepTeal-muted dark:text-mint/70 font-semibold">
+              <p className="text-xs text-bodyText-muted dark:text-lavender-light/70 font-semibold">
                 Add YouTube or Vimeo links with titles and descriptions.
               </p>
             </div>
 
             <ClayButton
-              variant="teal"
+              variant="dark"
               size="sm"
               onClick={() => {
                 setEditingVideo(null);
@@ -407,10 +405,10 @@ export default function AdminDashboardPage() {
             {videos.map((vid) => (
               <div
                 key={vid.id}
-                className="bg-white dark:bg-[#0D2625] rounded-3xl border-2 border-mint dark:border-[#1A4543] p-4 shadow-[0_6px_0_#99F6E4] dark:shadow-[0_6px_0_#071918] flex flex-col justify-between"
+                className="bg-white dark:bg-[#1E1B33] rounded-[28px] border border-lavender/50 dark:border-white/10 p-4 shadow-soft-sm flex flex-col justify-between"
               >
                 <div>
-                  <div className="relative aspect-video rounded-2xl overflow-hidden bg-cream dark:bg-[#071918] mb-3">
+                  <div className="relative aspect-video rounded-2xl overflow-hidden bg-bg dark:bg-[#161426] mb-3">
                     {vid.thumbnailUrl ? (
                       <Image
                         src={vid.thumbnailUrl}
@@ -420,34 +418,34 @@ export default function AdminDashboardPage() {
                         className="object-cover"
                       />
                     ) : (
-                      <div className="w-full h-full flex items-center justify-center bg-deepTeal text-white">
+                      <div className="w-full h-full flex items-center justify-center bg-lavender-light text-deepInk">
                         <Film className="w-8 h-8" />
                       </div>
                     )}
-                    <span className="absolute bottom-2 right-2 px-2 py-0.5 rounded-md bg-black/80 text-white text-[10px] font-mono font-bold">
+                    <span className="absolute bottom-2 right-2 px-2 py-0.5 rounded-full bg-black/80 text-white text-[10px] font-mono font-bold">
                       {vid.duration || 'Video'}
                     </span>
                   </div>
 
-                  <span className="text-[10px] font-bold uppercase text-primary block mb-1">
+                  <span className="text-[10px] font-bold uppercase text-deepInk dark:text-lavender-light block mb-1">
                     {vid.category}
                   </span>
-                  <h3 className="font-display font-bold text-base text-deepTeal dark:text-white line-clamp-1">
+                  <h3 className="font-serif font-bold text-base text-deepInk dark:text-white line-clamp-1">
                     {vid.title}
                   </h3>
                   {vid.description && (
-                    <p className="text-xs text-deepTeal-muted dark:text-mint/60 line-clamp-2 mt-1">
+                    <p className="text-xs text-bodyText-muted dark:text-lavender-light/70 line-clamp-2 mt-1">
                       {vid.description}
                     </p>
                   )}
                 </div>
 
-                <div className="mt-4 pt-3 border-t border-mint dark:border-[#1A4543]/60 flex items-center justify-between">
+                <div className="mt-4 pt-3 border-t border-lavender/30 dark:border-white/10 flex items-center justify-between">
                   <a
                     href={vid.videoUrl}
                     target="_blank"
                     rel="noreferrer"
-                    className="text-xs font-bold text-primary hover:underline flex items-center gap-1"
+                    className="text-xs font-bold text-deepInk dark:text-lavender-light hover:underline flex items-center gap-1"
                   >
                     Open Link
                     <ExternalLink className="w-3 h-3" />
@@ -459,14 +457,14 @@ export default function AdminDashboardPage() {
                         setEditingVideo(vid);
                         setIsVideoModalOpen(true);
                       }}
-                      className="p-2 rounded-xl bg-mint dark:bg-[#113B39] text-deepTeal dark:text-mint hover:bg-primary hover:text-white transition-colors"
+                      className="p-2 rounded-full bg-lavender-light dark:bg-white/10 text-deepInk dark:text-white hover:bg-deepInk hover:text-white transition-colors"
                       title="Edit Video"
                     >
                       <Edit className="w-4 h-4" />
                     </button>
                     <button
                       onClick={() => handleDeleteVideo(vid.id, vid.title)}
-                      className="p-2 rounded-xl bg-rose-50 dark:bg-rose-950/60 text-rose-600 dark:text-rose-400 hover:bg-rose-100 dark:hover:bg-rose-900/60 transition-colors"
+                      className="p-2 rounded-full bg-babyPink-light dark:bg-babyPink/20 text-deepInk dark:text-babyPink-light hover:bg-babyPink transition-colors"
                       title="Delete Video"
                     >
                       <Trash2 className="w-4 h-4" />
@@ -489,11 +487,11 @@ export default function AdminDashboardPage() {
 
       {/* TAB 4: CONTACT INQUIRIES */}
       {activeTab === 'inquiries' && (
-        <div className="bg-white dark:bg-[#0D2625] rounded-3xl md:rounded-4xl border-2 border-mint dark:border-[#1A4543] p-6 sm:p-10 shadow-[0_8px_0_#99F6E4] dark:shadow-[0_8px_0_#071918]">
-          <h2 className="font-display font-black text-2xl text-deepTeal dark:text-white mb-2">
+        <div className="bg-white dark:bg-[#1E1B33] rounded-[32px] md:rounded-[40px] border border-lavender/50 dark:border-white/10 p-6 sm:p-10 shadow-soft-sm">
+          <h2 className="font-serif font-black text-2xl text-deepInk dark:text-white mb-2">
             Inquiries & Contact Submissions
           </h2>
-          <p className="text-xs text-deepTeal-muted dark:text-mint/70 font-medium mb-6">
+          <p className="text-xs text-bodyText-muted dark:text-lavender-light/70 font-medium mb-6">
             Messages submitted by visitors through the contact section on your portfolio.
           </p>
 
@@ -502,39 +500,39 @@ export default function AdminDashboardPage() {
               {inquiries.map((inq) => (
                 <div
                   key={inq.id}
-                  className="p-5 rounded-2xl bg-cream dark:bg-[#071918] border border-mint dark:border-[#1E524F] space-y-2"
+                  className="p-5 rounded-2xl bg-bg dark:bg-[#161426] border border-lavender/40 dark:border-white/10 space-y-2"
                 >
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
                     <div className="flex items-center gap-2">
-                      <span className="font-display font-bold text-base text-deepTeal dark:text-white">
+                      <span className="font-serif font-bold text-base text-deepInk dark:text-white">
                         {inq.name}
                       </span>
                       <a
                         href={`mailto:${inq.email}`}
-                        className="text-xs font-semibold text-primary hover:underline"
+                        className="text-xs font-semibold text-deepInk dark:text-lavender-light hover:underline"
                       >
                         ({inq.email})
                       </a>
                     </div>
-                    <span className="text-[11px] font-bold text-deepTeal-muted dark:text-mint/60">
+                    <span className="text-[11px] font-bold text-bodyText-muted dark:text-lavender-light/60">
                       {new Date(inq.createdAt).toLocaleDateString()}
                     </span>
                   </div>
 
                   {inq.subject && (
-                    <p className="text-xs font-bold text-deepTeal dark:text-mint">
+                    <p className="text-xs font-bold text-deepInk dark:text-white">
                       Subject: {inq.subject}
                     </p>
                   )}
 
-                  <p className="text-sm text-deepTeal/85 dark:text-[#E6FFFA]/85 leading-relaxed bg-white dark:bg-[#0D2625] p-3 rounded-xl border border-mint/60 dark:border-[#1A4543]/60">
+                  <p className="text-sm text-bodyText dark:text-lavender-light/90 leading-relaxed bg-white dark:bg-[#1E1B33] p-3 rounded-xl border border-lavender/30">
                     {inq.message}
                   </p>
                 </div>
               ))}
             </div>
           ) : (
-            <div className="p-8 text-center text-sm text-deepTeal-muted dark:text-mint/70 font-medium bg-cream dark:bg-[#071918] rounded-2xl border border-mint dark:border-[#1E524F]">
+            <div className="p-8 text-center text-sm text-bodyText-muted dark:text-lavender-light/70 font-medium bg-bg dark:bg-[#161426] rounded-2xl border border-lavender/40">
               No inquiries received yet. Visitors can send inquiries through the Home page contact form!
             </div>
           )}
