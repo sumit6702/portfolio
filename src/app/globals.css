@@ -14,11 +14,20 @@ body {
   overflow-x: hidden;
   selection-background-color: #14B8A6;
   selection-color: #ffffff;
+  /* Designer Cutting Mat / Graph Desk Grid Background like beblessed.io */
+  background-image: 
+    linear-gradient(to right, rgba(20, 184, 166, 0.08) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(20, 184, 166, 0.08) 1px, transparent 1px);
+  background-size: 44px 44px;
 }
 
 .dark body {
   color: #E6FFFA;
   background-color: #071918;
+  background-image: 
+    linear-gradient(to right, rgba(204, 251, 241, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(204, 251, 241, 0.04) 1px, transparent 1px);
+  background-size: 44px 44px;
 }
 
 ::selection {

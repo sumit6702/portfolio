@@ -1,178 +1,412 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
-import { Download, Sparkles, ArrowRight, Play, Eye } from 'lucide-react';
-import ClayButton from '@/components/3d/ClayButton';
-import Social3DIcon from '@/components/3d/Social3DIcon';
-import ClayShape from '@/components/3d/ClayShape';
+import {
+  Download,
+  ArrowRight,
+  Send,
+  Check,
+  Sparkles,
+  MessageCircle,
+  ExternalLink,
+} from 'lucide-react';
 import { ProfileSettings } from '@/lib/types';
+import { submitContactInquiry } from '@/lib/data-service';
+import Social3DIcon from '@/components/3d/Social3DIcon';
+import {
+  ClayPlant,
+  ClayPencil,
+  ClayPaperclip,
+  ClayStickyNote,
+  ClayCoffeeCup,
+  ClayRulerAndHands,
+  FloatingSideRibbon,
+} from '@/components/3d/DeskElements';
 
 interface HeroSectionProps {
   profile: ProfileSettings;
 }
 
 export default function HeroSection({ profile }: HeroSectionProps) {
+  const [showTooltip, setShowTooltip] = useState(true);
+  const [activeTab, setActiveTab] = useState<'inquire' | 'services' | 'chat'>('inquire');
+
+  // Mini station form states
+  const [formData, setFormData] = useState({
+    name: '',
+    projectType: '3D Packaging & Mockups',
+    contact: '',
+    source: 'Website / Portfolio',
+    details: '',
+  });
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSent, setIsSent] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!formData.contact) return;
+
+    setIsSubmitting(true);
+    try {
+      await submitContactInquiry({
+        name: formData.name || 'Anonymous Visitor',
+        email: formData.contact,
+        subject: `Hero Mini-Inquiry: ${formData.projectType}`,
+        message: `Project Type: ${formData.projectType}\nSource: ${formData.source}\nDetails: ${formData.details || 'None provided'}`,
+      });
+      setIsSent(true);
+      setFormData({
+        name: '',
+        projectType: '3D Packaging & Mockups',
+        contact: '',
+        source: 'Website / Portfolio',
+        details: '',
+      });
+    } catch {
+      // Handled
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
-    <section className="relative pt-12 pb-20 md:pt-20 md:pb-32 overflow-hidden">
-      {/* Decorative floating 3D shapes */}
-      <div className="absolute top-10 left-[5%] pointer-events-none hidden lg:block opacity-80 dark:opacity-40">
-        <ClayShape type="torus" color="teal" size="lg" />
-      </div>
-      <div className="absolute top-24 right-[8%] pointer-events-none hidden md:block opacity-80 dark:opacity-40">
-        <ClayShape type="sphere" color="coral" size="md" />
-      </div>
-      <div className="absolute bottom-12 left-[12%] pointer-events-none hidden md:block opacity-80 dark:opacity-40">
-        <ClayShape type="pill" color="yellow" size="md" />
-      </div>
-      <div className="absolute bottom-20 right-[15%] pointer-events-none hidden lg:block opacity-80 dark:opacity-40">
-        <ClayShape type="star" color="mint" size="lg" />
-      </div>
+    <section className="relative pt-6 pb-28 sm:pb-36 overflow-hidden">
+      {/* Floating ribbon pinned to right screen edge (like beblessed.io) */}
+      <FloatingSideRibbon />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-          {/* Left Column: Hero Text */}
-          <div className="lg:col-span-7 space-y-6 text-center lg:text-left">
-            {/* Cute Greeting Pill */}
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-mint dark:bg-[#113B39] text-deepTeal dark:text-mint border-2 border-mint-border dark:border-[#1E615D] shadow-[0_3px_0_#99F6E4] dark:shadow-[0_3px_0_#071918] font-bold text-xs uppercase tracking-wider animate-bounce-subtle">
-              <Sparkles className="w-4 h-4 text-primary" />
-              <span>Available for Freelance & Full-time Roles</span>
-            </div>
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 relative z-10">
+        {/* The Outer Desk Workstation Mat Container */}
+        <div className="relative pt-8 sm:pt-12">
+          {/* 3D Desk Accessories Surrounding the Mat */}
+          {/* Top-Left: Succulent Plant */}
+          <ClayPlant className="w-28 sm:w-36 md:w-44 absolute -top-4 sm:-top-8 -left-3 sm:-left-8 z-30 transform hover:scale-105 transition-transform duration-300" />
 
-            {/* Main Headline */}
-            <h1 className="font-display font-extrabold text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-deepTeal dark:text-white tracking-tight leading-[1.1]">
-              Hi, I&apos;m{' '}
-              <span className="relative inline-block text-primary">
-                {profile.fullName}
-                {/* Playful curved underline */}
-                <svg
-                  className="absolute -bottom-2 left-0 w-full text-butterYellow dark:text-primary-light"
-                  height="12"
-                  viewBox="0 0 100 12"
-                  preserveAspectRatio="none"
-                >
-                  <path
-                    d="M0,7 Q50,0 100,7"
-                    stroke="currentColor"
-                    strokeWidth="4"
-                    fill="none"
-                    strokeLinecap="round"
-                  />
-                </svg>
-              </span>
-            </h1>
+          {/* Left Middle: Clay Pencil */}
+          <ClayPencil className="w-14 sm:w-18 md:w-22 absolute top-56 sm:top-64 -left-4 sm:-left-8 z-30 hidden sm:block" />
 
-            {/* Tagline */}
-            <p className="text-xl sm:text-2xl font-bold text-deepTeal-muted dark:text-mint/80">
-              {profile.roleTitle}
-            </p>
+          {/* Left Edge: Paperclip */}
+          <ClayPaperclip className="w-8 sm:w-10 absolute top-96 left-1 sm:-left-2 z-30 hidden md:block" color="#FF8A7A" />
 
-            {/* Profile Intro from resume */}
-            <p className="text-base sm:text-lg text-deepTeal/80 dark:text-[#E6FFFA]/85 max-w-2xl mx-auto lg:mx-0 leading-relaxed font-normal">
-              {profile.intro}
-            </p>
+          {/* Top-Right: Paperclips */}
+          <ClayPaperclip className="w-8 sm:w-10 absolute -top-3 right-32 sm:right-48 z-30 hidden sm:block" color="#14B8A6" />
 
-            {/* Call to Actions */}
-            <div className="pt-2 flex flex-wrap items-center justify-center lg:justify-start gap-4">
-              {/* Prominent Download Resume Button */}
-              <ClayButton
-                variant="teal"
-                size="lg"
-                href={profile.resumeUrl || '/resume-sumit-kumar.pdf'}
-                download="Sumit-Kumar-Resume.pdf"
-                className="group"
-              >
-                <Download className="w-5 h-5 transition-transform duration-200 group-hover:-translate-y-0.5" />
-                Download Resume
-              </ClayButton>
+          {/* Right Top: Sticky Note with Pin */}
+          <ClayStickyNote className="absolute -top-6 -right-3 sm:-right-8 z-30 hidden md:block" />
 
-              <ClayButton
-                variant="cream"
-                size="lg"
-                href="/projects"
-              >
-                View Projects
-                <ArrowRight className="w-5 h-5" />
-              </ClayButton>
-            </div>
+          {/* Right Middle: Clay Coffee Cup with Spilled Splash Puddle */}
+          <ClayCoffeeCup className="w-32 sm:w-38 md:w-44 absolute top-48 sm:top-56 -right-6 sm:-right-12 z-30 hidden lg:block" />
 
-            {/* Easy-Access 3D Social Buttons */}
-            <div className="pt-4 border-t border-mint/70 dark:border-[#1A4543] flex flex-col items-center lg:items-start gap-3">
-              <span className="text-xs font-bold text-deepTeal-muted dark:text-mint/70 uppercase tracking-wider">
-                Connect Directly:
-              </span>
-              <div className="flex items-center gap-3">
-                <Social3DIcon platform="instagram" href={profile.socialInstagram} />
-                <Social3DIcon platform="behance" href={profile.socialBehance} />
-                <Social3DIcon platform="linkedin" href={profile.socialLinkedin} />
-                <Social3DIcon platform="whatsapp" href={profile.socialWhatsapp} />
-                <Social3DIcon platform="email" href={`mailto:${profile.email}`} />
-              </div>
-            </div>
-          </div>
+          {/* ============================================================== */}
+          {/* MAIN CENTER DESK MAT (Inspired by beblessed.io central canvas)  */}
+          {/* ============================================================== */}
+          <div className="relative rounded-[2.5rem] sm:rounded-[3rem] bg-gradient-to-br from-[#E6FFFA] via-[#CCFBF1] to-[#B2F5EA] dark:from-[#0D2E2B] dark:via-[#092220] dark:to-[#0A2624] p-6 sm:p-10 md:p-14 border-4 border-white/80 dark:border-[#1E524F]/80 shadow-[0_20px_0_#99F6E4,0_35px_60px_rgba(15,76,74,0.14)] dark:shadow-[0_20px_0_#071918,0_35px_60px_rgba(0,0,0,0.5)] overflow-hidden">
+            {/* Subtle inner mat highlight */}
+            <div className="absolute inset-0 bg-gradient-to-b from-white/30 to-transparent pointer-events-none rounded-[2.5rem]" />
 
-          {/* Right Column: Cute 3D Showcase Card */}
-          <div className="lg:col-span-5 flex justify-center">
-            <div className="relative w-full max-w-md">
-              {/* Decorative background glow */}
-              <div className="absolute -inset-4 bg-gradient-to-r from-mint via-butterYellow to-coralPeach-soft dark:from-primary/20 dark:via-mint/10 dark:to-coralPeach/10 rounded-[3rem] blur-2xl opacity-60 dark:opacity-30 animate-pulse-subtle" />
-
-              {/* Main Clay Card with 3D Illustration / Visual Reel */}
-              <div className="relative bg-white dark:bg-[#0D2625] border-4 border-mint-border dark:border-[#1E524F] rounded-[2.5rem] p-6 shadow-[0_16px_0_#99F6E4,0_30px_50px_rgba(15,76,74,0.14)] dark:shadow-[0_16px_0_#071918,0_30px_50px_rgba(0,0,0,0.5)]">
-                {/* Cute Badge Top */}
-                <div className="flex items-center justify-between mb-4">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center relative z-20">
+              {/* ================= LEFT COLUMN: HERO HEADLINE & ACTIONS ================= */}
+              <div className="lg:col-span-7 space-y-6">
+                {/* Social Circle Buttons + Cute Tooltip Speech Bubble */}
+                <div className="flex items-center gap-3 relative">
                   <div className="flex items-center gap-2">
-                    <span className="w-3 h-3 rounded-full bg-coralPeach shadow-[0_0_8px_#FF8A7A]" />
-                    <span className="w-3 h-3 rounded-full bg-butterYellow" />
-                    <span className="w-3 h-3 rounded-full bg-primary" />
+                    <Social3DIcon platform="behance" href={profile.socialBehance} size="sm" />
+                    <Social3DIcon platform="instagram" href={profile.socialInstagram} size="sm" />
+                    <Social3DIcon platform="linkedin" href={profile.socialLinkedin} size="sm" />
+                    <Social3DIcon platform="whatsapp" href={profile.socialWhatsapp} size="sm" />
+                    <Social3DIcon platform="email" href={`mailto:${profile.email}`} size="sm" />
                   </div>
-                  <span className="px-3 py-1 rounded-full bg-mint dark:bg-[#113B39] text-deepTeal dark:text-mint text-xs font-extrabold uppercase tracking-wider">
-                    3D & Motion Lab
-                  </span>
+
+                  {/* Speech Bubble Pill: "Click me or scroll ×" */}
+                  {showTooltip && (
+                    <div className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white dark:bg-[#0D2625] border border-mint dark:border-[#1E524F] text-[11px] font-bold text-deepTeal dark:text-mint shadow-[0_2px_8px_rgba(15,76,74,0.08)] animate-bounce-subtle">
+                      <span>Click me or scroll</span>
+                      <button
+                        onClick={() => setShowTooltip(false)}
+                        className="text-deepTeal-muted dark:text-mint/60 hover:text-coralPeach ml-0.5"
+                        aria-label="Dismiss tooltip"
+                      >
+                        ×
+                      </button>
+                    </div>
+                  )}
                 </div>
 
-                {/* Visual Preview Box */}
-                <div className="relative rounded-2xl overflow-hidden aspect-[4/3] bg-gradient-to-br from-mint via-cream to-butterYellow-soft dark:from-[#092221] dark:via-[#071918] dark:to-[#092221] border-2 border-mint dark:border-[#1E524F] flex items-center justify-center group shadow-inner">
-                  {/* Visual 3D scene elements */}
-                  <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="relative w-44 h-44 animate-spin-slow">
-                      <ClayShape type="torus" color="teal" size="xl" className="opacity-90 dark:opacity-75" />
-                    </div>
-                  </div>
+                {/* Big Typographic Lockup (Styled like Bless-a-Business — Extraordinarily) */}
+                <div className="space-y-2">
+                  <h1 className="font-display font-black text-4xl sm:text-5xl md:text-6xl text-deepTeal dark:text-white tracking-tight leading-[1.08]">
+                    Crafting Motion <br />
+                    — <span className="font-serif italic font-normal text-primary">Extraordinarily</span>
+                  </h1>
 
-                  <div className="absolute z-10 flex flex-col items-center text-center p-6 bg-white/85 dark:bg-[#0D2625]/90 backdrop-blur-md rounded-2xl border-2 border-mint dark:border-[#1E524F] shadow-lg max-w-[85%] group-hover:scale-105 transition-transform duration-200">
-                    <div className="w-12 h-12 rounded-2xl bg-primary text-white flex items-center justify-center mb-2 shadow-[0_4px_0_#0D9488]">
-                      <Play className="w-6 h-6 fill-white ml-0.5" />
-                    </div>
-                    <span className="font-display font-bold text-deepTeal dark:text-white text-base">
-                      Motion Graphics & 3D
-                    </span>
-                    <span className="text-xs text-deepTeal-muted dark:text-mint/70 font-semibold mt-1">
-                      Blender • After Effects • Kling 2.0 • Veo
-                    </span>
-                    <Link
-                      href="/videos"
-                      className="mt-3 inline-flex items-center gap-1.5 text-xs font-bold text-primary dark:text-primary-light hover:underline transition-colors"
+                  <p className="text-sm sm:text-base font-bold italic text-deepTeal-muted dark:text-mint/80 pt-1">
+                    Or... <strong className="font-extrabold not-italic text-deepTeal dark:text-white">Sumit Kumar</strong> for short.
+                  </p>
+                </div>
+
+                {/* Narrative Intro */}
+                <p className="text-sm sm:text-base text-deepTeal/85 dark:text-[#E6FFFA]/85 leading-relaxed max-w-xl font-normal">
+                  Graphic designer specializing in branding, layout, and 3D design, skilled in Blender, Adobe Creative Suite, and AI-assisted creative production pipelines.
+                </p>
+
+                {/* Action Buttons */}
+                <div className="pt-2 flex flex-wrap items-center gap-4">
+                  {/* Dark Deep Teal pill button */}
+                  <Link
+                    href="/projects"
+                    className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-deepTeal dark:bg-primary text-white font-extrabold text-sm shadow-[0_4px_0_#092625] dark:shadow-[0_4px_0_#0D9488] hover:-translate-y-0.5 active:translate-y-1 transition-all"
+                  >
+                    <span>Explore Case Studies</span>
+                    <ArrowRight className="w-4 h-4" />
+                  </Link>
+
+                  {/* Frosted Acrylic Glass pill button */}
+                  <a
+                    href={profile.resumeUrl || '/resume-sumit-kumar.pdf'}
+                    download="Sumit-Kumar-Resume.pdf"
+                    className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-white/70 dark:bg-white/10 backdrop-blur-md text-deepTeal dark:text-white font-extrabold text-sm border-2 border-white/80 dark:border-white/20 shadow-sm hover:bg-white dark:hover:bg-white/20 active:translate-y-0.5 transition-all"
+                  >
+                    <Download className="w-4 h-4 text-primary" />
+                    <span>Download Resume</span>
+                  </a>
+                </div>
+              </div>
+
+              {/* ================= RIGHT COLUMN: INTERACTIVE DESK STATION ================= */}
+              {/* (Styled exactly like the "Nominate a business" interactive card on beblessed.io) */}
+              <div className="lg:col-span-5">
+                <div className="relative bg-white/85 dark:bg-[#0D2625]/90 backdrop-blur-md rounded-3xl p-6 sm:p-7 border-2 border-white/95 dark:border-[#1E524F] shadow-[0_10px_25px_rgba(15,76,74,0.08)]">
+                  {/* Top Segmented Tabs: [Nominate/Inquire] [Services] [Chat] */}
+                  <div className="flex items-center gap-1.5 p-1 rounded-full bg-cream/80 dark:bg-[#071918]/80 border border-mint dark:border-[#1E524F] mb-5">
+                    <button
+                      type="button"
+                      onClick={() => setActiveTab('inquire')}
+                      className={`flex-1 py-1.5 rounded-full text-xs font-extrabold transition-all ${
+                        activeTab === 'inquire'
+                          ? 'bg-deepTeal text-white shadow-sm'
+                          : 'text-deepTeal/70 dark:text-mint/70 hover:text-deepTeal'
+                      }`}
                     >
-                      <Eye className="w-3.5 h-3.5" />
-                      Watch Motion Showreel
-                    </Link>
+                      Inquire
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setActiveTab('services')}
+                      className={`flex-1 py-1.5 rounded-full text-xs font-extrabold transition-all ${
+                        activeTab === 'services'
+                          ? 'bg-deepTeal text-white shadow-sm'
+                          : 'text-deepTeal/70 dark:text-mint/70 hover:text-deepTeal'
+                      }`}
+                    >
+                      Services
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setActiveTab('chat')}
+                      className={`flex-1 py-1.5 rounded-full text-xs font-extrabold transition-all ${
+                        activeTab === 'chat'
+                          ? 'bg-deepTeal text-white shadow-sm'
+                          : 'text-deepTeal/70 dark:text-mint/70 hover:text-deepTeal'
+                      }`}
+                    >
+                      WhatsApp
+                    </button>
                   </div>
-                </div>
 
-                {/* Floating stickers on card */}
-                <div className="mt-4 pt-4 border-t border-mint dark:border-[#1E524F]/60 flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping" />
-                    <span className="text-xs font-bold text-deepTeal dark:text-white">
-                      Fast Turnaround
-                    </span>
-                  </div>
-                  <span className="text-xs font-bold text-deepTeal-muted dark:text-mint/60">
-                    Delhi / Gurugram • Remote
-                  </span>
+                  {activeTab === 'inquire' && (
+                    <>
+                      <div className="mb-4">
+                        <h3 className="font-display font-extrabold text-xl text-deepTeal dark:text-white">
+                          Start a project
+                        </h3>
+                        <p className="text-xs text-deepTeal-muted dark:text-mint/70 font-medium mt-1">
+                          Know a brand whose visual identity needs 3D depth or motion? Point us their way — or email at{' '}
+                          <a href={`mailto:${profile.email}`} className="text-primary underline">
+                            {profile.email}
+                          </a>
+                          .
+                        </p>
+                      </div>
+
+                      {isSent ? (
+                        <div className="py-8 text-center space-y-3">
+                          <div className="w-12 h-12 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto">
+                            <Check className="w-6 h-6" />
+                          </div>
+                          <h4 className="font-display font-bold text-base text-deepTeal dark:text-white">
+                            Inquiry Received!
+                          </h4>
+                          <p className="text-xs text-deepTeal-muted dark:text-mint/70">
+                            Sumit will review your note and get in touch shortly.
+                          </p>
+                          <button
+                            type="button"
+                            onClick={() => setIsSent(false)}
+                            className="text-xs font-bold text-primary hover:underline"
+                          >
+                            Send another note
+                          </button>
+                        </div>
+                      ) : (
+                        <form onSubmit={handleSubmit} className="space-y-3">
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                            <div>
+                              <label className="block text-[10px] font-extrabold uppercase tracking-wider text-deepTeal-muted dark:text-mint/60 mb-1">
+                                Your Name (Optional)
+                              </label>
+                              <input
+                                type="text"
+                                value={formData.name}
+                                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                                placeholder="Alex Morgan"
+                                className="w-full px-3.5 py-2 rounded-xl bg-white dark:bg-[#071918] border border-mint dark:border-[#1E524F] text-deepTeal dark:text-white text-xs font-medium focus:outline-none focus:border-primary"
+                              />
+                            </div>
+
+                            <div>
+                              <label className="block text-[10px] font-extrabold uppercase tracking-wider text-deepTeal-muted dark:text-mint/60 mb-1">
+                                Project Type
+                              </label>
+                              <select
+                                value={formData.projectType}
+                                onChange={(e) => setFormData({ ...formData, projectType: e.target.value })}
+                                className="w-full px-3.5 py-2 rounded-xl bg-white dark:bg-[#071918] border border-mint dark:border-[#1E524F] text-deepTeal dark:text-white text-xs font-medium focus:outline-none focus:border-primary"
+                              >
+                                <option value="3D Packaging & Mockups">3D Packaging & Mockups</option>
+                                <option value="Motion Graphics Reel">Motion Graphics Reel</option>
+                                <option value="AI Video Generation">AI Video Generation</option>
+                                <option value="Brand Identity System">Brand Identity System</option>
+                                <option value="E-Commerce Banners">E-Commerce Banners</option>
+                              </select>
+                            </div>
+                          </div>
+
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                            <div>
+                              <label className="block text-[10px] font-extrabold uppercase tracking-wider text-deepTeal-muted dark:text-mint/60 mb-1">
+                                Email or WhatsApp *
+                              </label>
+                              <input
+                                type="text"
+                                required
+                                value={formData.contact}
+                                onChange={(e) => setFormData({ ...formData, contact: e.target.value })}
+                                placeholder="hello@company.com"
+                                className="w-full px-3.5 py-2 rounded-xl bg-white dark:bg-[#071918] border border-mint dark:border-[#1E524F] text-deepTeal dark:text-white text-xs font-medium focus:outline-none focus:border-primary"
+                              />
+                            </div>
+
+                            <div>
+                              <label className="block text-[10px] font-extrabold uppercase tracking-wider text-deepTeal-muted dark:text-mint/60 mb-1">
+                                How did you find me?
+                              </label>
+                              <select
+                                value={formData.source}
+                                onChange={(e) => setFormData({ ...formData, source: e.target.value })}
+                                className="w-full px-3.5 py-2 rounded-xl bg-white dark:bg-[#071918] border border-mint dark:border-[#1E524F] text-deepTeal dark:text-white text-xs font-medium focus:outline-none focus:border-primary"
+                              >
+                                <option value="Behance">Behance</option>
+                                <option value="LinkedIn">LinkedIn</option>
+                                <option value="Instagram">Instagram</option>
+                                <option value="Referral / Friend">Referral / Friend</option>
+                                <option value="Other">Other</option>
+                              </select>
+                            </div>
+                          </div>
+
+                          <div>
+                            <label className="block text-[10px] font-extrabold uppercase tracking-wider text-deepTeal-muted dark:text-mint/60 mb-1">
+                              Brief Details & Timeline
+                            </label>
+                            <textarea
+                              rows={2}
+                              value={formData.details}
+                              onChange={(e) => setFormData({ ...formData, details: e.target.value })}
+                              placeholder="Tell me about your product or campaign vision..."
+                              className="w-full px-3.5 py-2 rounded-xl bg-white dark:bg-[#071918] border border-mint dark:border-[#1E524F] text-deepTeal dark:text-white text-xs font-medium focus:outline-none focus:border-primary resize-none"
+                            />
+                          </div>
+
+                          <button
+                            type="submit"
+                            disabled={isSubmitting}
+                            className="w-full py-2.5 rounded-xl bg-deepTeal dark:bg-primary text-white text-xs font-bold hover:bg-deepTeal/90 flex items-center justify-center gap-1.5 shadow-sm active:translate-y-0.5 transition-all"
+                          >
+                            <span>{isSubmitting ? 'Sending...' : 'Send inquiry'}</span>
+                            <Send className="w-3.5 h-3.5" />
+                          </button>
+                        </form>
+                      )}
+                    </>
+                  )}
+
+                  {activeTab === 'services' && (
+                    <div className="space-y-3 py-1">
+                      <h4 className="font-display font-bold text-base text-deepTeal dark:text-white">
+                        Specialized Creative Offerings
+                      </h4>
+                      <ul className="space-y-2 text-xs text-deepTeal/85 dark:text-mint/85">
+                        <li className="p-2.5 rounded-xl bg-white dark:bg-[#071918] border border-mint dark:border-[#1E524F] flex items-center justify-between">
+                          <span className="font-bold">3D Modeling & Blender Mockups</span>
+                          <span className="text-[10px] font-extrabold text-primary">Blender Cycles</span>
+                        </li>
+                        <li className="p-2.5 rounded-xl bg-white dark:bg-[#071918] border border-mint dark:border-[#1E524F] flex items-center justify-between">
+                          <span className="font-bold">Motion Graphics & Kinetic Reels</span>
+                          <span className="text-[10px] font-extrabold text-primary">After Effects</span>
+                        </li>
+                        <li className="p-2.5 rounded-xl bg-white dark:bg-[#071918] border border-mint dark:border-[#1E524F] flex items-center justify-between">
+                          <span className="font-bold">AI Video Pipelines</span>
+                          <span className="text-[10px] font-extrabold text-primary">Veo & Kling 2.0</span>
+                        </li>
+                        <li className="p-2.5 rounded-xl bg-white dark:bg-[#071918] border border-mint dark:border-[#1E524F] flex items-center justify-between">
+                          <span className="font-bold">Brand Systems & Packaging</span>
+                          <span className="text-[10px] font-extrabold text-primary">Dieline to 3D</span>
+                        </li>
+                      </ul>
+                      <Link
+                        href="/#contact"
+                        className="inline-flex items-center gap-1 text-xs font-bold text-primary hover:underline pt-1"
+                      >
+                        Request custom project quote →
+                      </Link>
+                    </div>
+                  )}
+
+                  {activeTab === 'chat' && (
+                    <div className="space-y-4 py-2 text-center">
+                      <div className="w-12 h-12 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto">
+                        <MessageCircle className="w-6 h-6" />
+                      </div>
+                      <div>
+                        <h4 className="font-display font-bold text-base text-deepTeal dark:text-white">
+                          Direct WhatsApp Chat
+                        </h4>
+                        <p className="text-xs text-deepTeal-muted dark:text-mint/70 mt-1">
+                          Fastest response time for freelance inquiries and collaborations.
+                        </p>
+                      </div>
+                      <a
+                        href={profile.socialWhatsapp}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="inline-flex items-center justify-center gap-2 w-full py-2.5 rounded-xl bg-[#25D366] text-white font-bold text-xs shadow-md hover:bg-[#20ba5a] transition-colors"
+                      >
+                        <span>Open WhatsApp ({profile.phone})</span>
+                        <ExternalLink className="w-3.5 h-3.5" />
+                      </a>
+                    </div>
+                  )}
                 </div>
               </div>
+            </div>
+
+            {/* ==================================================================== */}
+            {/* BOTTOM FOREGROUND: ACRYLIC RULER HELD BY CLAY HANDS                   */}
+            {/* (Exact match to the iconic measurement ruler in beblessed.io)        */}
+            {/* ==================================================================== */}
+            <div className="mt-12 sm:mt-16 flex justify-center">
+              <ClayRulerAndHands />
             </div>
           </div>
         </div>
