@@ -9,7 +9,6 @@ import {
   Check,
   MessageCircle,
   ExternalLink,
-  Sparkles,
 } from 'lucide-react';
 import { ProfileSettings } from '@/lib/types';
 import { submitContactInquiry } from '@/lib/data-service';
@@ -76,25 +75,16 @@ export default function HeroSection({ profile }: HeroSectionProps) {
           {/* ==================================================================== */}
           {/* 3D DECORATIVE PLACEHOLDER SLOTS (Strictly outside text safe zones)   */}
           {/* ==================================================================== */}
-          {/* Top-Left: Succulent Plant */}
           <DecorSlot slot="plant" />
-
-          {/* Left Margin: Pencil */}
           <DecorSlot slot="pencil" />
-
-          {/* Top Negative Space: Paperclips */}
           <DecorSlot slot="paperclips" />
-
-          {/* Top-Right: Sticky Note */}
           <DecorSlot slot="sticky-note" />
-
-          {/* Bottom-Right: Coffee Cup (Positioned outside form card) */}
           <DecorSlot slot="coffee-cup" />
 
           {/* ==================================================================== */}
           {/* MAIN HERO CARD (Large ~40px rounded pastel gradient card)            */}
           {/* ==================================================================== */}
-          <div className="relative rounded-[2.25rem] sm:rounded-[2.75rem] md:rounded-[40px] bg-gradient-to-br from-[#D9CCF2] via-[#B8C9F5] to-[#F9C9DC] dark:from-[#25203D] dark:via-[#1E2545] dark:to-[#382436] p-6 sm:p-10 md:p-14 lg:p-16 border-4 border-white/90 dark:border-white/10 shadow-[0_24px_50px_rgba(46,42,79,0.08)] dark:shadow-[0_24px_50px_rgba(0,0,0,0.5)] overflow-hidden">
+          <div className="relative rounded-[2.25rem] sm:rounded-[2.75rem] md:rounded-[40px] bg-gradient-to-br from-[#D9CCF2] via-[#B8C9F5] to-[#F9C9DC] dark:from-[#25203D] dark:via-[#1E2545] dark:to-[#382436] p-6 sm:p-10 md:p-14 lg:p-16 border-4 border-white/90 dark:border-white/10 shadow-[0_24px_50px_rgba(46,42,79,0.08)] dark:shadow-[0_24px_50px_rgba(0,0,0,0.5)] overflow-hidden animate-gradient-flow card-shimmer">
             
             {/* Subtle inner mat highlight glow */}
             <div className="absolute inset-0 bg-gradient-to-b from-white/30 to-transparent pointer-events-none rounded-[36px]" />
@@ -146,67 +136,71 @@ export default function HeroSection({ profile }: HeroSectionProps) {
                   Graphic designer specializing in branding, layout, and 3D design, skilled in Blender, Adobe Creative Suite, and AI-assisted creative production pipelines.
                 </p>
 
-                {/* Action Buttons: Deep Ink Pill + Frosted White-Outlined Resume Pill */}
+                {/* Action Buttons: Water Fill Animations */}
                 <div className="pt-2 flex flex-wrap items-center gap-3 sm:gap-4">
-                  {/* Deep Ink pill button */}
+                  {/* Deep Ink Water-Fill pill button */}
                   <Link
                     href="/projects"
-                    className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-deepInk dark:bg-white text-white dark:text-deepInk font-bold text-sm shadow-[0_4px_14px_rgba(46,42,79,0.2)] hover:bg-deepInk-hover hover:-translate-y-0.5 active:translate-y-0.5 transition-all"
+                    className="btn-water btn-water-dark inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-deepInk dark:bg-white text-white dark:text-deepInk font-bold text-sm shadow-[0_4px_14px_rgba(46,42,79,0.2)] hover:shadow-[0_8px_24px_rgba(46,42,79,0.3)] hover:-translate-y-0.5 active:translate-y-0.5 transition-all"
                   >
-                    <span>Explore Case Studies</span>
-                    <ArrowRight className="w-4 h-4" />
+                    <span className="relative z-10 flex items-center gap-2">
+                      <span>Explore Case Studies</span>
+                      <ArrowRight className="w-4 h-4" />
+                    </span>
                   </Link>
 
-                  {/* Frosted Acrylic White-Outlined Resume pill */}
+                  {/* Frosted Acrylic White-Outlined Water-Fill Resume pill */}
                   <a
                     href={profile.resumeUrl || '/resume-sumit-kumar.pdf'}
                     download="Sumit-Kumar-Resume.pdf"
-                    className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-white/80 dark:bg-white/10 backdrop-blur-md text-deepInk dark:text-white font-bold text-sm border-2 border-white/95 dark:border-white/20 shadow-sm hover:bg-white dark:hover:bg-white/20 active:translate-y-0.5 transition-all"
+                    className="btn-water btn-water-white inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-white/85 dark:bg-white/10 backdrop-blur-md text-deepInk dark:text-white font-bold text-sm border-2 border-white/95 dark:border-white/20 shadow-sm hover:shadow-[0_8px_20px_rgba(184,201,245,0.3)] active:translate-y-0.5 transition-all"
                   >
-                    <Download className="w-4 h-4 text-deepInk dark:text-lavender-light" />
-                    <span>Download Resume</span>
+                    <span className="relative z-10 flex items-center gap-2">
+                      <Download className="w-4 h-4 text-deepInk dark:text-lavender-light" />
+                      <span>Download Resume</span>
+                    </span>
                   </a>
                 </div>
               </div>
 
               {/* ================= RIGHT COLUMN: FROSTED GLASS INQUIRY CARD ================= */}
               <div className="lg:col-span-5">
-                <div className="relative bg-white/80 dark:bg-[#1E1B33]/85 backdrop-blur-md rounded-3xl p-6 sm:p-7 border border-white/90 dark:border-white/10 shadow-[0_14px_35px_rgba(46,42,79,0.07)]">
+                <div className="relative bg-white/85 dark:bg-[#1E1B33]/85 backdrop-blur-md rounded-3xl p-6 sm:p-7 border border-white/95 dark:border-white/10 shadow-[0_14px_35px_rgba(46,42,79,0.07)] card-float">
                   
-                  {/* Pastel Segmented Tabs: [Inquire] [Services] [WhatsApp] */}
+                  {/* Pastel Segmented Tabs: [Inquire] [Services] [WhatsApp] with fluid pill animation */}
                   <div className="flex items-center gap-1.5 p-1 rounded-full bg-bg dark:bg-[#161426] border border-lavender/40 dark:border-white/10 mb-5">
                     <button
                       type="button"
                       onClick={() => setActiveTab('inquire')}
-                      className={`flex-1 py-1.5 rounded-full text-xs font-bold transition-all ${
+                      className={`btn-water flex-1 py-1.5 rounded-full text-xs font-bold transition-all ${
                         activeTab === 'inquire'
-                          ? 'bg-deepInk text-white shadow-sm'
-                          : 'text-bodyText-muted hover:text-deepInk dark:text-lavender-light/70'
+                          ? 'btn-water-dark bg-deepInk text-white shadow-sm'
+                          : 'btn-water-white text-bodyText-muted hover:text-deepInk dark:text-lavender-light/70'
                       }`}
                     >
-                      Inquire
+                      <span className="relative z-10">Inquire</span>
                     </button>
                     <button
                       type="button"
                       onClick={() => setActiveTab('services')}
-                      className={`flex-1 py-1.5 rounded-full text-xs font-bold transition-all ${
+                      className={`btn-water flex-1 py-1.5 rounded-full text-xs font-bold transition-all ${
                         activeTab === 'services'
-                          ? 'bg-deepInk text-white shadow-sm'
-                          : 'text-bodyText-muted hover:text-deepInk dark:text-lavender-light/70'
+                          ? 'btn-water-dark bg-deepInk text-white shadow-sm'
+                          : 'btn-water-white text-bodyText-muted hover:text-deepInk dark:text-lavender-light/70'
                       }`}
                     >
-                      Services
+                      <span className="relative z-10">Services</span>
                     </button>
                     <button
                       type="button"
                       onClick={() => setActiveTab('chat')}
-                      className={`flex-1 py-1.5 rounded-full text-xs font-bold transition-all ${
+                      className={`btn-water flex-1 py-1.5 rounded-full text-xs font-bold transition-all ${
                         activeTab === 'chat'
-                          ? 'bg-deepInk text-white shadow-sm'
-                          : 'text-bodyText-muted hover:text-deepInk dark:text-lavender-light/70'
+                          ? 'btn-water-dark bg-deepInk text-white shadow-sm'
+                          : 'btn-water-white text-bodyText-muted hover:text-deepInk dark:text-lavender-light/70'
                       }`}
                     >
-                      WhatsApp
+                      <span className="relative z-10">WhatsApp</span>
                     </button>
                   </div>
 
@@ -228,7 +222,7 @@ export default function HeroSection({ profile }: HeroSectionProps) {
 
                       {isSent ? (
                         <div className="py-8 text-center space-y-3">
-                          <div className="w-12 h-12 rounded-full bg-mint text-deepInk flex items-center justify-center mx-auto shadow-sm">
+                          <div className="w-12 h-12 rounded-full bg-mint text-deepInk flex items-center justify-center mx-auto shadow-sm animate-bounce-subtle">
                             <Check className="w-6 h-6" />
                           </div>
                           <h4 className="font-serif font-bold text-base text-deepInk dark:text-white">
@@ -257,7 +251,7 @@ export default function HeroSection({ profile }: HeroSectionProps) {
                                 value={formData.name}
                                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                                 placeholder="Alex Morgan"
-                                className="w-full px-3.5 py-2 rounded-xl bg-white dark:bg-[#161426] border border-lavender/50 dark:border-white/10 text-deepInk dark:text-white text-xs font-medium focus:outline-none focus:border-deepInk"
+                                className="w-full px-3.5 py-2 rounded-xl bg-white dark:bg-[#161426] border border-lavender/50 dark:border-white/10 text-deepInk dark:text-white text-xs font-medium focus:outline-none focus:border-deepInk transition-colors"
                               />
                             </div>
 
@@ -268,7 +262,7 @@ export default function HeroSection({ profile }: HeroSectionProps) {
                               <select
                                 value={formData.projectType}
                                 onChange={(e) => setFormData({ ...formData, projectType: e.target.value })}
-                                className="w-full px-3.5 py-2 rounded-xl bg-white dark:bg-[#161426] border border-lavender/50 dark:border-white/10 text-deepInk dark:text-white text-xs font-medium focus:outline-none focus:border-deepInk"
+                                className="w-full px-3.5 py-2 rounded-xl bg-white dark:bg-[#161426] border border-lavender/50 dark:border-white/10 text-deepInk dark:text-white text-xs font-medium focus:outline-none focus:border-deepInk transition-colors"
                               >
                                 <option value="3D Packaging & Mockups">3D Packaging & Mockups</option>
                                 <option value="Motion Graphics Reel">Motion Graphics Reel</option>
@@ -290,7 +284,7 @@ export default function HeroSection({ profile }: HeroSectionProps) {
                                 value={formData.contact}
                                 onChange={(e) => setFormData({ ...formData, contact: e.target.value })}
                                 placeholder="hello@company.com"
-                                className="w-full px-3.5 py-2 rounded-xl bg-white dark:bg-[#161426] border border-lavender/50 dark:border-white/10 text-deepInk dark:text-white text-xs font-medium focus:outline-none focus:border-deepInk"
+                                className="w-full px-3.5 py-2 rounded-xl bg-white dark:bg-[#161426] border border-lavender/50 dark:border-white/10 text-deepInk dark:text-white text-xs font-medium focus:outline-none focus:border-deepInk transition-colors"
                               />
                             </div>
 
@@ -301,7 +295,7 @@ export default function HeroSection({ profile }: HeroSectionProps) {
                               <select
                                 value={formData.source}
                                 onChange={(e) => setFormData({ ...formData, source: e.target.value })}
-                                className="w-full px-3.5 py-2 rounded-xl bg-white dark:bg-[#161426] border border-lavender/50 dark:border-white/10 text-deepInk dark:text-white text-xs font-medium focus:outline-none focus:border-deepInk"
+                                className="w-full px-3.5 py-2 rounded-xl bg-white dark:bg-[#161426] border border-lavender/50 dark:border-white/10 text-deepInk dark:text-white text-xs font-medium focus:outline-none focus:border-deepInk transition-colors"
                               >
                                 <option value="Behance">Behance</option>
                                 <option value="LinkedIn">LinkedIn</option>
@@ -321,18 +315,20 @@ export default function HeroSection({ profile }: HeroSectionProps) {
                               value={formData.details}
                               onChange={(e) => setFormData({ ...formData, details: e.target.value })}
                               placeholder="Tell me about your product or campaign vision..."
-                              className="w-full px-3.5 py-2 rounded-xl bg-white dark:bg-[#161426] border border-lavender/50 dark:border-white/10 text-deepInk dark:text-white text-xs font-medium focus:outline-none focus:border-deepInk resize-none"
+                              className="w-full px-3.5 py-2 rounded-xl bg-white dark:bg-[#161426] border border-lavender/50 dark:border-white/10 text-deepInk dark:text-white text-xs font-medium focus:outline-none focus:border-deepInk resize-none transition-colors"
                             />
                           </div>
 
-                          {/* Deep Ink Submit Button */}
+                          {/* Deep Ink Water-Fill Submit Button */}
                           <button
                             type="submit"
                             disabled={isSubmitting}
-                            className="w-full py-2.5 rounded-xl bg-deepInk dark:bg-white text-white dark:text-deepInk text-xs font-bold hover:bg-deepInk-hover flex items-center justify-center gap-1.5 shadow-sm active:translate-y-0.5 transition-all"
+                            className="btn-water btn-water-dark w-full py-2.5 rounded-xl bg-deepInk dark:bg-white text-white dark:text-deepInk text-xs font-bold shadow-sm hover:shadow-[0_6px_18px_rgba(46,42,79,0.25)] active:translate-y-0.5 transition-all"
                           >
-                            <span>{isSubmitting ? 'Sending note...' : 'Send inquiry'}</span>
-                            <Send className="w-3.5 h-3.5" />
+                            <span className="relative z-10 flex items-center justify-center gap-1.5">
+                              <span>{isSubmitting ? 'Sending note...' : 'Send inquiry'}</span>
+                              <Send className="w-3.5 h-3.5" />
+                            </span>
                           </button>
                         </form>
                       )}
@@ -346,19 +342,19 @@ export default function HeroSection({ profile }: HeroSectionProps) {
                         Specialized Creative Offerings
                       </h4>
                       <ul className="space-y-2 text-xs text-bodyText dark:text-white/80">
-                        <li className="p-2.5 rounded-xl bg-white dark:bg-[#161426] border border-lavender/40 dark:border-white/10 flex items-center justify-between">
+                        <li className="p-2.5 rounded-xl bg-white dark:bg-[#161426] border border-lavender/40 dark:border-white/10 flex items-center justify-between transition-transform hover:scale-[1.02]">
                           <span className="font-bold">3D Modeling & Blender Mockups</span>
                           <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-periwinkle-light text-deepInk">Blender Cycles</span>
                         </li>
-                        <li className="p-2.5 rounded-xl bg-white dark:bg-[#161426] border border-lavender/40 dark:border-white/10 flex items-center justify-between">
+                        <li className="p-2.5 rounded-xl bg-white dark:bg-[#161426] border border-lavender/40 dark:border-white/10 flex items-center justify-between transition-transform hover:scale-[1.02]">
                           <span className="font-bold">Motion Graphics & Kinetic Reels</span>
                           <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-babyPink-light text-deepInk">After Effects</span>
                         </li>
-                        <li className="p-2.5 rounded-xl bg-white dark:bg-[#161426] border border-lavender/40 dark:border-white/10 flex items-center justify-between">
+                        <li className="p-2.5 rounded-xl bg-white dark:bg-[#161426] border border-lavender/40 dark:border-white/10 flex items-center justify-between transition-transform hover:scale-[1.02]">
                           <span className="font-bold">AI Video Pipelines</span>
                           <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-mint-light text-deepInk">Veo & Kling 2.0</span>
                         </li>
-                        <li className="p-2.5 rounded-xl bg-white dark:bg-[#161426] border border-lavender/40 dark:border-white/10 flex items-center justify-between">
+                        <li className="p-2.5 rounded-xl bg-white dark:bg-[#161426] border border-lavender/40 dark:border-white/10 flex items-center justify-between transition-transform hover:scale-[1.02]">
                           <span className="font-bold">Brand Systems & Packaging</span>
                           <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-butterYellow-light text-deepInk">Dieline to 3D</span>
                         </li>
@@ -375,7 +371,7 @@ export default function HeroSection({ profile }: HeroSectionProps) {
                   {/* TAB 3: WHATSAPP CHAT */}
                   {activeTab === 'chat' && (
                     <div className="space-y-4 py-2 text-center">
-                      <div className="w-12 h-12 rounded-full bg-mint text-deepInk flex items-center justify-center mx-auto shadow-sm">
+                      <div className="w-12 h-12 rounded-full bg-mint text-deepInk flex items-center justify-center mx-auto shadow-sm animate-bounce-subtle">
                         <MessageCircle className="w-6 h-6" />
                       </div>
                       <div>
@@ -390,10 +386,12 @@ export default function HeroSection({ profile }: HeroSectionProps) {
                         href={profile.socialWhatsapp}
                         target="_blank"
                         rel="noreferrer"
-                        className="inline-flex items-center justify-center gap-2 w-full py-2.5 rounded-xl bg-[#25D366] text-white font-bold text-xs shadow-md hover:bg-[#20ba5a] transition-colors"
+                        className="btn-water btn-water-dark inline-flex items-center justify-center gap-2 w-full py-2.5 rounded-xl bg-[#25D366] text-white font-bold text-xs shadow-md hover:bg-[#20ba5a] transition-colors"
                       >
-                        <span>Open WhatsApp ({profile.phone})</span>
-                        <ExternalLink className="w-3.5 h-3.5" />
+                        <span className="relative z-10 flex items-center justify-center gap-2">
+                          <span>Open WhatsApp ({profile.phone})</span>
+                          <ExternalLink className="w-3.5 h-3.5" />
+                        </span>
                       </a>
                     </div>
                   )}

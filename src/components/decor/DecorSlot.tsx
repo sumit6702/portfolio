@@ -24,13 +24,33 @@ export default function DecorSlot({
     return null;
   }
 
-  // If user dropped image and it failed (or hasn't been added yet)
-  const showPlaceholderBox = (hasError || !isLoaded || forceShowPlaceholder) && (SHOW_PLACEHOLDERS || forceShowPlaceholder);
-
-  // If placeholders are globally disabled and no valid image loaded, render nothing
-  if (!SHOW_PLACEHOLDERS && hasError && !forceShowPlaceholder) {
-    return null;
+  // If placeholders are disabled and no image is loaded yet or it failed, do not render any box
+  if (!SHOW_PLACEHOLDERS && !forceShowPlaceholder) {
+    if (hasError) return null;
+    return (
+      <img
+        src={config.imagePath}
+        alt={config.label}
+        onError={() => setHasError(true)}
+        onLoad={() => setIsLoaded(true)}
+        className={
+          isLoaded
+            ? `absolute pointer-events-none select-none ${config.positionClass} ${className} object-contain filter drop-shadow-[0_16px_24px_rgba(46,42,79,0.18)] animate-float-gentle`
+            : 'hidden'
+        }
+        style={{
+          zIndex: config.zIndex,
+          transform: `rotate(${config.rotation}deg)`,
+          animationDuration: config.floatDuration,
+          animationDelay: config.floatDelay,
+        }}
+        aria-hidden="true"
+      />
+    );
   }
+
+  // If placeholders are enabled (SHOW_PLACEHOLDERS = true) or forceShowPlaceholder
+  const showPlaceholderBox = hasError || !isLoaded || forceShowPlaceholder;
 
   return (
     <div

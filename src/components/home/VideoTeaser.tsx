@@ -7,7 +7,7 @@ export default function VideoTeaser() {
   return (
     <section className="py-16 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="relative rounded-[32px] md:rounded-[40px] bg-gradient-to-br from-[#D9CCF2] via-[#B8C9F5] to-[#F9C9DC] dark:from-[#25203D] dark:via-[#1E2545] dark:to-[#382436] p-8 sm:p-12 md:p-16 overflow-hidden border-4 border-white/90 dark:border-white/10 shadow-[0_20px_50px_rgba(46,42,79,0.08)]">
+        <div className="relative rounded-[32px] md:rounded-[40px] bg-gradient-to-br from-[#D9CCF2] via-[#B8C9F5] to-[#F9C9DC] dark:from-[#25203D] dark:via-[#1E2545] dark:to-[#382436] p-8 sm:p-12 md:p-16 overflow-hidden border-4 border-white/90 dark:border-white/10 shadow-[0_20px_50px_rgba(46,42,79,0.08)] animate-gradient-flow card-shimmer">
           
           <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             <div className="lg:col-span-8 space-y-4">
@@ -37,22 +37,24 @@ export default function VideoTeaser() {
 
                 <Link
                   href="/#contact"
-                  className="text-sm font-bold text-deepInk dark:text-white hover:underline underline-offset-4 flex items-center gap-1"
+                  className="btn-water btn-water-white px-4 py-2 rounded-full text-sm font-bold text-deepInk dark:text-white flex items-center gap-1 shadow-sm transition-all"
                 >
-                  Commission a Video Reel
-                  <ArrowRight className="w-4 h-4" />
+                  <span className="relative z-10 flex items-center gap-1">
+                    <span>Commission a Video Reel</span>
+                    <ArrowRight className="w-4 h-4" />
+                  </span>
                 </Link>
               </div>
             </div>
 
-            {/* Right cute circular preview button */}
+            {/* Right cute circular preview button with water ripple */}
             <div className="lg:col-span-4 flex justify-center">
               <Link
                 href="/videos"
-                className="group relative w-28 h-28 sm:w-36 sm:h-36 rounded-full bg-white/70 dark:bg-white/10 border-2 border-white/90 flex items-center justify-center transition-all duration-300 hover:scale-105 hover:bg-white shadow-[0_12px_30px_rgba(46,42,79,0.1)]"
+                className="group relative w-28 h-28 sm:w-36 sm:h-36 rounded-full bg-white/80 dark:bg-white/10 border-2 border-white/95 flex items-center justify-center transition-all duration-300 hover:scale-105 shadow-[0_12px_30px_rgba(46,42,79,0.1)]"
                 aria-label="Open Video Gallery"
               >
-                <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-deepInk text-white flex items-center justify-center shadow-md transition-transform group-hover:scale-105">
+                <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-deepInk text-white flex items-center justify-center shadow-md animate-water-ripple group-hover:scale-105 transition-transform">
                   <Play className="w-8 h-8 sm:w-9 sm:h-9 fill-current ml-1" />
                 </div>
               </Link>

@@ -14,7 +14,7 @@
 // Set SHOW_PLACEHOLDERS to false to completely hide empty placeholder boxes.
 // ============================================================================
 
-export const SHOW_PLACEHOLDERS: boolean = true;
+export const SHOW_PLACEHOLDERS: boolean = false;
 
 export interface DecorSlotConfig {
   name: string;

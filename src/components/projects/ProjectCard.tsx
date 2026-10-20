@@ -45,7 +45,7 @@ export default function ProjectCard({ project, priority = false }: ProjectCardPr
   };
 
   return (
-    <div className="group relative bg-white dark:bg-[#1E1B33] rounded-[28px] border border-lavender/50 dark:border-white/10 p-4 transition-all duration-300 hover:-translate-y-2 shadow-[0_10px_28px_rgba(46,42,79,0.05)] hover:shadow-[0_20px_40px_rgba(46,42,79,0.1)] flex flex-col h-full">
+    <div className="group relative bg-white dark:bg-[#1E1B33] rounded-[28px] border border-lavender/50 dark:border-white/10 p-4 transition-all duration-300 card-float card-shimmer flex flex-col h-full">
       {/* Cover Image Container */}
       <Link
         href={`/projects/${project.slug}`}
@@ -57,12 +57,12 @@ export default function ProjectCard({ project, priority = false }: ProjectCardPr
           fill
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           priority={priority}
-          className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+          className="object-cover transition-transform duration-700 ease-out group-hover:scale-108"
         />
 
         {/* Video indicator badge if applicable */}
         {project.videoUrl && (
-          <div className="absolute bottom-3 right-3 px-3 py-1.5 rounded-full bg-deepInk/85 backdrop-blur-md text-white text-xs font-bold flex items-center gap-1.5 shadow-md">
+          <div className="absolute bottom-3 right-3 px-3 py-1.5 rounded-full bg-deepInk/85 backdrop-blur-md text-white text-xs font-bold flex items-center gap-1.5 shadow-md group-hover:scale-105 transition-transform">
             <Play className="w-3 h-3 fill-white" />
             <span>Video Reel</span>
           </div>
@@ -71,7 +71,7 @@ export default function ProjectCard({ project, priority = false }: ProjectCardPr
         {/* Category sticker pill */}
         <div className="absolute top-3 left-3">
           <span
-            className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider border ${badge.bg} ${badge.text} ${badge.border} shadow-sm backdrop-blur-sm`}
+            className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider border ${badge.bg} ${badge.text} ${badge.border} shadow-sm backdrop-blur-sm group-hover:scale-105 transition-transform`}
           >
             {project.category}
           </span>
@@ -104,7 +104,7 @@ export default function ProjectCard({ project, priority = false }: ProjectCardPr
             {project.tools.slice(0, 3).map((tool) => (
               <span
                 key={tool}
-                className="px-2.5 py-1 rounded-full bg-bg dark:bg-[#161426] border border-lavender/40 dark:border-white/10 text-[11px] font-bold text-deepInk dark:text-lavender-light"
+                className="px-2.5 py-1 rounded-full bg-bg dark:bg-[#161426] border border-lavender/40 dark:border-white/10 text-[11px] font-bold text-deepInk dark:text-lavender-light transition-transform hover:scale-105"
               >
                 {tool}
               </span>
@@ -116,13 +116,15 @@ export default function ProjectCard({ project, priority = false }: ProjectCardPr
             )}
           </div>
 
-          {/* View case study arrow button */}
+          {/* View case study arrow button with liquid water fill */}
           <Link
             href={`/projects/${project.slug}`}
-            className="w-10 h-10 rounded-full bg-lavender-light dark:bg-white/10 text-deepInk dark:text-white group-hover:bg-deepInk group-hover:text-white flex items-center justify-center shrink-0 shadow-sm transition-all duration-200 active:translate-y-0.5"
+            className="btn-water btn-water-periwinkle w-10 h-10 rounded-full bg-lavender-light dark:bg-white/10 text-deepInk dark:text-white group-hover:text-deepInk flex items-center justify-center shrink-0 shadow-sm transition-all duration-200 active:translate-y-0.5"
             aria-label={`View ${project.title}`}
           >
-            <ArrowUpRight className="w-5 h-5 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+            <span className="relative z-10 flex items-center justify-center">
+              <ArrowUpRight className="w-5 h-5 transition-transform duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+            </span>
           </Link>
         </div>
       </div>

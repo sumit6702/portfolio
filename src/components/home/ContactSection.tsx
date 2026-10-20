@@ -96,7 +96,7 @@ export default function ContactSection({ profile }: ContactSectionProps) {
           <div className="lg:col-span-5 space-y-6">
             
             {/* Quick Email Card */}
-            <div className="bg-white dark:bg-[#1E1B33] rounded-[32px] border border-lavender/50 dark:border-white/10 p-6 sm:p-7 shadow-soft-sm">
+            <div className="bg-white dark:bg-[#1E1B33] rounded-[32px] border border-lavender/50 dark:border-white/10 p-6 sm:p-7 shadow-soft-sm card-float card-shimmer">
               <div className="flex items-center gap-3 mb-3">
                 <div className="w-12 h-12 rounded-full bg-periwinkle-light dark:bg-periwinkle/20 text-deepInk dark:text-periwinkle-light flex items-center justify-center shadow-sm">
                   <Mail className="w-6 h-6" />
@@ -112,24 +112,26 @@ export default function ContactSection({ profile }: ContactSectionProps) {
               <div className="flex items-center gap-2 pt-2">
                 <a
                   href={`mailto:${profile.email}`}
-                  className="flex-1 py-2 px-4 rounded-full bg-deepInk dark:bg-white text-white dark:text-deepInk text-xs font-bold text-center hover:bg-deepInk-hover transition-colors shadow-sm"
+                  className="btn-water btn-water-dark flex-1 py-2 px-4 rounded-full bg-deepInk dark:bg-white text-white dark:text-deepInk text-xs font-bold text-center hover:shadow-[0_6px_18px_rgba(46,42,79,0.25)] transition-all shadow-sm"
                 >
-                  Send Direct Email
+                  <span className="relative z-10">Send Direct Email</span>
                 </a>
                 <button
                   type="button"
                   onClick={handleCopyEmail}
-                  className="p-2 px-3 rounded-full bg-bg dark:bg-[#161426] border border-lavender/40 dark:border-white/10 text-deepInk dark:text-lavender-light hover:bg-lavender-light text-xs font-bold flex items-center gap-1 shadow-sm transition-colors"
+                  className="btn-water btn-water-white p-2 px-3 rounded-full bg-bg dark:bg-[#161426] border border-lavender/40 dark:border-white/10 text-deepInk dark:text-lavender-light hover:bg-lavender-light text-xs font-bold flex items-center gap-1 shadow-sm transition-all"
                   title="Copy email to clipboard"
                 >
-                  {copied ? <Check className="w-4 h-4 text-emerald-600" /> : <Copy className="w-4 h-4" />}
-                  <span>{copied ? 'Copied' : 'Copy'}</span>
+                  <span className="relative z-10 flex items-center gap-1">
+                    {copied ? <Check className="w-4 h-4 text-emerald-600" /> : <Copy className="w-4 h-4" />}
+                    <span>{copied ? 'Copied' : 'Copy'}</span>
+                  </span>
                 </button>
               </div>
             </div>
 
             {/* Direct WhatsApp Card */}
-            <div className="bg-white dark:bg-[#1E1B33] rounded-[32px] border border-lavender/50 dark:border-white/10 p-6 sm:p-7 shadow-soft-sm">
+            <div className="bg-white dark:bg-[#1E1B33] rounded-[32px] border border-lavender/50 dark:border-white/10 p-6 sm:p-7 shadow-soft-sm card-float card-shimmer">
               <div className="flex items-center gap-3 mb-4">
                 <div className="w-12 h-12 rounded-full bg-[#E8F8EE] text-[#25D366] flex items-center justify-center shadow-sm">
                   <MessageCircle className="w-6 h-6" />
@@ -154,7 +156,7 @@ export default function ContactSection({ profile }: ContactSectionProps) {
             </div>
 
             {/* Location & Response Card */}
-            <div className="bg-white dark:bg-[#1E1B33] rounded-[32px] border border-lavender/50 dark:border-white/10 p-6 sm:p-7 shadow-soft-sm space-y-3">
+            <div className="bg-white dark:bg-[#1E1B33] rounded-[32px] border border-lavender/50 dark:border-white/10 p-6 sm:p-7 shadow-soft-sm space-y-3 card-float card-shimmer">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-full bg-mint-light text-deepInk flex items-center justify-center font-bold">
                   <MapPin className="w-5 h-5" />
@@ -169,7 +171,7 @@ export default function ContactSection({ profile }: ContactSectionProps) {
                 Working with clients globally across all timezones. Fast communication via WhatsApp, Slack, and Google Meet.
               </p>
 
-              {/* Social icons row */}
+              {/* Social icons row with fluid hover */}
               <div className="pt-3 border-t border-lavender/30 dark:border-white/10 flex items-center gap-2">
                 <Social3DIcon platform="instagram" href={profile.socialInstagram} size="sm" />
                 <Social3DIcon platform="behance" href={profile.socialBehance} size="sm" />
@@ -180,9 +182,9 @@ export default function ContactSection({ profile }: ContactSectionProps) {
             </div>
           </div>
 
-          {/* Right Column: Inquiry Form */}
+          {/* Right Column: Inquiry Form with card-float and shimmer */}
           <div className="lg:col-span-7">
-            <div className="bg-white dark:bg-[#1E1B33] rounded-[32px] md:rounded-[40px] border border-lavender/50 dark:border-white/10 p-8 sm:p-10 shadow-[0_12px_36px_rgba(46,42,79,0.06)]">
+            <div className="bg-white dark:bg-[#1E1B33] rounded-[32px] md:rounded-[40px] border border-lavender/50 dark:border-white/10 p-8 sm:p-10 shadow-[0_12px_36px_rgba(46,42,79,0.06)] card-float card-shimmer">
               <h3 className="font-serif font-black text-2xl text-deepInk dark:text-white mb-1.5">
                 Send a Project Inquiry
               </h3>
@@ -192,7 +194,7 @@ export default function ContactSection({ profile }: ContactSectionProps) {
 
               {submitted ? (
                 <div className="p-8 rounded-[28px] bg-mint-light dark:bg-mint/10 border border-mint-border text-center space-y-4 shadow-sm animate-fade-in">
-                  <div className="w-14 h-14 rounded-full bg-mint text-deepInk flex items-center justify-center mx-auto shadow-inner">
+                  <div className="w-14 h-14 rounded-full bg-mint text-deepInk flex items-center justify-center mx-auto shadow-inner animate-bounce-subtle">
                     <Check className="w-7 h-7" />
                   </div>
                   <h4 className="font-serif font-bold text-2xl text-deepInk dark:text-white">
@@ -203,9 +205,9 @@ export default function ContactSection({ profile }: ContactSectionProps) {
                   </p>
                   <button
                     onClick={() => setSubmitted(false)}
-                    className="mt-4 px-6 py-2.5 rounded-full bg-deepInk text-white font-bold text-xs uppercase tracking-wider hover:bg-deepInk-hover transition-colors"
+                    className="btn-water btn-water-dark mt-4 px-6 py-2.5 rounded-full bg-deepInk text-white font-bold text-xs uppercase tracking-wider hover:bg-deepInk-hover transition-colors"
                   >
-                    Send Another Message
+                    <span className="relative z-10">Send Another Message</span>
                   </button>
                 </div>
               ) : (

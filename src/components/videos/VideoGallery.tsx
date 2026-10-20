@@ -44,19 +44,19 @@ export default function VideoGallery({ initialVideos }: VideoGalleryProps) {
             A curated theater of dynamic 3D animation reels, AI-assisted video productions, and commercial motion work.
           </p>
 
-          {/* Filter Pills */}
+          {/* Filter Pills with fluid water-fill effect */}
           <div className="mt-8 flex flex-wrap items-center justify-center gap-2">
             {categories.map((cat) => (
               <button
                 key={cat}
                 onClick={() => setSelectedFilter(cat)}
-                className={`px-4 py-2 rounded-full text-xs sm:text-sm font-bold transition-all duration-150 ${
+                className={`btn-water px-4 py-2 rounded-full text-xs sm:text-sm font-bold transition-all duration-150 ${
                   selectedFilter === cat
-                    ? 'bg-deepInk text-white shadow-sm'
-                    : 'bg-white dark:bg-[#1E1B33] text-deepInk dark:text-lavender-light border border-lavender/40 dark:border-white/10 hover:bg-lavender-light dark:hover:bg-white/10'
+                    ? 'btn-water-dark bg-deepInk text-white shadow-sm'
+                    : 'btn-water-white bg-white dark:bg-[#1E1B33] text-deepInk dark:text-lavender-light border border-lavender/40 dark:border-white/10 hover:shadow-sm'
                 }`}
               >
-                {cat}
+                <span className="relative z-10">{cat}</span>
               </button>
             ))}
           </div>
@@ -67,7 +67,7 @@ export default function VideoGallery({ initialVideos }: VideoGalleryProps) {
           {filteredVideos.map((video) => (
             <div
               key={video.id}
-              className="group bg-white dark:bg-[#1E1B33] rounded-[28px] border border-lavender/50 dark:border-white/10 p-5 shadow-[0_10px_28px_rgba(46,42,79,0.05)] hover:shadow-[0_20px_40px_rgba(46,42,79,0.1)] hover:-translate-y-2 transition-all duration-300 flex flex-col justify-between"
+              className="group bg-white dark:bg-[#1E1B33] rounded-[28px] border border-lavender/50 dark:border-white/10 p-5 shadow-[0_10px_28px_rgba(46,42,79,0.05)] hover:shadow-[0_24px_48px_rgba(46,42,79,0.12)] card-float card-shimmer flex flex-col justify-between"
             >
               {/* Thumbnail / Trigger */}
               <div
@@ -80,7 +80,7 @@ export default function VideoGallery({ initialVideos }: VideoGalleryProps) {
                     alt={video.title}
                     fill
                     sizes="(max-width: 768px) 100vw, 50vw"
-                    className="object-cover group-hover:scale-105 transition-transform duration-500 opacity-90 group-hover:opacity-100"
+                    className="object-cover group-hover:scale-108 transition-transform duration-700 opacity-90 group-hover:opacity-100"
                   />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center bg-lavender-light dark:bg-[#161426]">
@@ -88,16 +88,16 @@ export default function VideoGallery({ initialVideos }: VideoGalleryProps) {
                   </div>
                 )}
 
-                {/* Overlay with Play button */}
+                {/* Overlay with Water Ripple Play button */}
                 <div className="absolute inset-0 bg-deepInk/20 group-hover:bg-deepInk/10 transition-colors flex items-center justify-center">
-                  <div className="w-14 h-14 rounded-full bg-white text-deepInk flex items-center justify-center shadow-[0_8px_20px_rgba(0,0,0,0.2)] group-hover:scale-110 transition-transform duration-200">
-                    <Play className="w-6 h-6 fill-deepInk ml-0.5" />
+                  <div className="w-16 h-16 rounded-full bg-white text-deepInk flex items-center justify-center shadow-[0_8px_25px_rgba(0,0,0,0.25)] animate-water-ripple group-hover:scale-115 transition-transform duration-300">
+                    <Play className="w-7 h-7 fill-deepInk ml-0.5" />
                   </div>
                 </div>
 
                 {/* Category & Duration Pill */}
                 <div className="absolute top-3 left-3">
-                  <span className="px-3 py-1 rounded-full bg-deepInk/85 backdrop-blur-md text-white text-xs font-bold shadow-sm">
+                  <span className="px-3 py-1 rounded-full bg-deepInk/85 backdrop-blur-md text-white text-xs font-bold shadow-sm group-hover:scale-105 transition-transform">
                     {video.category}
                   </span>
                 </div>
@@ -126,24 +126,28 @@ export default function VideoGallery({ initialVideos }: VideoGalleryProps) {
                 )}
               </div>
 
-              {/* Bottom Quick Play Link */}
+              {/* Bottom Quick Play Link with water fill */}
               <div className="mt-5 pt-3 border-t border-lavender/30 dark:border-white/10 flex items-center justify-between">
                 <button
                   onClick={() => setActiveVideo(video)}
-                  className="inline-flex items-center gap-1.5 text-xs font-bold text-deepInk dark:text-lavender-light hover:underline transition-colors"
+                  className="btn-water btn-water-periwinkle px-3 py-1.5 rounded-full inline-flex items-center gap-1.5 text-xs font-bold text-deepInk dark:text-lavender-light hover:underline transition-colors"
                 >
-                  <Play className="w-3.5 h-3.5 fill-current" />
-                  Watch Video Reel
+                  <span className="relative z-10 flex items-center gap-1.5">
+                    <Play className="w-3.5 h-3.5 fill-current" />
+                    <span>Watch Video Reel</span>
+                  </span>
                 </button>
 
                 <a
                   href={video.videoUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-bodyText-muted dark:text-lavender-light/60 hover:text-deepInk p-1.5 rounded-full hover:bg-bg dark:hover:bg-white/10 transition-colors"
+                  className="btn-water btn-water-white text-bodyText-muted dark:text-lavender-light/60 hover:text-deepInk p-2 rounded-full hover:bg-bg dark:hover:bg-white/10 transition-colors"
                   title="Open on YouTube / Vimeo"
                 >
-                  <ExternalLink className="w-4 h-4" />
+                  <span className="relative z-10 flex items-center justify-center">
+                    <ExternalLink className="w-4 h-4" />
+                  </span>
                 </a>
               </div>
             </div>
@@ -154,20 +158,22 @@ export default function VideoGallery({ initialVideos }: VideoGalleryProps) {
       {/* Lightbox Modal */}
       {activeVideo && (
         <div
-          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-deepInk/60 dark:bg-black/85 backdrop-blur-md"
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-deepInk/60 dark:bg-black/85 backdrop-blur-md animate-in fade-in duration-300"
           onClick={() => setActiveVideo(null)}
         >
           <div
-            className="relative w-full max-w-4xl bg-white dark:bg-[#1E1B33] rounded-[32px] md:rounded-[40px] p-6 sm:p-8 border border-lavender/60 dark:border-white/20 shadow-[0_24px_60px_rgba(0,0,0,0.3)]"
+            className="relative w-full max-w-4xl bg-white dark:bg-[#1E1B33] rounded-[32px] md:rounded-[40px] p-6 sm:p-8 border border-lavender/60 dark:border-white/20 shadow-[0_24px_60px_rgba(0,0,0,0.3)] animate-in zoom-in-95 duration-300"
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Close button */}
+            {/* Close button with water animation */}
             <button
               onClick={() => setActiveVideo(null)}
-              className="absolute -top-3 -right-3 w-11 h-11 rounded-full bg-white dark:bg-[#161426] text-deepInk dark:text-white border border-lavender/60 dark:border-white/20 shadow-md hover:bg-bg flex items-center justify-center transition-transform active:translate-y-0.5"
+              className="btn-water btn-water-white absolute -top-3 -right-3 w-11 h-11 rounded-full bg-white dark:bg-[#161426] text-deepInk dark:text-white border border-lavender/60 dark:border-white/20 shadow-md flex items-center justify-center transition-transform active:translate-y-0.5"
               aria-label="Close video player"
             >
-              <X className="w-5 h-5" />
+              <span className="relative z-10 flex items-center justify-center">
+                <X className="w-5 h-5" />
+              </span>
             </button>
 
             {/* Video Player */}

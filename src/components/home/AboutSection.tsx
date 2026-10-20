@@ -51,9 +51,9 @@ export default function AboutSection({ profile }: AboutSectionProps) {
           </p>
         </div>
 
-        {/* Narrative Bio Card */}
+        {/* Narrative Bio Card with Card-Float & Shimmer */}
         <div className="mb-14">
-          <div className="relative bg-white dark:bg-[#1E1B33] rounded-[32px] md:rounded-[40px] border border-lavender/50 dark:border-white/10 p-8 sm:p-12 shadow-[0_12px_36px_rgba(46,42,79,0.06)]">
+          <div className="relative bg-white dark:bg-[#1E1B33] rounded-[32px] md:rounded-[40px] border border-lavender/50 dark:border-white/10 p-8 sm:p-12 shadow-[0_12px_36px_rgba(46,42,79,0.06)] card-float card-shimmer">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
               <div className="lg:col-span-8 space-y-4">
                 <h3 className="font-serif font-bold text-2xl sm:text-3xl text-deepInk dark:text-white">
@@ -66,7 +66,7 @@ export default function AboutSection({ profile }: AboutSectionProps) {
                   {CORE_DESIGN_SKILLS.map((skill) => (
                     <span
                       key={skill}
-                      className="px-3.5 py-1.5 rounded-full bg-bg dark:bg-[#161426] border border-lavender/40 dark:border-white/10 text-xs font-bold text-deepInk dark:text-lavender-light"
+                      className="px-3.5 py-1.5 rounded-full bg-bg dark:bg-[#161426] border border-lavender/40 dark:border-white/10 text-xs font-bold text-deepInk dark:text-lavender-light transition-transform hover:scale-105"
                     >
                       {skill}
                     </span>
@@ -76,7 +76,7 @@ export default function AboutSection({ profile }: AboutSectionProps) {
 
               {/* Quick Summary Stats Pill */}
               <div className="lg:col-span-4 bg-lavender-soft dark:bg-[#161426] rounded-[28px] p-6 border border-lavender/50 dark:border-white/10 space-y-4">
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-3 transition-transform hover:translate-x-1">
                   <div className="w-10 h-10 rounded-full bg-white dark:bg-[#1E1B33] text-deepInk dark:text-white flex items-center justify-center font-bold shadow-sm">
                     <MapPin className="w-5 h-5 text-periwinkle" />
                   </div>
@@ -86,7 +86,7 @@ export default function AboutSection({ profile }: AboutSectionProps) {
                   </div>
                 </div>
 
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-3 transition-transform hover:translate-x-1">
                   <div className="w-10 h-10 rounded-full bg-white dark:bg-[#1E1B33] text-deepInk dark:text-white flex items-center justify-center font-bold shadow-sm">
                     <Briefcase className="w-5 h-5 text-babyPink" />
                   </div>
@@ -96,7 +96,7 @@ export default function AboutSection({ profile }: AboutSectionProps) {
                   </div>
                 </div>
 
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-3 transition-transform hover:translate-x-1">
                   <div className="w-10 h-10 rounded-full bg-white dark:bg-[#1E1B33] text-deepInk dark:text-white flex items-center justify-center font-bold shadow-sm">
                     <GraduationCap className="w-5 h-5 text-butterYellow" />
                   </div>
@@ -110,43 +110,49 @@ export default function AboutSection({ profile }: AboutSectionProps) {
           </div>
         </div>
 
-        {/* Tab Navigation */}
+        {/* Tab Navigation with Fluid Water Fill Pills */}
         <div className="flex justify-center mb-10">
           <div className="inline-flex p-1.5 rounded-full bg-white dark:bg-[#1E1B33] border border-lavender/40 dark:border-white/10 shadow-sm">
             <button
               onClick={() => setActiveTab('experience')}
-              className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold transition-all duration-150 ${
+              className={`btn-water flex items-center gap-2 px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold transition-all duration-150 ${
                 activeTab === 'experience'
-                  ? 'bg-deepInk text-white shadow-sm'
-                  : 'text-deepInk dark:text-lavender-light hover:bg-lavender-light/60'
+                  ? 'btn-water-dark bg-deepInk text-white shadow-sm'
+                  : 'btn-water-white text-deepInk dark:text-lavender-light'
               }`}
             >
-              <Briefcase className="w-4 h-4" />
-              Professional Experience
+              <span className="relative z-10 flex items-center gap-2">
+                <Briefcase className="w-4 h-4" />
+                <span>Professional Experience</span>
+              </span>
             </button>
 
             <button
               onClick={() => setActiveTab('tools')}
-              className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold transition-all duration-150 ${
+              className={`btn-water flex items-center gap-2 px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold transition-all duration-150 ${
                 activeTab === 'tools'
-                  ? 'bg-deepInk text-white shadow-sm'
-                  : 'text-deepInk dark:text-lavender-light hover:bg-lavender-light/60'
+                  ? 'btn-water-dark bg-deepInk text-white shadow-sm'
+                  : 'btn-water-white text-deepInk dark:text-lavender-light'
               }`}
             >
-              <Wrench className="w-4 h-4" />
-              Software & Tools
+              <span className="relative z-10 flex items-center gap-2">
+                <Wrench className="w-4 h-4" />
+                <span>Software & Tools</span>
+              </span>
             </button>
 
             <button
               onClick={() => setActiveTab('education')}
-              className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold transition-all duration-150 ${
+              className={`btn-water flex items-center gap-2 px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold transition-all duration-150 ${
                 activeTab === 'education'
-                  ? 'bg-deepInk text-white shadow-sm'
-                  : 'text-deepInk dark:text-lavender-light hover:bg-lavender-light/60'
+                  ? 'btn-water-dark bg-deepInk text-white shadow-sm'
+                  : 'btn-water-white text-deepInk dark:text-lavender-light'
               }`}
             >
-              <GraduationCap className="w-4 h-4" />
-              Education & Certs
+              <span className="relative z-10 flex items-center gap-2">
+                <GraduationCap className="w-4 h-4" />
+                <span>Education & Certs</span>
+              </span>
             </button>
           </div>
         </div>
@@ -157,7 +163,7 @@ export default function AboutSection({ profile }: AboutSectionProps) {
             {INITIAL_EXPERIENCES.map((exp) => (
               <div
                 key={exp.id}
-                className="relative bg-white dark:bg-[#1E1B33] rounded-[32px] border border-lavender/50 dark:border-white/10 p-6 sm:p-8 shadow-soft-sm transition-transform duration-200 hover:-translate-y-1"
+                className="relative bg-white dark:bg-[#1E1B33] rounded-[32px] border border-lavender/50 dark:border-white/10 p-6 sm:p-8 shadow-soft-sm card-float card-shimmer"
               >
                 {/* Header */}
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-lavender/30 dark:border-white/10 mb-5">
@@ -192,7 +198,7 @@ export default function AboutSection({ profile }: AboutSectionProps) {
                   {exp.tags.map((tag) => (
                     <span
                       key={tag}
-                      className="px-3 py-1 rounded-full bg-bg dark:bg-[#161426] border border-lavender/40 dark:border-white/10 text-xs font-bold text-deepInk dark:text-lavender-light"
+                      className="px-3 py-1 rounded-full bg-bg dark:bg-[#161426] border border-lavender/40 dark:border-white/10 text-xs font-bold text-deepInk dark:text-lavender-light transition-transform hover:scale-105"
                     >
                       {tag}
                     </span>
@@ -209,7 +215,7 @@ export default function AboutSection({ profile }: AboutSectionProps) {
             {TOOLS_LIST.map((tool) => (
               <div
                 key={tool.name}
-                className="bg-white dark:bg-[#1E1B33] rounded-[24px] border border-lavender/50 dark:border-white/10 p-5 shadow-soft-sm hover:-translate-y-1 transition-all duration-150 flex flex-col justify-between"
+                className="bg-white dark:bg-[#1E1B33] rounded-[24px] border border-lavender/50 dark:border-white/10 p-5 shadow-soft-sm card-float card-shimmer flex flex-col justify-between"
               >
                 <div>
                   <span className="text-[10px] font-bold uppercase tracking-wider text-bodyText-muted dark:text-lavender-light/60 block mb-1">
@@ -232,7 +238,7 @@ export default function AboutSection({ profile }: AboutSectionProps) {
         {activeTab === 'education' && (
           <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
             {/* Education Box */}
-            <div className="bg-white dark:bg-[#1E1B33] rounded-[32px] border border-lavender/50 dark:border-white/10 p-6 sm:p-8 shadow-soft-sm">
+            <div className="bg-white dark:bg-[#1E1B33] rounded-[32px] border border-lavender/50 dark:border-white/10 p-6 sm:p-8 shadow-soft-sm card-float card-shimmer">
               <div className="flex items-center gap-3 mb-6">
                 <div className="w-12 h-12 rounded-full bg-periwinkle-light dark:bg-periwinkle/20 text-deepInk dark:text-periwinkle-light flex items-center justify-center shadow-inner">
                   <GraduationCap className="w-6 h-6" />
@@ -268,7 +274,7 @@ export default function AboutSection({ profile }: AboutSectionProps) {
             </div>
 
             {/* Certifications Box */}
-            <div className="bg-white dark:bg-[#1E1B33] rounded-[32px] border border-lavender/50 dark:border-white/10 p-6 sm:p-8 shadow-soft-sm">
+            <div className="bg-white dark:bg-[#1E1B33] rounded-[32px] border border-lavender/50 dark:border-white/10 p-6 sm:p-8 shadow-soft-sm card-float card-shimmer">
               <div className="flex items-center gap-3 mb-6">
                 <div className="w-12 h-12 rounded-full bg-babyPink-light dark:bg-babyPink/20 text-deepInk dark:text-babyPink-light flex items-center justify-center shadow-inner">
                   <Award className="w-6 h-6" />
@@ -287,7 +293,7 @@ export default function AboutSection({ profile }: AboutSectionProps) {
                 {INITIAL_CERTIFICATIONS.map((cert) => (
                   <div
                     key={cert.id}
-                    className="p-3.5 rounded-2xl bg-bg dark:bg-[#161426] border border-lavender/40 dark:border-white/10 flex items-center justify-between"
+                    className="p-3.5 rounded-2xl bg-bg dark:bg-[#161426] border border-lavender/40 dark:border-white/10 flex items-center justify-between transition-transform hover:scale-[1.02]"
                   >
                     <div>
                       <h5 className="font-serif font-bold text-sm text-deepInk dark:text-white">

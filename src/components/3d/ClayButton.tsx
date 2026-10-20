@@ -39,12 +39,12 @@ export default function ClayButton({
   };
 
   const variantClasses = {
-    dark: 'bg-deepInk text-white shadow-[0_4px_14px_rgba(46,42,79,0.18)] hover:bg-deepInk-hover hover:shadow-[0_6px_20px_rgba(46,42,79,0.25)]',
-    teal: 'bg-deepInk text-white shadow-[0_4px_14px_rgba(46,42,79,0.18)] hover:bg-deepInk-hover hover:shadow-[0_6px_20px_rgba(46,42,79,0.25)]',
-    coral: 'bg-peach text-deepInk border border-peach-border shadow-[0_4px_12px_rgba(255,211,184,0.4)] hover:bg-peach-light',
-    yellow: 'bg-butterYellow text-deepInk border border-butterYellow-border shadow-[0_4px_12px_rgba(255,233,168,0.4)] hover:bg-butterYellow-light',
-    cream: 'bg-white/80 dark:bg-white/10 backdrop-blur-md text-deepInk dark:text-white border-2 border-white/90 dark:border-white/20 shadow-sm hover:bg-white dark:hover:bg-white/20',
-    mint: 'bg-mint text-deepInk border border-mint-border shadow-[0_4px_12px_rgba(207,241,224,0.5)] hover:bg-mint-light',
+    dark: 'btn-water btn-water-dark bg-deepInk text-white shadow-[0_4px_14px_rgba(46,42,79,0.18)] hover:shadow-[0_8px_24px_rgba(46,42,79,0.28)]',
+    teal: 'btn-water btn-water-dark bg-deepInk text-white shadow-[0_4px_14px_rgba(46,42,79,0.18)] hover:shadow-[0_8px_24px_rgba(46,42,79,0.28)]',
+    coral: 'btn-water btn-water-peach bg-peach text-deepInk border border-peach-border shadow-[0_4px_12px_rgba(255,211,184,0.4)] hover:shadow-[0_8px_20px_rgba(255,211,184,0.6)]',
+    yellow: 'btn-water btn-water-yellow bg-butterYellow text-deepInk border border-butterYellow-border shadow-[0_4px_12px_rgba(255,233,168,0.4)] hover:shadow-[0_8px_20px_rgba(255,233,168,0.6)]',
+    cream: 'btn-water btn-water-white bg-white/85 dark:bg-white/10 backdrop-blur-md text-deepInk dark:text-white border-2 border-white/90 dark:border-white/20 shadow-sm hover:shadow-[0_8px_20px_rgba(184,201,245,0.3)]',
+    mint: 'btn-water btn-water-mint bg-mint text-deepInk border border-mint-border shadow-[0_4px_12px_rgba(207,241,224,0.5)] hover:shadow-[0_8px_20px_rgba(207,241,224,0.7)]',
   };
 
   const baseClasses = `inline-flex items-center justify-center select-none cursor-pointer text-center no-underline transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0.5 ${
@@ -52,6 +52,12 @@ export default function ClayButton({
   } ${sizeClasses[size]} ${variantClasses[variant] || variantClasses.dark} ${
     disabled ? 'opacity-50 cursor-not-allowed pointer-events-none' : ''
   } ${className}`;
+
+  const innerContent = (
+    <span className="relative z-10 inline-flex items-center justify-center gap-inherit w-full">
+      {children}
+    </span>
+  );
 
   if (href) {
     const isExternal = href.startsWith('http') || href.startsWith('mailto:') || href.startsWith('tel:');
@@ -64,14 +70,14 @@ export default function ClayButton({
           download={download}
           className={baseClasses}
         >
-          {children}
+          {innerContent}
         </a>
       );
     }
 
     return (
       <Link href={href} className={baseClasses}>
-        {children}
+        {innerContent}
       </Link>
     );
   }
@@ -83,7 +89,7 @@ export default function ClayButton({
       disabled={disabled}
       className={baseClasses}
     >
-      {children}
+      {innerContent}
     </button>
   );
 }

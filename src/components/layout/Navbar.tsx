@@ -64,36 +64,40 @@ export default function Navbar() {
                   <Link
                     key={link.name}
                     href={link.href}
-                    className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all ${
+                    className={`btn-water px-4 py-1.5 rounded-full text-xs font-bold transition-all ${
                       active
-                        ? 'bg-deepInk text-white shadow-sm'
+                        ? 'btn-water-dark bg-deepInk text-white shadow-sm'
                         : `text-deepInk dark:text-lavender-light ${link.pastel} dark:hover:bg-white/10`
                     }`}
                   >
-                    {link.name}
+                    <span className="relative z-10">{link.name}</span>
                   </Link>
                 );
               })}
             </nav>
 
-            {/* White-outlined Resume Pill per prompt: "with a white-outlined Resume pill" */}
+            {/* White-outlined Resume Pill with fluid water fill */}
             <a
               href="/resume-sumit-kumar.pdf"
               download="Sumit-Kumar-Resume.pdf"
-              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-white dark:bg-white/10 text-deepInk dark:text-white text-xs font-bold border-2 border-white dark:border-white/20 shadow-[0_2px_8px_rgba(46,42,79,0.06)] hover:bg-mint hover:border-mint-border transition-all"
+              className="btn-water btn-water-white inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-white dark:bg-white/10 text-deepInk dark:text-white text-xs font-bold border-2 border-white dark:border-white/20 shadow-[0_2px_8px_rgba(46,42,79,0.06)] hover:shadow-[0_4px_14px_rgba(184,201,245,0.4)] transition-all"
             >
-              <Download className="w-3.5 h-3.5" />
-              Resume
+              <span className="relative z-10 flex items-center gap-1.5">
+                <Download className="w-3.5 h-3.5" />
+                <span>Resume</span>
+              </span>
             </a>
 
-            {/* Admin shortcut round button */}
+            {/* Admin shortcut round button with water fill */}
             <Link
               href="/admin"
               aria-label="Admin Portal"
               title="Admin Portal"
-              className="w-9 h-9 rounded-full bg-white dark:bg-[#1E1B33] border border-lavender/40 dark:border-white/10 text-bodyText-muted dark:text-lavender-light hover:text-deepInk flex items-center justify-center transition-colors shadow-sm"
+              className="btn-water btn-water-white w-9 h-9 rounded-full bg-white dark:bg-[#1E1B33] border border-lavender/40 dark:border-white/10 text-bodyText-muted dark:text-lavender-light hover:text-deepInk flex items-center justify-center transition-colors shadow-sm"
             >
-              <Lock className="w-3.5 h-3.5" />
+              <span className="relative z-10 flex items-center justify-center">
+                <Lock className="w-3.5 h-3.5" />
+              </span>
             </Link>
 
             {/* Theme Toggle */}
@@ -117,7 +121,7 @@ export default function Navbar() {
 
       {/* Mobile Menu Dropdown */}
       {isOpen && (
-        <div className="md:hidden px-4 pt-4 pb-6 mt-2 mx-4 bg-white dark:bg-[#1E1B33] rounded-3xl border border-lavender/50 dark:border-white/10 shadow-xl">
+        <div className="md:hidden px-4 pt-4 pb-6 mt-2 mx-4 bg-white dark:bg-[#1E1B33] rounded-3xl border border-lavender/50 dark:border-white/10 shadow-xl animate-in fade-in slide-in-from-top-2 duration-200">
           <div className="flex flex-col gap-2">
             {navLinks.map((link) => (
               <Link
@@ -138,10 +142,12 @@ export default function Navbar() {
               href="/resume-sumit-kumar.pdf"
               download="Sumit-Kumar-Resume.pdf"
               onClick={() => setIsOpen(false)}
-              className="px-4 py-2.5 rounded-2xl text-sm font-bold bg-mint dark:bg-mint/20 text-deepInk dark:text-mint flex items-center justify-between"
+              className="btn-water btn-water-mint px-4 py-2.5 rounded-2xl text-sm font-bold bg-mint dark:bg-mint/20 text-deepInk dark:text-mint flex items-center justify-between"
             >
-              <span>Download Resume</span>
-              <Download className="w-4 h-4" />
+              <span className="relative z-10 flex items-center justify-between w-full">
+                <span>Download Resume</span>
+                <Download className="w-4 h-4" />
+              </span>
             </a>
 
             <div className="pt-3 border-t border-lavender/40 dark:border-white/10 flex items-center justify-between text-xs">
