@@ -16,6 +16,11 @@ body {
   selection-color: #ffffff;
 }
 
+.dark body {
+  color: #E6FFFA;
+  background-color: #071918;
+}
+
 ::selection {
   background-color: #14B8A6;
   color: #ffffff;
@@ -28,10 +33,17 @@ body {
 ::-webkit-scrollbar-track {
   background: #FFF8F0;
 }
+.dark ::-webkit-scrollbar-track {
+  background: #071918;
+}
 ::-webkit-scrollbar-thumb {
   background: #99F6E4;
   border-radius: 9999px;
   border: 2px solid #FFF8F0;
+}
+.dark ::-webkit-scrollbar-thumb {
+  background: #115E59;
+  border-color: #071918;
 }
 ::-webkit-scrollbar-thumb:hover {
   background: #14B8A6;
@@ -77,14 +89,27 @@ body {
   box-shadow: 0 5px 0 #99F6E4, 0 10px 16px rgba(15, 76, 74, 0.08);
   transition: all 0.15s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
+.dark .btn-3d-cream {
+  background: #0D2625;
+  color: #CCFBF1;
+  border-color: #1E524F;
+  box-shadow: 0 5px 0 #071918, 0 10px 16px rgba(0, 0, 0, 0.3);
+}
 .btn-3d-cream:hover {
   transform: translateY(-2px);
   box-shadow: 0 7px 0 #99F6E4, 0 14px 22px rgba(15, 76, 74, 0.12);
   background: #F0FDFA;
 }
+.dark .btn-3d-cream:hover {
+  box-shadow: 0 7px 0 #14B8A6, 0 14px 22px rgba(0, 0, 0, 0.4);
+  background: #113634;
+}
 .btn-3d-cream:active {
   transform: translateY(3px);
   box-shadow: 0 2px 0 #99F6E4, 0 4px 8px rgba(15, 76, 74, 0.06);
+}
+.dark .btn-3d-cream:active {
+  box-shadow: 0 2px 0 #071918, 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .btn-3d-yellow {
@@ -112,7 +137,15 @@ body {
     0 8px 0 rgba(15, 76, 74, 0.04), 
     0 16px 30px -8px rgba(15, 76, 74, 0.08),
     inset 0 2px 4px rgba(255, 255, 255, 0.9);
-  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease;
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease, background 0.2s ease, border 0.2s ease;
+}
+.dark .clay-card {
+  background: #0D2625;
+  border-color: #1A4543;
+  box-shadow: 
+    0 8px 0 #051514, 
+    0 16px 30px -8px rgba(0, 0, 0, 0.5),
+    inset 0 1px 2px rgba(255, 255, 255, 0.08);
 }
 
 .clay-card:hover {
@@ -121,6 +154,12 @@ body {
     0 12px 0 #CCFBF1, 
     0 24px 38px -10px rgba(15, 76, 74, 0.12),
     inset 0 3px 6px rgba(255, 255, 255, 1);
+}
+.dark .clay-card:hover {
+  box-shadow: 
+    0 12px 0 #14B8A6, 
+    0 24px 38px -10px rgba(0, 0, 0, 0.7),
+    inset 0 1px 3px rgba(255, 255, 255, 0.12);
 }
 
 .clay-mint-card {
@@ -131,6 +170,14 @@ body {
     0 8px 0 #5EEAD4, 
     0 16px 28px -6px rgba(15, 76, 74, 0.1),
     inset 0 2px 4px rgba(255, 255, 255, 0.7);
+}
+.dark .clay-mint-card {
+  background: #113B39;
+  border-color: #1E615D;
+  box-shadow: 
+    0 8px 0 #092827, 
+    0 16px 28px -6px rgba(0, 0, 0, 0.4),
+    inset 0 1px 2px rgba(255, 255, 255, 0.1);
 }
 
 /* 3D Social Buttons */
@@ -143,9 +190,15 @@ body {
   border-radius: 1rem;
   background: #ffffff;
   border: 2px solid #CCFBF1;
-  box-shadow: 0 5px 0 #99F6E4, 0 8px 14px rgba(15, 76, 74, 0.08);
+  box-shadow: 0 4px 0 #99F6E4, 0 8px 14px rgba(15, 76, 74, 0.08);
   transition: all 0.15s cubic-bezier(0.34, 1.56, 0.64, 1);
   color: #0F4C4A;
+}
+.dark .social-3d-btn {
+  background: #0D2625;
+  border-color: #1E524F;
+  box-shadow: 0 4px 0 #071918, 0 8px 14px rgba(0, 0, 0, 0.3);
+  color: #CCFBF1;
 }
 .social-3d-btn:hover {
   transform: translateY(-3px) scale(1.05);

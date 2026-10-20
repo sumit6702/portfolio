@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { Heart, Sparkles, ArrowUp } from 'lucide-react';
 import Social3DIcon from '@/components/3d/Social3DIcon';
 import ClayShape from '@/components/3d/ClayShape';
+import ThemeToggle from '@/components/theme/ThemeToggle';
 
 export default function Footer() {
   const scrollToTop = () => {
@@ -14,12 +15,12 @@ export default function Footer() {
   };
 
   return (
-    <footer className="relative bg-white border-t-2 border-mint/60 pt-16 pb-12 overflow-hidden">
+    <footer className="relative bg-white dark:bg-[#061817] border-t-2 border-mint/60 dark:border-[#163E3C] pt-16 pb-12 overflow-hidden transition-colors duration-200">
       {/* Decorative background clay shapes */}
-      <div className="absolute top-6 left-10 opacity-25 pointer-events-none">
+      <div className="absolute top-6 left-10 opacity-20 pointer-events-none">
         <ClayShape type="sphere" color="mint" size="lg" animate={false} />
       </div>
-      <div className="absolute bottom-6 right-10 opacity-20 pointer-events-none">
+      <div className="absolute bottom-6 right-10 opacity-15 pointer-events-none">
         <ClayShape type="torus" color="yellow" size="lg" animate={false} />
       </div>
 
@@ -31,11 +32,11 @@ export default function Footer() {
               <div className="w-10 h-10 rounded-2xl bg-primary text-white flex items-center justify-center font-display font-bold text-xl shadow-[0_4px_0_#0D9488]">
                 S
               </div>
-              <span className="font-display font-bold text-2xl text-deepTeal">
+              <span className="font-display font-bold text-2xl text-deepTeal dark:text-white">
                 Sumit Kumar
               </span>
             </div>
-            <p className="text-deepTeal-muted text-sm leading-relaxed max-w-md font-medium">
+            <p className="text-deepTeal-muted dark:text-mint/70 text-sm leading-relaxed max-w-md font-medium">
               Graphic designer specializing in branding, layout, motion graphics, and 3D design.
               Bridging identity design with visual depth through Blender, After Effects, and AI video generation.
             </p>
@@ -50,33 +51,33 @@ export default function Footer() {
 
           {/* Col 2: Navigation */}
           <div>
-            <h4 className="font-display font-bold text-base text-deepTeal uppercase tracking-wider mb-4 flex items-center gap-2">
+            <h4 className="font-display font-bold text-base text-deepTeal dark:text-white uppercase tracking-wider mb-4 flex items-center gap-2">
               <Sparkles className="w-4 h-4 text-primary" />
               Navigation
             </h4>
             <ul className="space-y-2.5 text-sm font-semibold">
               <li>
-                <Link href="/" className="text-deepTeal-muted hover:text-primary transition-colors">
+                <Link href="/" className="text-deepTeal-muted dark:text-mint/70 hover:text-primary dark:hover:text-primary transition-colors">
                   Home
                 </Link>
               </li>
               <li>
-                <Link href="/projects" className="text-deepTeal-muted hover:text-primary transition-colors">
+                <Link href="/projects" className="text-deepTeal-muted dark:text-mint/70 hover:text-primary dark:hover:text-primary transition-colors">
                   Projects & Case Studies
                 </Link>
               </li>
               <li>
-                <Link href="/videos" className="text-deepTeal-muted hover:text-primary transition-colors">
+                <Link href="/videos" className="text-deepTeal-muted dark:text-mint/70 hover:text-primary dark:hover:text-primary transition-colors">
                   Motion & 3D Video Showcase
                 </Link>
               </li>
               <li>
-                <Link href="/#about" className="text-deepTeal-muted hover:text-primary transition-colors">
+                <Link href="/#about" className="text-deepTeal-muted dark:text-mint/70 hover:text-primary dark:hover:text-primary transition-colors">
                   About & Experience
                 </Link>
               </li>
               <li>
-                <Link href="/#contact" className="text-deepTeal-muted hover:text-primary transition-colors">
+                <Link href="/#contact" className="text-deepTeal-muted dark:text-mint/70 hover:text-primary dark:hover:text-primary transition-colors">
                   Get In Touch
                 </Link>
               </li>
@@ -85,39 +86,41 @@ export default function Footer() {
 
           {/* Col 3: Direct Details & Admin */}
           <div>
-            <h4 className="font-display font-bold text-base text-deepTeal uppercase tracking-wider mb-4">
+            <h4 className="font-display font-bold text-base text-deepTeal dark:text-white uppercase tracking-wider mb-4">
               Direct Contact
             </h4>
-            <div className="space-y-2 text-sm text-deepTeal-muted font-medium">
+            <div className="space-y-2 text-sm text-deepTeal-muted dark:text-mint/70 font-medium">
               <p>
-                <span className="font-bold text-deepTeal">Email:</span>{' '}
+                <span className="font-bold text-deepTeal dark:text-mint">Email:</span>{' '}
                 <a href="mailto:sumitkdesigns@gmail.com" className="hover:text-primary underline">
                   sumitkdesigns@gmail.com
                 </a>
               </p>
               <p>
-                <span className="font-bold text-deepTeal">Phone:</span>{' '}
+                <span className="font-bold text-deepTeal dark:text-mint">Phone:</span>{' '}
                 <a href="tel:+919891997885" className="hover:text-primary underline">
                   +91 9891997885
                 </a>
               </p>
               <p>
-                <span className="font-bold text-deepTeal">Location:</span> Gurugram & Delhi, India
+                <span className="font-bold text-deepTeal dark:text-mint">Location:</span> Gurugram & Delhi, India
               </p>
-              <div className="pt-3">
+              <div className="pt-3 flex flex-wrap items-center gap-2">
                 <Link
                   href="/admin"
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-cream border border-mint text-xs font-bold text-deepTeal hover:bg-mint transition-colors"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-cream dark:bg-[#0D2625] border border-mint dark:border-[#1E524F] text-xs font-bold text-deepTeal dark:text-mint hover:bg-mint dark:hover:bg-[#153D3B] transition-colors"
                 >
-                  Admin Portal & Login
+                  Admin Portal
                 </Link>
+
+                <ThemeToggle variant="segmented" />
               </div>
             </div>
           </div>
         </div>
 
         {/* Bottom Bar */}
-        <div className="pt-8 border-t border-mint/60 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-semibold text-deepTeal-muted">
+        <div className="pt-8 border-t border-mint/60 dark:border-[#163E3C] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-semibold text-deepTeal-muted dark:text-mint/60">
           <p className="flex items-center gap-1.5">
             © {new Date().getFullYear()} Sumit Kumar. Crafted with{' '}
             <Heart className="w-3.5 h-3.5 text-coralPeach fill-coralPeach inline" /> in Next.js & Supabase.
@@ -125,7 +128,7 @@ export default function Footer() {
 
           <button
             onClick={scrollToTop}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-mint text-deepTeal font-bold hover:bg-primary hover:text-white transition-all shadow-[0_2px_0_#99F6E4] active:translate-y-0.5"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-mint dark:bg-[#113B39] text-deepTeal dark:text-mint font-bold hover:bg-primary hover:text-white transition-all shadow-[0_2px_0_#99F6E4] dark:shadow-[0_2px_0_#071918] active:translate-y-0.5"
             aria-label="Back to top"
           >
             Back to Top

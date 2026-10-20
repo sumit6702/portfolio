@@ -17,7 +17,7 @@ export default function FeaturedProjects({ projects }: FeaturedProjectsProps) {
   return (
     <section className="py-20 relative overflow-hidden">
       {/* Decorative background shape */}
-      <div className="absolute top-12 right-[5%] opacity-30 pointer-events-none">
+      <div className="absolute top-12 right-[5%] opacity-30 dark:opacity-15 pointer-events-none">
         <ClayShape type="sphere" color="teal" size="lg" />
       </div>
 
@@ -25,14 +25,14 @@ export default function FeaturedProjects({ projects }: FeaturedProjectsProps) {
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
           <div>
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-mint text-deepTeal text-xs font-extrabold uppercase tracking-wider border border-mint-border shadow-sm mb-3">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-mint dark:bg-[#113B39] text-deepTeal dark:text-mint text-xs font-extrabold uppercase tracking-wider border border-mint-border dark:border-[#1E615D] shadow-sm mb-3">
               <Sparkles className="w-3.5 h-3.5 text-primary" />
               <span>Selected Portfolio</span>
             </div>
-            <h2 className="font-display font-extrabold text-3xl sm:text-4xl lg:text-5xl text-deepTeal tracking-tight">
+            <h2 className="font-display font-extrabold text-3xl sm:text-4xl lg:text-5xl text-deepTeal dark:text-white tracking-tight">
               Featured Case Studies
             </h2>
-            <p className="mt-2 text-base text-deepTeal-muted max-w-xl font-medium">
+            <p className="mt-2 text-base text-deepTeal-muted dark:text-mint/70 max-w-xl font-medium">
               Dive into 3D brand systems, soft-drink packaging, and high-impact motion reels designed with precision and playfulness.
             </p>
           </div>

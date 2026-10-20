@@ -39,6 +39,7 @@ import VideoModal from '@/components/admin/VideoModal';
 import ProfileEditor from '@/components/admin/ProfileEditor';
 import SupabaseSetupHelper from '@/components/admin/SupabaseSetupHelper';
 import ClayButton from '@/components/3d/ClayButton';
+import ThemeToggle from '@/components/theme/ThemeToggle';
 
 export default function AdminDashboardPage() {
   const router = useRouter();
@@ -170,33 +171,35 @@ export default function AdminDashboardPage() {
   }
 
   return (
-    <div className="min-h-screen py-8 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+    <div className="min-h-screen py-8 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto transition-colors duration-200">
       {/* Top Header Bar */}
-      <div className="bg-white rounded-3xl md:rounded-4xl border-2 border-mint p-6 shadow-[0_8px_0_#99F6E4] mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="bg-white dark:bg-[#0D2625] rounded-3xl md:rounded-4xl border-2 border-mint dark:border-[#1E524F] p-6 shadow-[0_8px_0_#99F6E4] dark:shadow-[0_8px_0_#071918] mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div className="flex items-center gap-4">
           <div className="w-14 h-14 rounded-2xl bg-primary text-white flex items-center justify-center font-display font-black text-2xl shadow-[0_4px_0_#0D9488]">
             S
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <h1 className="font-display font-black text-2xl text-deepTeal">
+              <h1 className="font-display font-black text-2xl text-deepTeal dark:text-white">
                 Portfolio Studio Admin
               </h1>
-              <span className="px-2.5 py-0.5 rounded-full bg-mint text-deepTeal text-[11px] font-extrabold uppercase">
+              <span className="px-2.5 py-0.5 rounded-full bg-mint dark:bg-[#113B39] text-deepTeal dark:text-mint text-[11px] font-extrabold uppercase">
                 {currentUser.isSupabaseAuth ? 'Supabase Live' : 'Local Sandbox'}
               </span>
             </div>
-            <p className="text-xs font-semibold text-deepTeal-muted">
-              Logged in as <span className="font-bold text-deepTeal">{currentUser.email}</span>
+            <p className="text-xs font-semibold text-deepTeal-muted dark:text-mint/70">
+              Logged in as <span className="font-bold text-deepTeal dark:text-white">{currentUser.email}</span>
             </p>
           </div>
         </div>
 
         <div className="flex items-center gap-3">
+          <ThemeToggle />
+
           <Link
             href="/"
             target="_blank"
-            className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-2xl bg-cream border border-mint text-deepTeal text-xs font-bold hover:bg-mint transition-colors shadow-sm"
+            className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-2xl bg-cream dark:bg-[#071918] border border-mint dark:border-[#1E524F] text-deepTeal dark:text-mint text-xs font-bold hover:bg-mint dark:hover:bg-[#113B39] transition-colors shadow-sm"
           >
             <ExternalLink className="w-3.5 h-3.5" />
             View Live Site
@@ -204,7 +207,7 @@ export default function AdminDashboardPage() {
 
           <button
             onClick={handleLogout}
-            className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-2xl bg-rose-50 border border-rose-200 text-rose-700 text-xs font-bold hover:bg-rose-100 transition-colors"
+            className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-2xl bg-rose-50 dark:bg-rose-950/60 border border-rose-200 dark:border-rose-900 text-rose-700 dark:text-rose-300 text-xs font-bold hover:bg-rose-100 dark:hover:bg-rose-900/60 transition-colors"
           >
             <LogOut className="w-3.5 h-3.5" />
             Sign Out
@@ -221,13 +224,13 @@ export default function AdminDashboardPage() {
       )}
 
       {/* Navigation Tabs */}
-      <div className="flex flex-wrap items-center gap-2 mb-8 bg-white/80 backdrop-blur-md p-2 rounded-3xl border-2 border-mint shadow-[0_4px_0_#99F6E4]">
+      <div className="flex flex-wrap items-center gap-2 mb-8 bg-white/80 dark:bg-[#0D2625]/85 backdrop-blur-md p-2 rounded-3xl border-2 border-mint dark:border-[#1E524F] shadow-[0_4px_0_#99F6E4] dark:shadow-[0_4px_0_#071918]">
         <button
           onClick={() => setActiveTab('projects')}
           className={`flex items-center gap-2 px-5 py-2.5 rounded-2xl text-xs sm:text-sm font-extrabold transition-all ${
             activeTab === 'projects'
               ? 'bg-primary text-white shadow-[0_3px_0_#0D9488]'
-              : 'text-deepTeal hover:bg-mint'
+              : 'text-deepTeal dark:text-mint/70 hover:bg-mint dark:hover:bg-[#113B39]'
           }`}
         >
           <FolderKanban className="w-4 h-4" />
@@ -239,7 +242,7 @@ export default function AdminDashboardPage() {
           className={`flex items-center gap-2 px-5 py-2.5 rounded-2xl text-xs sm:text-sm font-extrabold transition-all ${
             activeTab === 'videos'
               ? 'bg-primary text-white shadow-[0_3px_0_#0D9488]'
-              : 'text-deepTeal hover:bg-mint'
+              : 'text-deepTeal dark:text-mint/70 hover:bg-mint dark:hover:bg-[#113B39]'
           }`}
         >
           <Film className="w-4 h-4" />
@@ -251,7 +254,7 @@ export default function AdminDashboardPage() {
           className={`flex items-center gap-2 px-5 py-2.5 rounded-2xl text-xs sm:text-sm font-extrabold transition-all ${
             activeTab === 'profile'
               ? 'bg-primary text-white shadow-[0_3px_0_#0D9488]'
-              : 'text-deepTeal hover:bg-mint'
+              : 'text-deepTeal dark:text-mint/70 hover:bg-mint dark:hover:bg-[#113B39]'
           }`}
         >
           <UserCheck className="w-4 h-4" />
@@ -263,7 +266,7 @@ export default function AdminDashboardPage() {
           className={`flex items-center gap-2 px-5 py-2.5 rounded-2xl text-xs sm:text-sm font-extrabold transition-all ${
             activeTab === 'inquiries'
               ? 'bg-primary text-white shadow-[0_3px_0_#0D9488]'
-              : 'text-deepTeal hover:bg-mint'
+              : 'text-deepTeal dark:text-mint/70 hover:bg-mint dark:hover:bg-[#113B39]'
           }`}
         >
           <Mail className="w-4 h-4" />
@@ -275,7 +278,7 @@ export default function AdminDashboardPage() {
           className={`flex items-center gap-2 px-5 py-2.5 rounded-2xl text-xs sm:text-sm font-extrabold transition-all ${
             activeTab === 'setup'
               ? 'bg-primary text-white shadow-[0_3px_0_#0D9488]'
-              : 'text-deepTeal hover:bg-mint'
+              : 'text-deepTeal dark:text-mint/70 hover:bg-mint dark:hover:bg-[#113B39]'
           }`}
         >
           <Database className="w-4 h-4" />
@@ -288,10 +291,10 @@ export default function AdminDashboardPage() {
         <div className="space-y-6">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
-              <h2 className="font-display font-extrabold text-2xl text-deepTeal">
+              <h2 className="font-display font-extrabold text-2xl text-deepTeal dark:text-white">
                 Manage Portfolio Projects
               </h2>
-              <p className="text-xs text-deepTeal-muted font-semibold">
+              <p className="text-xs text-deepTeal-muted dark:text-mint/70 font-semibold">
                 Add, edit, or delete case studies shown across the website.
               </p>
             </div>
@@ -313,10 +316,10 @@ export default function AdminDashboardPage() {
             {projects.map((proj) => (
               <div
                 key={proj.id}
-                className="bg-white rounded-3xl border-2 border-mint p-4 shadow-[0_6px_0_#99F6E4] flex flex-col justify-between"
+                className="bg-white dark:bg-[#0D2625] rounded-3xl border-2 border-mint dark:border-[#1A4543] p-4 shadow-[0_6px_0_#99F6E4] dark:shadow-[0_6px_0_#071918] flex flex-col justify-between"
               >
                 <div>
-                  <div className="relative aspect-[16/10] rounded-2xl overflow-hidden bg-cream mb-3">
+                  <div className="relative aspect-[16/10] rounded-2xl overflow-hidden bg-cream dark:bg-[#071918] mb-3">
                     <Image
                       src={proj.coverImage}
                       alt={proj.title}
@@ -335,16 +338,16 @@ export default function AdminDashboardPage() {
                     </span>
                   </div>
 
-                  <h3 className="font-display font-bold text-base text-deepTeal line-clamp-1">
+                  <h3 className="font-display font-bold text-base text-deepTeal dark:text-white line-clamp-1">
                     {proj.title}
                   </h3>
-                  <p className="text-xs text-deepTeal-muted line-clamp-2 mt-1">
+                  <p className="text-xs text-deepTeal-muted dark:text-mint/60 line-clamp-2 mt-1">
                     {proj.description}
                   </p>
                 </div>
 
-                <div className="mt-4 pt-3 border-t border-mint flex items-center justify-between">
-                  <span className="text-[11px] font-bold text-deepTeal-muted">
+                <div className="mt-4 pt-3 border-t border-mint dark:border-[#1A4543]/60 flex items-center justify-between">
+                  <span className="text-[11px] font-bold text-deepTeal-muted dark:text-mint/60">
                     {proj.year} • {proj.tools.length} Tools
                   </span>
 
@@ -354,14 +357,14 @@ export default function AdminDashboardPage() {
                         setEditingProject(proj);
                         setIsProjectModalOpen(true);
                       }}
-                      className="p-2 rounded-xl bg-mint text-deepTeal hover:bg-primary hover:text-white transition-colors"
+                      className="p-2 rounded-xl bg-mint dark:bg-[#113B39] text-deepTeal dark:text-mint hover:bg-primary hover:text-white transition-colors"
                       title="Edit Project"
                     >
                       <Edit className="w-4 h-4" />
                     </button>
                     <button
                       onClick={() => handleDeleteProject(proj.id, proj.title)}
-                      className="p-2 rounded-xl bg-rose-50 text-rose-600 hover:bg-rose-100 transition-colors"
+                      className="p-2 rounded-xl bg-rose-50 dark:bg-rose-950/60 text-rose-600 dark:text-rose-400 hover:bg-rose-100 dark:hover:bg-rose-900/60 transition-colors"
                       title="Delete Project"
                     >
                       <Trash2 className="w-4 h-4" />
@@ -379,10 +382,10 @@ export default function AdminDashboardPage() {
         <div className="space-y-6">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
-              <h2 className="font-display font-extrabold text-2xl text-deepTeal">
+              <h2 className="font-display font-extrabold text-2xl text-deepTeal dark:text-white">
                 Manage Motion & 3D Video Showcase
               </h2>
-              <p className="text-xs text-deepTeal-muted font-semibold">
+              <p className="text-xs text-deepTeal-muted dark:text-mint/70 font-semibold">
                 Add YouTube or Vimeo links with titles and descriptions.
               </p>
             </div>
@@ -404,10 +407,10 @@ export default function AdminDashboardPage() {
             {videos.map((vid) => (
               <div
                 key={vid.id}
-                className="bg-white rounded-3xl border-2 border-mint p-4 shadow-[0_6px_0_#99F6E4] flex flex-col justify-between"
+                className="bg-white dark:bg-[#0D2625] rounded-3xl border-2 border-mint dark:border-[#1A4543] p-4 shadow-[0_6px_0_#99F6E4] dark:shadow-[0_6px_0_#071918] flex flex-col justify-between"
               >
                 <div>
-                  <div className="relative aspect-video rounded-2xl overflow-hidden bg-cream mb-3">
+                  <div className="relative aspect-video rounded-2xl overflow-hidden bg-cream dark:bg-[#071918] mb-3">
                     {vid.thumbnailUrl ? (
                       <Image
                         src={vid.thumbnailUrl}
@@ -429,17 +432,17 @@ export default function AdminDashboardPage() {
                   <span className="text-[10px] font-bold uppercase text-primary block mb-1">
                     {vid.category}
                   </span>
-                  <h3 className="font-display font-bold text-base text-deepTeal line-clamp-1">
+                  <h3 className="font-display font-bold text-base text-deepTeal dark:text-white line-clamp-1">
                     {vid.title}
                   </h3>
                   {vid.description && (
-                    <p className="text-xs text-deepTeal-muted line-clamp-2 mt-1">
+                    <p className="text-xs text-deepTeal-muted dark:text-mint/60 line-clamp-2 mt-1">
                       {vid.description}
                     </p>
                   )}
                 </div>
 
-                <div className="mt-4 pt-3 border-t border-mint flex items-center justify-between">
+                <div className="mt-4 pt-3 border-t border-mint dark:border-[#1A4543]/60 flex items-center justify-between">
                   <a
                     href={vid.videoUrl}
                     target="_blank"
@@ -456,14 +459,14 @@ export default function AdminDashboardPage() {
                         setEditingVideo(vid);
                         setIsVideoModalOpen(true);
                       }}
-                      className="p-2 rounded-xl bg-mint text-deepTeal hover:bg-primary hover:text-white transition-colors"
+                      className="p-2 rounded-xl bg-mint dark:bg-[#113B39] text-deepTeal dark:text-mint hover:bg-primary hover:text-white transition-colors"
                       title="Edit Video"
                     >
                       <Edit className="w-4 h-4" />
                     </button>
                     <button
                       onClick={() => handleDeleteVideo(vid.id, vid.title)}
-                      className="p-2 rounded-xl bg-rose-50 text-rose-600 hover:bg-rose-100 transition-colors"
+                      className="p-2 rounded-xl bg-rose-50 dark:bg-rose-950/60 text-rose-600 dark:text-rose-400 hover:bg-rose-100 dark:hover:bg-rose-900/60 transition-colors"
                       title="Delete Video"
                     >
                       <Trash2 className="w-4 h-4" />
@@ -486,11 +489,11 @@ export default function AdminDashboardPage() {
 
       {/* TAB 4: CONTACT INQUIRIES */}
       {activeTab === 'inquiries' && (
-        <div className="bg-white rounded-3xl md:rounded-4xl border-2 border-mint p-6 sm:p-10 shadow-[0_8px_0_#99F6E4]">
-          <h2 className="font-display font-black text-2xl text-deepTeal mb-2">
+        <div className="bg-white dark:bg-[#0D2625] rounded-3xl md:rounded-4xl border-2 border-mint dark:border-[#1A4543] p-6 sm:p-10 shadow-[0_8px_0_#99F6E4] dark:shadow-[0_8px_0_#071918]">
+          <h2 className="font-display font-black text-2xl text-deepTeal dark:text-white mb-2">
             Inquiries & Contact Submissions
           </h2>
-          <p className="text-xs text-deepTeal-muted font-medium mb-6">
+          <p className="text-xs text-deepTeal-muted dark:text-mint/70 font-medium mb-6">
             Messages submitted by visitors through the contact section on your portfolio.
           </p>
 
@@ -499,11 +502,11 @@ export default function AdminDashboardPage() {
               {inquiries.map((inq) => (
                 <div
                   key={inq.id}
-                  className="p-5 rounded-2xl bg-cream border border-mint space-y-2"
+                  className="p-5 rounded-2xl bg-cream dark:bg-[#071918] border border-mint dark:border-[#1E524F] space-y-2"
                 >
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
                     <div className="flex items-center gap-2">
-                      <span className="font-display font-bold text-base text-deepTeal">
+                      <span className="font-display font-bold text-base text-deepTeal dark:text-white">
                         {inq.name}
                       </span>
                       <a
@@ -513,25 +516,25 @@ export default function AdminDashboardPage() {
                         ({inq.email})
                       </a>
                     </div>
-                    <span className="text-[11px] font-bold text-deepTeal-muted">
+                    <span className="text-[11px] font-bold text-deepTeal-muted dark:text-mint/60">
                       {new Date(inq.createdAt).toLocaleDateString()}
                     </span>
                   </div>
 
                   {inq.subject && (
-                    <p className="text-xs font-bold text-deepTeal">
+                    <p className="text-xs font-bold text-deepTeal dark:text-mint">
                       Subject: {inq.subject}
                     </p>
                   )}
 
-                  <p className="text-sm text-deepTeal/85 leading-relaxed bg-white p-3 rounded-xl border border-mint/60">
+                  <p className="text-sm text-deepTeal/85 dark:text-[#E6FFFA]/85 leading-relaxed bg-white dark:bg-[#0D2625] p-3 rounded-xl border border-mint/60 dark:border-[#1A4543]/60">
                     {inq.message}
                   </p>
                 </div>
               ))}
             </div>
           ) : (
-            <div className="p-8 text-center text-sm text-deepTeal-muted font-medium bg-cream rounded-2xl border border-mint">
+            <div className="p-8 text-center text-sm text-deepTeal-muted dark:text-mint/70 font-medium bg-cream dark:bg-[#071918] rounded-2xl border border-mint dark:border-[#1E524F]">
               No inquiries received yet. Visitors can send inquiries through the Home page contact form!
             </div>
           )}

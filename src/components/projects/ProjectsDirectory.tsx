@@ -40,24 +40,24 @@ export default function ProjectsDirectory({ initialProjects }: ProjectsDirectory
   return (
     <div className="py-12 md:py-20 relative overflow-hidden">
       {/* Decorative 3D background shapes */}
-      <div className="absolute top-10 right-10 opacity-20 pointer-events-none">
+      <div className="absolute top-10 right-10 opacity-20 dark:opacity-10 pointer-events-none">
         <ClayShape type="torus" color="teal" size="xl" />
       </div>
-      <div className="absolute top-1/2 left-4 opacity-20 pointer-events-none">
+      <div className="absolute top-1/2 left-4 opacity-20 dark:opacity-10 pointer-events-none">
         <ClayShape type="sphere" color="coral" size="lg" />
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Page Header */}
         <div className="text-center max-w-3xl mx-auto mb-12">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-mint text-deepTeal text-xs font-extrabold uppercase tracking-wider border border-mint-border shadow-sm mb-3">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-mint dark:bg-[#113B39] text-deepTeal dark:text-mint text-xs font-extrabold uppercase tracking-wider border border-mint-border dark:border-[#1E615D] shadow-sm mb-3">
             <Sparkles className="w-3.5 h-3.5 text-primary" />
             <span>Creative Showcase</span>
           </div>
-          <h1 className="font-display font-black text-4xl sm:text-5xl lg:text-6xl text-deepTeal tracking-tight">
+          <h1 className="font-display font-black text-4xl sm:text-5xl lg:text-6xl text-deepTeal dark:text-white tracking-tight">
             Projects & Case Studies
           </h1>
-          <p className="mt-3 text-base sm:text-lg text-deepTeal-muted font-medium">
+          <p className="mt-3 text-base sm:text-lg text-deepTeal-muted dark:text-mint/70 font-medium">
             Explore 3D product renders, soft-drink packaging, kinetic motion reels, and brand systems created with Blender, After Effects, and AI pipelines.
           </p>
         </div>
@@ -66,7 +66,7 @@ export default function ProjectsDirectory({ initialProjects }: ProjectsDirectory
         <div className="mb-12 space-y-6">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             {/* Category Filter Pills */}
-            <div className="flex flex-wrap items-center justify-center gap-2 bg-white/80 backdrop-blur-md p-2 rounded-3xl border-2 border-mint shadow-[0_4px_0_#99F6E4]">
+            <div className="flex flex-wrap items-center justify-center gap-2 bg-white/80 dark:bg-[#0D2625]/85 backdrop-blur-md p-2 rounded-3xl border-2 border-mint dark:border-[#1E524F] shadow-[0_4px_0_#99F6E4] dark:shadow-[0_4px_0_#071918]">
               {CATEGORIES.map((cat) => {
                 const active = selectedCategory === cat;
                 return (
@@ -76,7 +76,7 @@ export default function ProjectsDirectory({ initialProjects }: ProjectsDirectory
                     className={`px-4 py-2 rounded-2xl text-xs sm:text-sm font-extrabold transition-all duration-150 ${
                       active
                         ? 'bg-primary text-white shadow-[0_3px_0_#0D9488] -translate-y-0.5'
-                        : 'text-deepTeal hover:bg-mint hover:text-deepTeal active:translate-y-0.5'
+                        : 'text-deepTeal dark:text-mint/80 hover:bg-mint dark:hover:bg-[#113B39] active:translate-y-0.5'
                     }`}
                   >
                     {cat}
@@ -92,9 +92,9 @@ export default function ProjectsDirectory({ initialProjects }: ProjectsDirectory
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search projects or tools..."
-                className="w-full pl-10 pr-4 py-2.5 rounded-2xl bg-white border-2 border-mint text-deepTeal text-xs sm:text-sm font-bold focus:outline-none focus:border-primary focus:ring-2 focus:ring-mint shadow-[0_3px_0_#99F6E4] transition-all"
+                className="w-full pl-10 pr-4 py-2.5 rounded-2xl bg-white dark:bg-[#0D2625] border-2 border-mint dark:border-[#1E524F] text-deepTeal dark:text-white text-xs sm:text-sm font-bold focus:outline-none focus:border-primary focus:ring-2 focus:ring-mint dark:focus:ring-teal-900 shadow-[0_3px_0_#99F6E4] dark:shadow-[0_3px_0_#071918] transition-all"
               />
-              <Search className="w-4 h-4 text-deepTeal-muted absolute left-3.5 top-1/2 -translate-y-1/2" />
+              <Search className="w-4 h-4 text-deepTeal-muted dark:text-mint/60 absolute left-3.5 top-1/2 -translate-y-1/2" />
             </div>
           </div>
         </div>
@@ -107,11 +107,11 @@ export default function ProjectsDirectory({ initialProjects }: ProjectsDirectory
             ))}
           </div>
         ) : (
-          <div className="bg-white rounded-3xl border-2 border-mint p-12 text-center max-w-md mx-auto shadow-[0_6px_0_#99F6E4]">
-            <p className="font-display font-bold text-xl text-deepTeal mb-2">
+          <div className="bg-white dark:bg-[#0D2625] rounded-3xl border-2 border-mint dark:border-[#1A4543] p-12 text-center max-w-md mx-auto shadow-[0_6px_0_#99F6E4] dark:shadow-[0_6px_0_#071918]">
+            <p className="font-display font-bold text-xl text-deepTeal dark:text-white mb-2">
               No projects found
             </p>
-            <p className="text-sm text-deepTeal-muted font-medium mb-4">
+            <p className="text-sm text-deepTeal-muted dark:text-mint/70 font-medium mb-4">
               Try selecting another category or clearing your search keywords.
             </p>
             <button

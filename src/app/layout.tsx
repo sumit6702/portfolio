@@ -3,6 +3,7 @@ import { Outfit, Fredoka } from 'next/font/google';
 import './globals.css';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
+import { ThemeProvider } from '@/components/theme/ThemeProvider';
 
 const outfit = Outfit({
   subsets: ['latin'],
@@ -46,7 +47,7 @@ export const metadata: Metadata = {
     type: 'website',
   },
   icons: {
-    icon: '/favicon.ico',
+    icon: '/favicon.svg',
   },
 };
 
@@ -56,11 +57,33 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${outfit.variable} ${fredoka.variable} scroll-smooth`}>
-      <body className="min-h-screen flex flex-col bg-cream text-deepTeal antialiased selection:bg-primary selection:text-white">
-        <Navbar />
-        <main className="flex-1">{children}</main>
-        <Footer />
+    <html lang="en" className={`${outfit.variable} ${fredoka.variable} scroll-smooth`} suppressHydrationWarning>
+      <head>
+        {/* Anti-FOUC Theme Script: default is System */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                try {
+                  var mode = localStorage.getItem('portfolio_theme_mode') || 'system';
+                  var isDark = mode === 'dark' || (mode === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+                  if (isDark) {
+                    document.documentElement.classList.add('dark');
+                  } else {
+                    document.documentElement.classList.remove('dark');
+                  }
+                } catch(e) {}
+              })();
+            `,
+          }}
+        />
+      </head>
+      <body className="min-h-screen flex flex-col bg-cream dark:bg-[#071918] text-deepTeal dark:text-[#E6FFFA] antialiased selection:bg-primary selection:text-white transition-colors duration-200">
+        <ThemeProvider>
+          <Navbar />
+          <main className="flex-1">{children}</main>
+          <Footer />
+        </ThemeProvider>
       </body>
     </html>
   );

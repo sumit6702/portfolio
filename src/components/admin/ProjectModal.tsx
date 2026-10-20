@@ -214,23 +214,23 @@ export default function ProjectModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-deepTeal/75 backdrop-blur-sm overflow-y-auto">
-      <div className="relative w-full max-w-4xl bg-white rounded-3xl md:rounded-4xl p-6 sm:p-10 border-4 border-mint shadow-[0_20px_0_#99F6E4,0_35px_60px_rgba(15,76,74,0.15)] my-8 max-h-[90vh] overflow-y-auto">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-deepTeal/75 dark:bg-black/80 backdrop-blur-sm overflow-y-auto">
+      <div className="relative w-full max-w-4xl bg-white dark:bg-[#0D2625] rounded-3xl md:rounded-4xl p-6 sm:p-10 border-4 border-mint dark:border-[#1E524F] shadow-[0_20px_0_#99F6E4,0_35px_60px_rgba(15,76,74,0.15)] dark:shadow-[0_20px_0_#071918,0_35px_60px_rgba(0,0,0,0.5)] my-8 max-h-[90vh] overflow-y-auto">
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-6 right-6 p-2 rounded-2xl bg-cream border border-mint text-deepTeal hover:bg-mint transition-colors"
+          className="absolute top-6 right-6 p-2 rounded-2xl bg-cream dark:bg-[#071918] border border-mint dark:border-[#1E524F] text-deepTeal dark:text-mint hover:bg-mint dark:hover:bg-[#113B39] transition-colors"
           aria-label="Close"
         >
           <X className="w-5 h-5" />
         </button>
 
-        <h2 className="font-display font-black text-2xl sm:text-3xl text-deepTeal mb-6">
+        <h2 className="font-display font-black text-2xl sm:text-3xl text-deepTeal dark:text-white mb-6">
           {initialProject ? 'Edit Project' : 'Add New Case Study'}
         </h2>
 
         {errorMsg && (
-          <div className="mb-6 p-4 rounded-2xl bg-rose-50 border border-rose-300 text-rose-700 text-xs font-bold">
+          <div className="mb-6 p-4 rounded-2xl bg-rose-50 dark:bg-rose-950/60 border border-rose-300 dark:border-rose-800 text-rose-700 dark:text-rose-300 text-xs font-bold">
             {errorMsg}
           </div>
         )}
@@ -239,7 +239,7 @@ export default function ProjectModal({
           {/* Row 1: Title & Slug */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-extrabold uppercase tracking-wider text-deepTeal mb-1.5">
+              <label className="block text-xs font-extrabold uppercase tracking-wider text-deepTeal dark:text-mint mb-1.5">
                 Project Title *
               </label>
               <input
@@ -248,12 +248,12 @@ export default function ProjectModal({
                 value={formData.title || ''}
                 onChange={(e) => handleTitleChange(e.target.value)}
                 placeholder="e.g. Crunchy Piper Packaging Design"
-                className="w-full px-4 py-2.5 rounded-2xl bg-cream border-2 border-mint text-deepTeal text-sm font-semibold focus:outline-none focus:border-primary"
+                className="w-full px-4 py-2.5 rounded-2xl bg-cream dark:bg-[#071918] border-2 border-mint dark:border-[#1E524F] text-deepTeal dark:text-white text-sm font-semibold focus:outline-none focus:border-primary"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-extrabold uppercase tracking-wider text-deepTeal mb-1.5">
+              <label className="block text-xs font-extrabold uppercase tracking-wider text-deepTeal dark:text-mint mb-1.5">
                 URL Slug *
               </label>
               <input
@@ -262,7 +262,7 @@ export default function ProjectModal({
                 value={formData.slug || ''}
                 onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
                 placeholder="e.g. crunchy-piper-packaging-design"
-                className="w-full px-4 py-2.5 rounded-2xl bg-cream border-2 border-mint text-deepTeal text-sm font-semibold focus:outline-none focus:border-primary"
+                className="w-full px-4 py-2.5 rounded-2xl bg-cream dark:bg-[#071918] border-2 border-mint dark:border-[#1E524F] text-deepTeal dark:text-white text-sm font-semibold focus:outline-none focus:border-primary"
               />
             </div>
           </div>
@@ -270,13 +270,13 @@ export default function ProjectModal({
           {/* Row 2: Category, Role, Client, Year */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
             <div>
-              <label className="block text-xs font-extrabold uppercase tracking-wider text-deepTeal mb-1.5">
+              <label className="block text-xs font-extrabold uppercase tracking-wider text-deepTeal dark:text-mint mb-1.5">
                 Category
               </label>
               <select
                 value={formData.category || '3D Design'}
                 onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                className="w-full px-4 py-2.5 rounded-2xl bg-cream border-2 border-mint text-deepTeal text-sm font-semibold focus:outline-none focus:border-primary"
+                className="w-full px-4 py-2.5 rounded-2xl bg-cream dark:bg-[#071918] border-2 border-mint dark:border-[#1E524F] text-deepTeal dark:text-white text-sm font-semibold focus:outline-none focus:border-primary"
               >
                 <option value="3D Design">3D Design</option>
                 <option value="Motion Graphics">Motion Graphics</option>
@@ -287,7 +287,7 @@ export default function ProjectModal({
             </div>
 
             <div>
-              <label className="block text-xs font-extrabold uppercase tracking-wider text-deepTeal mb-1.5">
+              <label className="block text-xs font-extrabold uppercase tracking-wider text-deepTeal dark:text-mint mb-1.5">
                 Role
               </label>
               <input
@@ -295,12 +295,12 @@ export default function ProjectModal({
                 value={formData.role || ''}
                 onChange={(e) => setFormData({ ...formData, role: e.target.value })}
                 placeholder="Lead 3D Designer"
-                className="w-full px-4 py-2.5 rounded-2xl bg-cream border-2 border-mint text-deepTeal text-sm font-semibold focus:outline-none focus:border-primary"
+                className="w-full px-4 py-2.5 rounded-2xl bg-cream dark:bg-[#071918] border-2 border-mint dark:border-[#1E524F] text-deepTeal dark:text-white text-sm font-semibold focus:outline-none focus:border-primary"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-extrabold uppercase tracking-wider text-deepTeal mb-1.5">
+              <label className="block text-xs font-extrabold uppercase tracking-wider text-deepTeal dark:text-mint mb-1.5">
                 Client / Context
               </label>
               <input
@@ -308,12 +308,12 @@ export default function ProjectModal({
                 value={formData.client || ''}
                 onChange={(e) => setFormData({ ...formData, client: e.target.value })}
                 placeholder="ABA Technologies / Personal"
-                className="w-full px-4 py-2.5 rounded-2xl bg-cream border-2 border-mint text-deepTeal text-sm font-semibold focus:outline-none focus:border-primary"
+                className="w-full px-4 py-2.5 rounded-2xl bg-cream dark:bg-[#071918] border-2 border-mint dark:border-[#1E524F] text-deepTeal dark:text-white text-sm font-semibold focus:outline-none focus:border-primary"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-extrabold uppercase tracking-wider text-deepTeal mb-1.5">
+              <label className="block text-xs font-extrabold uppercase tracking-wider text-deepTeal dark:text-mint mb-1.5">
                 Year
               </label>
               <input
@@ -321,15 +321,15 @@ export default function ProjectModal({
                 value={formData.year || ''}
                 onChange={(e) => setFormData({ ...formData, year: e.target.value })}
                 placeholder="2026"
-                className="w-full px-4 py-2.5 rounded-2xl bg-cream border-2 border-mint text-deepTeal text-sm font-semibold focus:outline-none focus:border-primary"
+                className="w-full px-4 py-2.5 rounded-2xl bg-cream dark:bg-[#071918] border-2 border-mint dark:border-[#1E524F] text-deepTeal dark:text-white text-sm font-semibold focus:outline-none focus:border-primary"
               />
             </div>
           </div>
 
           {/* Cover Image with Direct URL or Supabase Storage Upload */}
-          <div className="p-4 rounded-3xl bg-cream border-2 border-mint space-y-3">
+          <div className="p-4 rounded-3xl bg-cream dark:bg-[#071918] border-2 border-mint dark:border-[#1E524F] space-y-3">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-              <label className="block text-xs font-extrabold uppercase tracking-wider text-deepTeal">
+              <label className="block text-xs font-extrabold uppercase tracking-wider text-deepTeal dark:text-mint">
                 Cover Image (Supabase Storage / URL) *
               </label>
               <label className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-primary text-white text-xs font-bold cursor-pointer hover:bg-primary-hover shadow-sm">
@@ -351,14 +351,14 @@ export default function ProjectModal({
               value={formData.coverImage || ''}
               onChange={(e) => setFormData({ ...formData, coverImage: e.target.value })}
               placeholder="https://... or uploaded Supabase storage URL"
-              className="w-full px-4 py-2.5 rounded-2xl bg-white border-2 border-mint text-deepTeal text-xs font-semibold focus:outline-none focus:border-primary"
+              className="w-full px-4 py-2.5 rounded-2xl bg-white dark:bg-[#0D2625] border-2 border-mint dark:border-[#1E524F] text-deepTeal dark:text-white text-xs font-semibold focus:outline-none focus:border-primary"
             />
           </div>
 
           {/* Tools & Video URL */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-extrabold uppercase tracking-wider text-deepTeal mb-1.5">
+              <label className="block text-xs font-extrabold uppercase tracking-wider text-deepTeal dark:text-mint mb-1.5">
                 Tools Used (comma separated)
               </label>
               <input
@@ -366,12 +366,12 @@ export default function ProjectModal({
                 value={toolsInput}
                 onChange={(e) => setToolsInput(e.target.value)}
                 placeholder="Blender, After Effects, Photoshop, Figma"
-                className="w-full px-4 py-2.5 rounded-2xl bg-cream border-2 border-mint text-deepTeal text-sm font-semibold focus:outline-none focus:border-primary"
+                className="w-full px-4 py-2.5 rounded-2xl bg-cream dark:bg-[#071918] border-2 border-mint dark:border-[#1E524F] text-deepTeal dark:text-white text-sm font-semibold focus:outline-none focus:border-primary"
               />
             </div>
 
             <div>
-              <label className="block text-xs font-extrabold uppercase tracking-wider text-deepTeal mb-1.5">
+              <label className="block text-xs font-extrabold uppercase tracking-wider text-deepTeal dark:text-mint mb-1.5">
                 Video URL (YouTube / Vimeo embed)
               </label>
               <input
@@ -379,14 +379,14 @@ export default function ProjectModal({
                 value={formData.videoUrl || ''}
                 onChange={(e) => setFormData({ ...formData, videoUrl: e.target.value })}
                 placeholder="https://www.youtube.com/watch?v=..."
-                className="w-full px-4 py-2.5 rounded-2xl bg-cream border-2 border-mint text-deepTeal text-sm font-semibold focus:outline-none focus:border-primary"
+                className="w-full px-4 py-2.5 rounded-2xl bg-cream dark:bg-[#071918] border-2 border-mint dark:border-[#1E524F] text-deepTeal dark:text-white text-sm font-semibold focus:outline-none focus:border-primary"
               />
             </div>
           </div>
 
           {/* Description */}
           <div>
-            <label className="block text-xs font-extrabold uppercase tracking-wider text-deepTeal mb-1.5">
+            <label className="block text-xs font-extrabold uppercase tracking-wider text-deepTeal dark:text-mint mb-1.5">
               Project Description
             </label>
             <textarea
@@ -394,17 +394,17 @@ export default function ProjectModal({
               value={formData.description || ''}
               onChange={(e) => setFormData({ ...formData, description: e.target.value })}
               placeholder="Overview of the project goals, challenges, and creative solutions..."
-              className="w-full px-4 py-2.5 rounded-2xl bg-cream border-2 border-mint text-deepTeal text-sm font-semibold focus:outline-none focus:border-primary"
+              className="w-full px-4 py-2.5 rounded-2xl bg-cream dark:bg-[#071918] border-2 border-mint dark:border-[#1E524F] text-deepTeal dark:text-white text-sm font-semibold focus:outline-none focus:border-primary"
             />
           </div>
 
           {/* Gallery Images (multi-image storage upload) */}
-          <div className="p-4 rounded-3xl bg-cream border-2 border-mint space-y-2">
+          <div className="p-4 rounded-3xl bg-cream dark:bg-[#071918] border-2 border-mint dark:border-[#1E524F] space-y-2">
             <div className="flex items-center justify-between">
-              <label className="block text-xs font-extrabold uppercase tracking-wider text-deepTeal">
+              <label className="block text-xs font-extrabold uppercase tracking-wider text-deepTeal dark:text-mint">
                 Gallery Images (One URL per line or batch upload)
               </label>
-              <label className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-mint text-deepTeal text-xs font-bold cursor-pointer hover:bg-primary hover:text-white transition-colors border border-mint-border">
+              <label className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-mint dark:bg-[#113B39] text-deepTeal dark:text-mint text-xs font-bold cursor-pointer hover:bg-primary hover:text-white transition-colors border border-mint-border dark:border-[#1E615D]">
                 <Upload className="w-3.5 h-3.5" />
                 {isUploadingGallery ? 'Uploading...' : 'Batch Upload Images'}
                 <input
@@ -422,18 +422,18 @@ export default function ProjectModal({
               value={galleryInput}
               onChange={(e) => setGalleryInput(e.target.value)}
               placeholder="https://.../img1.jpg&#10;https://.../img2.jpg"
-              className="w-full px-4 py-2 rounded-2xl bg-white border-2 border-mint text-deepTeal text-xs font-mono focus:outline-none focus:border-primary"
+              className="w-full px-4 py-2 rounded-2xl bg-white dark:bg-[#0D2625] border-2 border-mint dark:border-[#1E524F] text-deepTeal dark:text-white text-xs font-mono focus:outline-none focus:border-primary"
             />
           </div>
 
           {/* Behance-Style Case Study Blocks Builder */}
-          <div className="p-5 rounded-3xl bg-mint/30 border-2 border-mint space-y-4">
+          <div className="p-5 rounded-3xl bg-mint/30 dark:bg-[#113B39]/40 border-2 border-mint dark:border-[#1E615D] space-y-4">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
               <div>
-                <h4 className="font-display font-extrabold text-base text-deepTeal">
+                <h4 className="font-display font-extrabold text-base text-deepTeal dark:text-white">
                   Behance-Style Story Blocks
                 </h4>
-                <p className="text-xs text-deepTeal-muted font-medium">
+                <p className="text-xs text-deepTeal-muted dark:text-mint/70 font-medium">
                   Build vertical case studies with custom text, renders, and quotes
                 </p>
               </div>
@@ -442,7 +442,7 @@ export default function ProjectModal({
                 <button
                   type="button"
                   onClick={() => handleAddBlock('text')}
-                  className="px-3 py-1.5 rounded-xl bg-white border border-mint text-xs font-bold text-deepTeal hover:bg-mint flex items-center gap-1"
+                  className="px-3 py-1.5 rounded-xl bg-white dark:bg-[#0D2625] border border-mint dark:border-[#1E524F] text-xs font-bold text-deepTeal dark:text-mint hover:bg-mint dark:hover:bg-[#113B39] flex items-center gap-1"
                 >
                   <Type className="w-3.5 h-3.5 text-primary" />
                   + Text
@@ -450,7 +450,7 @@ export default function ProjectModal({
                 <button
                   type="button"
                   onClick={() => handleAddBlock('image')}
-                  className="px-3 py-1.5 rounded-xl bg-white border border-mint text-xs font-bold text-deepTeal hover:bg-mint flex items-center gap-1"
+                  className="px-3 py-1.5 rounded-xl bg-white dark:bg-[#0D2625] border border-mint dark:border-[#1E524F] text-xs font-bold text-deepTeal dark:text-mint hover:bg-mint dark:hover:bg-[#113B39] flex items-center gap-1"
                 >
                   <ImageIcon className="w-3.5 h-3.5 text-primary" />
                   + Image
@@ -458,7 +458,7 @@ export default function ProjectModal({
                 <button
                   type="button"
                   onClick={() => handleAddBlock('quote')}
-                  className="px-3 py-1.5 rounded-xl bg-white border border-mint text-xs font-bold text-deepTeal hover:bg-mint flex items-center gap-1"
+                  className="px-3 py-1.5 rounded-xl bg-white dark:bg-[#0D2625] border border-mint dark:border-[#1E524F] text-xs font-bold text-deepTeal dark:text-mint hover:bg-mint dark:hover:bg-[#113B39] flex items-center gap-1"
                 >
                   <Quote className="w-3.5 h-3.5 text-primary" />
                   + Quote
@@ -471,16 +471,16 @@ export default function ProjectModal({
               {(formData.contentBlocks || []).map((block, idx) => (
                 <div
                   key={block.id || idx}
-                  className="p-4 rounded-2xl bg-white border border-mint shadow-sm space-y-2 relative"
+                  className="p-4 rounded-2xl bg-white dark:bg-[#0D2625] border border-mint dark:border-[#1E524F] shadow-sm space-y-2 relative"
                 >
                   <div className="flex items-center justify-between">
-                    <span className="text-[11px] font-extrabold uppercase px-2 py-0.5 rounded bg-cream border border-mint text-deepTeal">
+                    <span className="text-[11px] font-extrabold uppercase px-2 py-0.5 rounded bg-cream dark:bg-[#071918] border border-mint dark:border-[#1E524F] text-deepTeal dark:text-mint">
                       Block {idx + 1}: {block.type}
                     </span>
                     <button
                       type="button"
                       onClick={() => handleRemoveBlock(idx)}
-                      className="p-1 rounded-lg text-rose-500 hover:bg-rose-50"
+                      className="p-1 rounded-lg text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-950/50"
                     >
                       <Trash2 className="w-4 h-4" />
                     </button>
@@ -493,14 +493,14 @@ export default function ProjectModal({
                         value={block.title || ''}
                         onChange={(e) => handleBlockChange(idx, 'title', e.target.value)}
                         placeholder="Block Heading"
-                        className="w-full px-3 py-1.5 rounded-xl bg-cream border border-mint text-xs font-bold text-deepTeal"
+                        className="w-full px-3 py-1.5 rounded-xl bg-cream dark:bg-[#071918] border border-mint dark:border-[#1E524F] text-xs font-bold text-deepTeal dark:text-white"
                       />
                       <textarea
                         rows={2}
                         value={block.content || ''}
                         onChange={(e) => handleBlockChange(idx, 'content', e.target.value)}
                         placeholder="Detailed narrative content..."
-                        className="w-full px-3 py-1.5 rounded-xl bg-cream border border-mint text-xs text-deepTeal"
+                        className="w-full px-3 py-1.5 rounded-xl bg-cream dark:bg-[#071918] border border-mint dark:border-[#1E524F] text-xs text-deepTeal dark:text-white"
                       />
                     </>
                   )}
@@ -512,14 +512,14 @@ export default function ProjectModal({
                         value={block.mediaUrl || ''}
                         onChange={(e) => handleBlockChange(idx, 'mediaUrl', e.target.value)}
                         placeholder="Image URL"
-                        className="w-full px-3 py-1.5 rounded-xl bg-cream border border-mint text-xs font-semibold text-deepTeal"
+                        className="w-full px-3 py-1.5 rounded-xl bg-cream dark:bg-[#071918] border border-mint dark:border-[#1E524F] text-xs font-semibold text-deepTeal dark:text-white"
                       />
                       <input
                         type="text"
                         value={block.mediaCaption || ''}
                         onChange={(e) => handleBlockChange(idx, 'mediaCaption', e.target.value)}
                         placeholder="Caption (e.g. 3D packaging dieline in Blender)"
-                        className="w-full px-3 py-1.5 rounded-xl bg-cream border border-mint text-xs text-deepTeal"
+                        className="w-full px-3 py-1.5 rounded-xl bg-cream dark:bg-[#071918] border border-mint dark:border-[#1E524F] text-xs text-deepTeal dark:text-white"
                       />
                     </>
                   )}
@@ -530,7 +530,7 @@ export default function ProjectModal({
                       value={block.content || ''}
                       onChange={(e) => handleBlockChange(idx, 'content', e.target.value)}
                       placeholder="“Highlight quote or creative statement”"
-                      className="w-full px-3 py-1.5 rounded-xl bg-cream border border-mint text-xs italic font-semibold text-deepTeal"
+                      className="w-full px-3 py-1.5 rounded-xl bg-cream dark:bg-[#071918] border border-mint dark:border-[#1E524F] text-xs italic font-semibold text-deepTeal dark:text-white"
                     />
                   )}
                 </div>
@@ -545,19 +545,19 @@ export default function ProjectModal({
               id="featured-check"
               checked={Boolean(formData.featured)}
               onChange={(e) => setFormData({ ...formData, featured: e.target.checked })}
-              className="w-5 h-5 rounded-lg text-primary focus:ring-mint border-2 border-mint"
+              className="w-5 h-5 rounded-lg text-primary focus:ring-mint border-2 border-mint dark:border-[#1E524F]"
             />
-            <label htmlFor="featured-check" className="text-sm font-bold text-deepTeal cursor-pointer">
+            <label htmlFor="featured-check" className="text-sm font-bold text-deepTeal dark:text-white cursor-pointer">
               Show in Featured Case Studies on Home page
             </label>
           </div>
 
           {/* Action Buttons */}
-          <div className="pt-4 border-t border-mint flex items-center justify-end gap-3">
+          <div className="pt-4 border-t border-mint dark:border-[#1A4543]/60 flex items-center justify-end gap-3">
             <button
               type="button"
               onClick={onClose}
-              className="px-6 py-2.5 rounded-2xl bg-cream border border-mint text-deepTeal font-bold text-sm hover:bg-mint transition-colors"
+              className="px-6 py-2.5 rounded-2xl bg-cream dark:bg-[#071918] border border-mint dark:border-[#1E524F] text-deepTeal dark:text-mint font-bold text-sm hover:bg-mint dark:hover:bg-[#113B39] transition-colors"
             >
               Cancel
             </button>

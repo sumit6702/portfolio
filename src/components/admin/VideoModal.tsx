@@ -119,29 +119,29 @@ export default function VideoModal({
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-deepTeal/75 backdrop-blur-sm overflow-y-auto">
-      <div className="relative w-full max-w-2xl bg-white rounded-3xl md:rounded-4xl p-6 sm:p-10 border-4 border-mint shadow-[0_20px_0_#99F6E4,0_35px_60px_rgba(15,76,74,0.15)] my-8">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-deepTeal/75 dark:bg-black/80 backdrop-blur-sm overflow-y-auto">
+      <div className="relative w-full max-w-2xl bg-white dark:bg-[#0D2625] rounded-3xl md:rounded-4xl p-6 sm:p-10 border-4 border-mint dark:border-[#1E524F] shadow-[0_20px_0_#99F6E4,0_35px_60px_rgba(15,76,74,0.15)] dark:shadow-[0_20px_0_#071918,0_35px_60px_rgba(0,0,0,0.5)] my-8">
         <button
           onClick={onClose}
-          className="absolute top-6 right-6 p-2 rounded-2xl bg-cream border border-mint text-deepTeal hover:bg-mint transition-colors"
+          className="absolute top-6 right-6 p-2 rounded-2xl bg-cream dark:bg-[#071918] border border-mint dark:border-[#1E524F] text-deepTeal dark:text-mint hover:bg-mint dark:hover:bg-[#113B39] transition-colors"
           aria-label="Close"
         >
           <X className="w-5 h-5" />
         </button>
 
-        <h2 className="font-display font-black text-2xl sm:text-3xl text-deepTeal mb-6">
+        <h2 className="font-display font-black text-2xl sm:text-3xl text-deepTeal dark:text-white mb-6">
           {initialVideo ? 'Edit Video Showcase' : 'Add New Video to Showcase'}
         </h2>
 
         {errorMsg && (
-          <div className="mb-6 p-4 rounded-2xl bg-rose-50 border border-rose-300 text-rose-700 text-xs font-bold">
+          <div className="mb-6 p-4 rounded-2xl bg-rose-50 dark:bg-rose-950/60 border border-rose-300 dark:border-rose-800 text-rose-700 dark:text-rose-300 text-xs font-bold">
             {errorMsg}
           </div>
         )}
 
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-xs font-extrabold uppercase tracking-wider text-deepTeal mb-1.5">
+            <label className="block text-xs font-extrabold uppercase tracking-wider text-deepTeal dark:text-mint mb-1.5">
               Video Title *
             </label>
             <input
@@ -150,19 +150,19 @@ export default function VideoModal({
               value={formData.title || ''}
               onChange={(e) => setFormData({ ...formData, title: e.target.value })}
               placeholder="e.g. 3D Dental Equipment Product Reel"
-              className="w-full px-4 py-2.5 rounded-2xl bg-cream border-2 border-mint text-deepTeal text-sm font-semibold focus:outline-none focus:border-primary"
+              className="w-full px-4 py-2.5 rounded-2xl bg-cream dark:bg-[#071918] border-2 border-mint dark:border-[#1E524F] text-deepTeal dark:text-white text-sm font-semibold focus:outline-none focus:border-primary"
             />
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-xs font-extrabold uppercase tracking-wider text-deepTeal mb-1.5">
+              <label className="block text-xs font-extrabold uppercase tracking-wider text-deepTeal dark:text-mint mb-1.5">
                 Category
               </label>
               <select
                 value={formData.category || 'Motion Graphics'}
                 onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                className="w-full px-4 py-2.5 rounded-2xl bg-cream border-2 border-mint text-deepTeal text-sm font-semibold focus:outline-none focus:border-primary"
+                className="w-full px-4 py-2.5 rounded-2xl bg-cream dark:bg-[#071918] border-2 border-mint dark:border-[#1E524F] text-deepTeal dark:text-white text-sm font-semibold focus:outline-none focus:border-primary"
               >
                 <option value="Motion Graphics">Motion Graphics</option>
                 <option value="3D Animation">3D Animation</option>
@@ -173,7 +173,7 @@ export default function VideoModal({
             </div>
 
             <div>
-              <label className="block text-xs font-extrabold uppercase tracking-wider text-deepTeal mb-1.5">
+              <label className="block text-xs font-extrabold uppercase tracking-wider text-deepTeal dark:text-mint mb-1.5">
                 Duration (e.g. 01:15)
               </label>
               <input
@@ -181,13 +181,13 @@ export default function VideoModal({
                 value={formData.duration || ''}
                 onChange={(e) => setFormData({ ...formData, duration: e.target.value })}
                 placeholder="00:45"
-                className="w-full px-4 py-2.5 rounded-2xl bg-cream border-2 border-mint text-deepTeal text-sm font-semibold focus:outline-none focus:border-primary"
+                className="w-full px-4 py-2.5 rounded-2xl bg-cream dark:bg-[#071918] border-2 border-mint dark:border-[#1E524F] text-deepTeal dark:text-white text-sm font-semibold focus:outline-none focus:border-primary"
               />
             </div>
           </div>
 
           <div>
-            <label className="block text-xs font-extrabold uppercase tracking-wider text-deepTeal mb-1.5">
+            <label className="block text-xs font-extrabold uppercase tracking-wider text-deepTeal dark:text-mint mb-1.5">
               YouTube or Vimeo Link *
             </label>
             <input
@@ -196,17 +196,17 @@ export default function VideoModal({
               value={formData.videoUrl || ''}
               onChange={(e) => handleVideoUrlChange(e.target.value)}
               placeholder="https://www.youtube.com/watch?v=... or https://vimeo.com/..."
-              className="w-full px-4 py-2.5 rounded-2xl bg-cream border-2 border-mint text-deepTeal text-sm font-semibold focus:outline-none focus:border-primary"
+              className="w-full px-4 py-2.5 rounded-2xl bg-cream dark:bg-[#071918] border-2 border-mint dark:border-[#1E524F] text-deepTeal dark:text-white text-sm font-semibold focus:outline-none focus:border-primary"
             />
           </div>
 
           {/* Thumbnail Image URL or Upload */}
-          <div className="p-4 rounded-3xl bg-cream border-2 border-mint space-y-2">
+          <div className="p-4 rounded-3xl bg-cream dark:bg-[#071918] border-2 border-mint dark:border-[#1E524F] space-y-2">
             <div className="flex items-center justify-between">
-              <label className="block text-xs font-extrabold uppercase tracking-wider text-deepTeal">
+              <label className="block text-xs font-extrabold uppercase tracking-wider text-deepTeal dark:text-mint">
                 Thumbnail Image (Auto-generated or custom upload)
               </label>
-              <label className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-mint text-deepTeal text-xs font-bold cursor-pointer hover:bg-primary hover:text-white transition-colors border border-mint-border">
+              <label className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-mint dark:bg-[#113B39] text-deepTeal dark:text-mint text-xs font-bold cursor-pointer hover:bg-primary hover:text-white transition-colors border border-mint-border dark:border-[#1E615D]">
                 <Upload className="w-3.5 h-3.5" />
                 {isUploadingThumb ? 'Uploading...' : 'Upload Thumbnail'}
                 <input
@@ -223,12 +223,12 @@ export default function VideoModal({
               value={formData.thumbnailUrl || ''}
               onChange={(e) => setFormData({ ...formData, thumbnailUrl: e.target.value })}
               placeholder="https://..."
-              className="w-full px-4 py-2 rounded-2xl bg-white border-2 border-mint text-deepTeal text-xs font-semibold focus:outline-none focus:border-primary"
+              className="w-full px-4 py-2 rounded-2xl bg-white dark:bg-[#0D2625] border-2 border-mint dark:border-[#1E524F] text-deepTeal dark:text-white text-xs font-semibold focus:outline-none focus:border-primary"
             />
           </div>
 
           <div>
-            <label className="block text-xs font-extrabold uppercase tracking-wider text-deepTeal mb-1.5">
+            <label className="block text-xs font-extrabold uppercase tracking-wider text-deepTeal dark:text-mint mb-1.5">
               Description (optional)
             </label>
             <textarea
@@ -236,15 +236,15 @@ export default function VideoModal({
               value={formData.description || ''}
               onChange={(e) => setFormData({ ...formData, description: e.target.value })}
               placeholder="Key motion techniques, tools used, client objectives..."
-              className="w-full px-4 py-2.5 rounded-2xl bg-cream border-2 border-mint text-deepTeal text-sm font-semibold focus:outline-none focus:border-primary"
+              className="w-full px-4 py-2.5 rounded-2xl bg-cream dark:bg-[#071918] border-2 border-mint dark:border-[#1E524F] text-deepTeal dark:text-white text-sm font-semibold focus:outline-none focus:border-primary"
             />
           </div>
 
-          <div className="pt-4 border-t border-mint flex items-center justify-end gap-3">
+          <div className="pt-4 border-t border-mint dark:border-[#1A4543]/60 flex items-center justify-end gap-3">
             <button
               type="button"
               onClick={onClose}
-              className="px-6 py-2.5 rounded-2xl bg-cream border border-mint text-deepTeal font-bold text-sm hover:bg-mint transition-colors"
+              className="px-6 py-2.5 rounded-2xl bg-cream dark:bg-[#071918] border border-mint dark:border-[#1E524F] text-deepTeal dark:text-mint font-bold text-sm hover:bg-mint dark:hover:bg-[#113B39] transition-colors"
             >
               Cancel
             </button>
