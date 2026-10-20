@@ -6,9 +6,14 @@ import {
   FileText,
   Download,
   Check,
+  Sun,
+  Moon,
+  Laptop,
+  Palette,
 } from 'lucide-react';
 import { ProfileSettings } from '@/lib/types';
 import { uploadResumeFile } from '@/lib/storage';
+import { useTheme } from '@/components/theme/ThemeProvider';
 import ClayButton from '@/components/3d/ClayButton';
 
 interface ProfileEditorProps {
@@ -25,6 +30,12 @@ export default function ProfileEditor({
   const [isSaving, setIsSaving] = useState(false);
   const [saveSuccess, setSaveSuccess] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const { setTheme } = useTheme();
+
+  const handleThemeSelect = (mode: 'system' | 'light' | 'dark') => {
+    setProfile((prev) => ({ ...prev, themeMode: mode }));
+    setTheme(mode);
+  };
 
   const handleResumeUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -88,6 +99,65 @@ export default function ProfileEditor({
       )}
 
       <form onSubmit={handleSubmit} className="space-y-8">
+        {/* Section 0: Global Public Site Theme Mode */}
+        <div className="p-6 rounded-[28px] bg-white dark:bg-[#161426] border-2 border-lavender/60 dark:border-white/10 shadow-sm space-y-4">
+          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+            <div>
+              <span className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-deepInk dark:text-lavender-light">
+                <Palette className="w-4 h-4 text-periwinkle" />
+                Global Public Site Theme Mode
+              </span>
+              <h3 className="font-serif font-bold text-lg text-deepInk dark:text-white mt-1">
+                Website Appearance & Color Mode
+              </h3>
+              <p className="text-xs text-bodyText-muted dark:text-lavender-light/70 font-medium">
+                Set the default theme for all visitors on the public portfolio. The theme toggle is removed from the public site and managed exclusively here.
+              </p>
+            </div>
+
+            <div className="flex flex-wrap items-center gap-2 p-1.5 rounded-full bg-bg dark:bg-[#1E1B33] border border-lavender/50 dark:border-white/10">
+              <button
+                type="button"
+                onClick={() => handleThemeSelect('system')}
+                className={`btn-tactile flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-bold transition-all ${
+                  (profile.themeMode || 'system') === 'system'
+                    ? 'btn-tactile-dark bg-deepInk text-white shadow-sm'
+                    : 'text-deepInk dark:text-lavender-light hover:bg-lavender-light'
+                }`}
+              >
+                <Laptop className="w-3.5 h-3.5" />
+                <span>System (Auto)</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => handleThemeSelect('light')}
+                className={`btn-tactile flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-bold transition-all ${
+                  profile.themeMode === 'light'
+                    ? 'btn-tactile-dark bg-deepInk text-white shadow-sm'
+                    : 'text-deepInk dark:text-lavender-light hover:bg-lavender-light'
+                }`}
+              >
+                <Sun className="w-3.5 h-3.5 text-amber-500" />
+                <span>Light Pastel</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => handleThemeSelect('dark')}
+                className={`btn-tactile flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-bold transition-all ${
+                  profile.themeMode === 'dark'
+                    ? 'btn-tactile-dark bg-deepInk text-white shadow-sm'
+                    : 'text-deepInk dark:text-lavender-light hover:bg-lavender-light'
+                }`}
+              >
+                <Moon className="w-3.5 h-3.5 text-teal-400" />
+                <span>Dark Mode</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
         {/* Section 1: Resume Upload to Supabase Storage */}
         <div className="p-6 rounded-[28px] bg-lavender-soft dark:bg-[#161426] border border-lavender/60 dark:border-white/10 space-y-4">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">

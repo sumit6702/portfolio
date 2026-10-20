@@ -4,6 +4,7 @@ import './globals.css';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import { ThemeProvider } from '@/components/theme/ThemeProvider';
+import { fetchProfileSettings } from '@/lib/data-service';
 
 const fraunces = Fraunces({
   subsets: ['latin'],
@@ -57,11 +58,14 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const profile = await fetchProfileSettings();
+  const siteTheme = profile.themeMode || 'system';
+
   return (
     <html
       lang="en"
@@ -69,13 +73,14 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <head>
-        {/* Anti-FOUC Theme Script: default is System */}
+        {/* Anti-FOUC Theme Script: initialized from Admin's chosen site theme */}
         <script
           dangerouslySetInnerHTML={{
             __html: `
               (function() {
                 try {
-                  var mode = localStorage.getItem('portfolio_theme_mode') || 'system';
+                  var adminDefault = '${siteTheme}';
+                  var mode = localStorage.getItem('portfolio_theme_mode') || adminDefault;
                   var isDark = mode === 'dark' || (mode === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches);
                   if (isDark) {
                     document.documentElement.classList.add('dark');
@@ -89,7 +94,7 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-screen flex flex-col bg-bg text-bodyText dark:bg-[#161426] dark:text-[#E7E4F5] antialiased selection:bg-lavender selection:text-deepInk transition-colors duration-200">
-        <ThemeProvider>
+        <ThemeProvider defaultTheme={siteTheme}>
           <Navbar />
           <main className="flex-1">{children}</main>
           <Footer />

@@ -106,9 +106,12 @@ export default function AdminDashboardPage() {
   const handleSaveProject = async (proj: Project) => {
     const res = await saveProject(proj);
     if (!res.error) {
-      showNotification('Project saved successfully!');
+      showNotification('Project created successfully!');
       const updated = await fetchProjects();
       setProjects(updated);
+      setIsProjectModalOpen(false);
+      // Seamlessly navigate to the live Behance editor on the project page
+      router.push(`/projects/${proj.slug}`);
     } else {
       alert(`Error saving project: ${res.error}`);
     }
@@ -360,16 +363,14 @@ export default function AdminDashboardPage() {
                   </span>
 
                   <div className="flex items-center gap-2">
-                    <button
-                      onClick={() => {
-                        setEditingProject(proj);
-                        setIsProjectModalOpen(true);
-                      }}
-                      className="p-2 rounded-full bg-lavender-light dark:bg-white/10 text-deepInk dark:text-white hover:bg-deepInk hover:text-white transition-colors"
-                      title="Edit Project"
+                    <Link
+                      href={`/projects/${proj.slug}`}
+                      className="btn-tactile inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-deepInk dark:bg-white text-white dark:text-deepInk text-xs font-bold shadow-sm hover:scale-105 active:scale-95 transition-all"
+                      title="Edit in live Behance preview mode"
                     >
-                      <Edit className="w-4 h-4" />
-                    </button>
+                      <Edit className="w-3.5 h-3.5" />
+                      <span>Live Edit</span>
+                    </Link>
                     <button
                       onClick={() => handleDeleteProject(proj.id, proj.title)}
                       className="p-2 rounded-full bg-babyPink-light dark:bg-babyPink/20 text-deepInk dark:text-babyPink-light hover:bg-babyPink transition-colors"

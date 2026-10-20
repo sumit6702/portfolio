@@ -18,25 +18,30 @@ const ThemeContext = createContext<ThemeContextType>({
 
 const STORAGE_KEY = 'portfolio_theme_mode';
 
-export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setThemeState] = useState<ThemeMode>('system');
+export function ThemeProvider({
+  children,
+  defaultTheme = 'system',
+}: {
+  children: React.ReactNode;
+  defaultTheme?: ThemeMode;
+}) {
+  const [theme, setThemeState] = useState<ThemeMode>(defaultTheme);
   const [resolvedTheme, setResolvedTheme] = useState<'light' | 'dark'>('light');
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    // Read saved theme from localStorage, default to 'system'
     try {
       const stored = localStorage.getItem(STORAGE_KEY) as ThemeMode | null;
       if (stored === 'light' || stored === 'dark' || stored === 'system') {
         setThemeState(stored);
       } else {
-        setThemeState('system');
+        setThemeState(defaultTheme);
       }
     } catch {
-      setThemeState('system');
+      setThemeState(defaultTheme);
     }
     setMounted(true);
-  }, []);
+  }, [defaultTheme]);
 
   useEffect(() => {
     const root = document.documentElement;

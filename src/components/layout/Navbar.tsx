@@ -4,7 +4,6 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Menu, X, Lock, Download } from 'lucide-react';
-import ThemeToggle from '@/components/theme/ThemeToggle';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -99,15 +98,10 @@ export default function Navbar() {
                 <Lock className="w-3.5 h-3.5" />
               </span>
             </Link>
-
-            {/* Theme Toggle */}
-            <ThemeToggle />
           </div>
 
           {/* Mobile Right Controls */}
           <div className="flex md:hidden items-center gap-2">
-            <ThemeToggle />
-
             <button
               onClick={() => setIsOpen(!isOpen)}
               className="p-2.5 rounded-2xl bg-white dark:bg-[#1E1B33] border border-lavender/40 dark:border-white/10 text-deepInk dark:text-white shadow-sm active:translate-y-0.5"
@@ -142,18 +136,13 @@ export default function Navbar() {
               href="/resume-sumit-kumar.pdf"
               download="Sumit-Kumar-Resume.pdf"
               onClick={() => setIsOpen(false)}
-              className="btn-water btn-water-mint px-4 py-2.5 rounded-2xl text-sm font-bold bg-mint dark:bg-mint/20 text-deepInk dark:text-mint flex items-center justify-between"
+              className="btn-tactile btn-tactile-mint px-4 py-2.5 rounded-2xl text-sm font-bold bg-mint dark:bg-mint/20 text-deepInk dark:text-mint flex items-center justify-between"
             >
               <span className="relative z-10 flex items-center justify-between w-full">
                 <span>Download Resume</span>
                 <Download className="w-4 h-4" />
               </span>
             </a>
-
-            <div className="pt-3 border-t border-lavender/40 dark:border-white/10 flex items-center justify-between text-xs">
-              <span className="font-bold text-bodyText-muted dark:text-lavender-light/70 uppercase">Theme Mode</span>
-              <ThemeToggle variant="segmented" />
-            </div>
           </div>
         </div>
       )}

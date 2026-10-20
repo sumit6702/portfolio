@@ -61,7 +61,7 @@ export default function ProjectCard({ project, priority = false }: ProjectCardPr
         />
 
         {/* Video indicator badge if applicable */}
-        {project.videoUrl && (
+        {Boolean(project.videoUrl && project.videoUrl.trim()) && (
           <div className="absolute bottom-3 right-3 px-3 py-1.5 rounded-full bg-deepInk/85 backdrop-blur-md text-white text-xs font-bold flex items-center gap-1.5 shadow-md group-hover:scale-105 transition-transform">
             <Play className="w-3 h-3 fill-white" />
             <span>Video Reel</span>

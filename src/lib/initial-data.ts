@@ -17,6 +17,7 @@ export const INITIAL_PROFILE: ProfileSettings = {
   socialWhatsapp: 'https://wa.me/919891997885',
   socialWebsite: 'https://sumitk.in',
   resumeUrl: '/resume-sumit-kumar.pdf',
+  themeMode: 'system',
 };
 
 export const INITIAL_EXPERIENCES: ExperienceItem[] = [

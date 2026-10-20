@@ -89,6 +89,7 @@ export interface ProfileSettings {
   socialWhatsapp: string;
   socialWebsite: string;
   resumeUrl: string;
+  themeMode?: 'light' | 'dark' | 'system';
   updatedAt?: string;
 }
 

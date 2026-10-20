@@ -55,8 +55,12 @@ CREATE TABLE IF NOT EXISTS public.profile_settings (
   social_whatsapp TEXT,
   social_website TEXT,
   resume_url TEXT,
+  theme_mode TEXT DEFAULT 'system',
   updated_at TIMESTAMPTZ DEFAULT NOW()
 );
+
+-- Ensure theme_mode column exists on existing installations
+ALTER TABLE public.profile_settings ADD COLUMN IF NOT EXISTS theme_mode TEXT DEFAULT 'system';
 
 -- 5. CONTACT INQUIRIES TABLE
 CREATE TABLE IF NOT EXISTS public.contact_inquiries (

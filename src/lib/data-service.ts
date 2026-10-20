@@ -79,7 +79,9 @@ function mapProjectToDb(proj: Partial<Project>) {
   if (proj.description !== undefined) mapped.description = proj.description;
   if (proj.tools !== undefined) mapped.tools = proj.tools;
   if (proj.galleryImages !== undefined) mapped.gallery_images = proj.galleryImages;
-  if (proj.videoUrl !== undefined) mapped.video_url = proj.videoUrl;
+  if (proj.videoUrl !== undefined) {
+    mapped.video_url = proj.videoUrl && proj.videoUrl.trim() ? proj.videoUrl.trim() : null;
+  }
   if (proj.contentBlocks !== undefined) mapped.content_blocks = proj.contentBlocks;
   if (proj.featured !== undefined) mapped.featured = proj.featured;
   if (proj.orderIndex !== undefined) mapped.order_index = proj.orderIndex;
@@ -131,12 +133,13 @@ function mapDbProfile(row: any): ProfileSettings {
     socialWhatsapp: row.social_whatsapp || INITIAL_PROFILE.socialWhatsapp,
     socialWebsite: row.social_website || INITIAL_PROFILE.socialWebsite,
     resumeUrl: row.resume_url || INITIAL_PROFILE.resumeUrl,
+    themeMode: row.theme_mode || INITIAL_PROFILE.themeMode || 'system',
     updatedAt: row.updated_at,
   };
 }
 
-function mapProfileToDb(prof: Partial<ProfileSettings>) {
-  return {
+function mapProfileToDb(prof: Partial<ProfileSettings>): Record<string, any> {
+  const mapped: Record<string, any> = {
     id: prof.id || 'main',
     full_name: prof.fullName,
     role_title: prof.roleTitle,
@@ -151,8 +154,10 @@ function mapProfileToDb(prof: Partial<ProfileSettings>) {
     social_whatsapp: prof.socialWhatsapp,
     social_website: prof.socialWebsite,
     resume_url: prof.resumeUrl,
+    theme_mode: prof.themeMode || 'system',
     updated_at: new Date().toISOString(),
   };
+  return mapped;
 }
 
 /* ---------------- PROJECTS API ---------------- */
@@ -416,15 +421,30 @@ export async function fetchProfileSettings(): Promise<ProfileSettings> {
 export async function saveProfileSettings(
   profile: ProfileSettings
 ): Promise<{ data: ProfileSettings | null; error: string | null }> {
+  // Always update local cache and storage
+  setLocalData(LOCAL_PROFILE_KEY, profile);
+
   const supabase = getSupabaseClient();
   if (supabase) {
     try {
       const dbPayload = mapProfileToDb(profile);
-      const { data, error } = await supabase
+      let { data, error } = await supabase
         .from('profile_settings')
         .upsert(dbPayload)
         .select()
         .single();
+
+      // Graceful fallback if theme_mode column is not yet in Supabase SQL schema
+      if (error && error.message?.includes('theme_mode')) {
+        delete dbPayload.theme_mode;
+        const retry = await supabase
+          .from('profile_settings')
+          .upsert(dbPayload)
+          .select()
+          .single();
+        data = retry.data;
+        error = retry.error;
+      }
 
       if (error) {
         return { data: null, error: error.message };
@@ -435,7 +455,6 @@ export async function saveProfileSettings(
     }
   }
 
-  setLocalData(LOCAL_PROFILE_KEY, profile);
   return { data: profile, error: null };
 }
 
