@@ -27,6 +27,7 @@ import {
   ExternalLink,
   ChevronRight,
   ImageIcon,
+  AlertTriangle,
 } from 'lucide-react';
 import { Project, CaseStudyBlock } from '@/lib/types';
 import { checkAdminSession } from '@/lib/auth';
@@ -41,6 +42,7 @@ interface LiveProjectCaseStudyProps {
   prevProject: Project | null;
   nextProject: Project | null;
   relatedProjects: Project[];
+  isNew?: boolean;
 }
 
 export default function LiveProjectCaseStudy({
@@ -48,6 +50,7 @@ export default function LiveProjectCaseStudy({
   prevProject,
   nextProject,
   relatedProjects,
+  isNew = false,
 }: LiveProjectCaseStudyProps) {
   const router = useRouter();
   const [project, setProject] = useState<Project>(initialProject);
@@ -56,6 +59,11 @@ export default function LiveProjectCaseStudy({
   const [isSaving, setIsSaving] = useState(false);
   const [saveSuccess, setSaveSuccess] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+
+  // Unsaved changes & discard confirmation state
+  const [hasUnsavedChanges, setHasUnsavedChanges] = useState<boolean>(isNew);
+  const [showDiscardModal, setShowDiscardModal] = useState<boolean>(false);
+  const [pendingRedirect, setPendingRedirect] = useState<string | null>(null);
 
   // Info modal state
   const [isInfoModalOpen, setIsInfoModalOpen] = useState(false);
@@ -94,6 +102,18 @@ export default function LiveProjectCaseStudy({
     });
   }, []);
 
+  // Warn user on browser tab close or refresh if there are unsaved changes
+  useEffect(() => {
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      if (hasUnsavedChanges) {
+        e.preventDefault();
+        e.returnValue = '';
+      }
+    };
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    return () => window.removeEventListener('beforeunload', handleBeforeUnload);
+  }, [hasUnsavedChanges]);
+
   // Update info form when project updates
   useEffect(() => {
     setInfoForm({
@@ -120,9 +140,47 @@ export default function LiveProjectCaseStudy({
         mediaUrl: url,
       }));
 
+  /* ---------------- NAVIGATION INTERCEPTOR WITH DISCARD WARNING ---------------- */
+  const handleAttemptNavigate = (targetUrl: string) => {
+    if (hasUnsavedChanges) {
+      setPendingRedirect(targetUrl);
+      setShowDiscardModal(true);
+    } else {
+      router.push(targetUrl);
+    }
+  };
+
+  const handleConfirmDiscard = () => {
+    setShowDiscardModal(false);
+    setHasUnsavedChanges(false);
+    const destination = pendingRedirect || '/admin';
+    router.push(destination);
+  };
+
   /* ---------------- SAVE ACTION ---------------- */
   const handleSave = async (updatedProject?: Project) => {
-    const toSave = updatedProject || project;
+    const target = updatedProject || project;
+
+    if (!target.title || !target.title.trim()) {
+      setErrorMessage('Please provide a project title before saving.');
+      setIsInfoModalOpen(true);
+      return;
+    }
+
+    const cleanSlug =
+      (target.slug && target.slug.trim()) ||
+      target.title
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/(^-|-$)+/g, '') ||
+      `project-${Date.now()}`;
+
+    const toSave: Project = {
+      ...target,
+      slug: cleanSlug,
+      videoUrl: target.videoUrl && target.videoUrl.trim() ? target.videoUrl.trim() : undefined,
+    };
+
     setIsSaving(true);
     setErrorMessage('');
 
@@ -132,10 +190,12 @@ export default function LiveProjectCaseStudy({
         setErrorMessage(res.error);
       } else if (res.data) {
         setProject(res.data);
+        setHasUnsavedChanges(false);
         setSaveSuccess(true);
         setTimeout(() => setSaveSuccess(false), 3000);
-        // If slug changed, update URL
-        if (res.data.slug !== initialProject.slug) {
+
+        // If new project or slug changed, transition to the permanent slug
+        if (isNew || res.data.slug !== initialProject.slug) {
           router.replace(`/projects/${res.data.slug}`);
         }
       }
@@ -157,46 +217,35 @@ export default function LiveProjectCaseStudy({
     const res = await uploadPortfolioImage(file);
     setIsUploadingCover(false);
 
-    if (res.url) {
-      const updated = { ...project, coverImage: res.url };
-      setProject(updated);
-      handleSave(updated);
-    } else {
-      // Local preview fallback if Supabase storage is unconfigured
-      const localUrl = URL.createObjectURL(file);
-      const updated = { ...project, coverImage: localUrl };
-      setProject(updated);
-      handleSave(updated);
-    }
+    const newUrl = res.url || URL.createObjectURL(file);
+    setProject((prev) => ({ ...prev, coverImage: newUrl }));
+    setHasUnsavedChanges(true);
   };
 
   /* ---------------- MAIN VIDEO REEL ACTIONS ---------------- */
   // Remove video section completely (Requirement 2)
   const handleRemoveVideo = () => {
-    const updated = { ...project, videoUrl: '' };
-    setProject(updated);
-    handleSave(updated);
+    setProject((prev) => ({ ...prev, videoUrl: '' }));
+    setHasUnsavedChanges(true);
   };
 
   const handleSaveVideoUrl = () => {
     const cleanUrl = videoInputUrl.trim();
-    const updated = { ...project, videoUrl: cleanUrl || undefined };
-    setProject(updated);
+    setProject((prev) => ({ ...prev, videoUrl: cleanUrl || undefined }));
     setIsVideoModalOpen(false);
-    handleSave(updated);
+    setHasUnsavedChanges(true);
   };
 
   /* ---------------- STACK ITEM ACTIONS (BEHANCE STYLE) ---------------- */
   // Delete item from stack
   const handleDeleteStackItem = (index: number) => {
     const newItems = stackItems.filter((_, i) => i !== index);
-    const updated: Project = {
-      ...project,
+    setProject((prev) => ({
+      ...prev,
       contentBlocks: newItems,
       galleryImages: newItems.filter((item) => item.type === 'image' && item.mediaUrl).map((item) => item.mediaUrl!),
-    };
-    setProject(updated);
-    handleSave(updated);
+    }));
+    setHasUnsavedChanges(true);
   };
 
   // Move item up
@@ -207,13 +256,12 @@ export default function LiveProjectCaseStudy({
     newItems[index - 1] = newItems[index];
     newItems[index] = temp;
 
-    const updated: Project = {
-      ...project,
+    setProject((prev) => ({
+      ...prev,
       contentBlocks: newItems,
       galleryImages: newItems.filter((item) => item.type === 'image' && item.mediaUrl).map((item) => item.mediaUrl!),
-    };
-    setProject(updated);
-    handleSave(updated);
+    }));
+    setHasUnsavedChanges(true);
   };
 
   // Move item down
@@ -224,13 +272,12 @@ export default function LiveProjectCaseStudy({
     newItems[index + 1] = newItems[index];
     newItems[index] = temp;
 
-    const updated: Project = {
-      ...project,
+    setProject((prev) => ({
+      ...prev,
       contentBlocks: newItems,
       galleryImages: newItems.filter((item) => item.type === 'image' && item.mediaUrl).map((item) => item.mediaUrl!),
-    };
-    setProject(updated);
-    handleSave(updated);
+    }));
+    setHasUnsavedChanges(true);
   };
 
   // Replace image at index
@@ -246,13 +293,12 @@ export default function LiveProjectCaseStudy({
       mediaUrl: newUrl,
     };
 
-    const updated: Project = {
-      ...project,
+    setProject((prev) => ({
+      ...prev,
       contentBlocks: newItems,
       galleryImages: newItems.filter((item) => item.type === 'image' && item.mediaUrl).map((item) => item.mediaUrl!),
-    };
-    setProject(updated);
-    handleSave(updated);
+    }));
+    setHasUnsavedChanges(true);
   };
 
   /* ---------------- INSERT NEW ITEM (AT GAP OR END) ---------------- */
@@ -297,18 +343,17 @@ export default function LiveProjectCaseStudy({
     const newItems = [...stackItems];
     newItems.splice(insertModalIndex, 0, newBlock);
 
-    const updated: Project = {
-      ...project,
+    setProject((prev) => ({
+      ...prev,
       contentBlocks: newItems,
       galleryImages: newItems.filter((item) => item.type === 'image' && item.mediaUrl).map((item) => item.mediaUrl!),
-    };
+    }));
+    setHasUnsavedChanges(true);
 
-    setProject(updated);
     setInsertModalIndex(null);
     setInsertInputUrl('');
     setInsertInputText('');
     setInsertInputTitle('');
-    handleSave(updated);
   };
 
   // Direct file upload for insertion
@@ -330,14 +375,12 @@ export default function LiveProjectCaseStudy({
     const newItems = [...stackItems];
     newItems.splice(index, 0, newBlock);
 
-    const updated: Project = {
-      ...project,
+    setProject((prev) => ({
+      ...prev,
       contentBlocks: newItems,
       galleryImages: newItems.filter((item) => item.type === 'image' && item.mediaUrl).map((item) => item.mediaUrl!),
-    };
-
-    setProject(updated);
-    handleSave(updated);
+    }));
+    setHasUnsavedChanges(true);
   };
 
   /* ---------------- PROJECT INFO UPDATE ---------------- */
@@ -348,8 +391,8 @@ export default function LiveProjectCaseStudy({
       .map((t) => t.trim())
       .filter(Boolean);
 
-    const updated: Project = {
-      ...project,
+    setProject((prev) => ({
+      ...prev,
       title: infoForm.title,
       category: infoForm.category,
       role: infoForm.role,
@@ -357,11 +400,9 @@ export default function LiveProjectCaseStudy({
       year: infoForm.year,
       description: infoForm.description,
       tools: parsedTools,
-    };
-
-    setProject(updated);
+    }));
+    setHasUnsavedChanges(true);
     setIsInfoModalOpen(false);
-    handleSave(updated);
   };
 
   // Video Reel condition: only render if videoUrl has real non-empty content
@@ -384,12 +425,24 @@ export default function LiveProjectCaseStudy({
               <div>
                 <div className="flex items-center gap-2">
                   <span className="text-xs font-bold uppercase tracking-wider text-periwinkle">
-                    Behance Live Editor
+                    {isNew ? 'New Project Live Creator' : 'Behance Live Editor'}
                   </span>
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                  
+                  {/* Status Indicator */}
+                  {hasUnsavedChanges ? (
+                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-amber-400/20 text-amber-300 text-[10px] font-bold border border-amber-400/30">
+                      <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" />
+                      Unsaved Draft Edits
+                    </span>
+                  ) : (
+                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-400/20 text-emerald-300 text-[10px] font-bold border border-emerald-400/30">
+                      <Check className="w-3 h-3 text-emerald-400" />
+                      Saved & Published
+                    </span>
+                  )}
                 </div>
                 <h4 className="text-sm font-bold text-white truncate max-w-[200px] sm:max-w-xs">
-                  {project.title}
+                  {project.title || 'Untitled Case Study'}
                 </h4>
               </div>
             </div>
@@ -431,6 +484,20 @@ export default function LiveProjectCaseStudy({
                 </button>
               )}
 
+              {/* Discard Warning / Exit Button */}
+              <button
+                onClick={() => handleAttemptNavigate('/admin')}
+                className={`btn-tactile px-3 py-1.5 rounded-full text-xs font-bold flex items-center gap-1 transition-all ${
+                  hasUnsavedChanges
+                    ? 'bg-rose-500/20 hover:bg-rose-500 text-rose-200 hover:text-white border border-rose-400/30'
+                    : 'bg-white/10 text-white hover:bg-white/20'
+                }`}
+                title="Discard edits or return to Admin"
+              >
+                <X className="w-3.5 h-3.5" />
+                <span>{hasUnsavedChanges ? (isNew ? 'Discard Project' : 'Discard Edits') : 'Exit'}</span>
+              </button>
+
               {/* Save Changes Button */}
               <button
                 onClick={() => handleSave()}
@@ -450,19 +517,10 @@ export default function LiveProjectCaseStudy({
                 ) : (
                   <>
                     <Save className="w-3.5 h-3.5" />
-                    <span>Save Project</span>
+                    <span>{isNew ? 'Publish Project' : 'Save Project'}</span>
                   </>
                 )}
               </button>
-
-              {/* Back to Dashboard */}
-              <Link
-                href="/admin"
-                className="btn-tactile p-1.5 rounded-full bg-white/10 text-white hover:bg-white/20"
-                title="Back to Admin Dashboard"
-              >
-                <X className="w-4 h-4" />
-              </Link>
             </div>
           </div>
         </div>
@@ -472,7 +530,7 @@ export default function LiveProjectCaseStudy({
       {saveSuccess && (
         <div className="fixed bottom-6 right-6 z-50 p-4 rounded-2xl bg-deepInk text-white text-xs font-bold shadow-2xl border border-mint/40 flex items-center gap-2 animate-bounce-subtle">
           <Check className="w-4 h-4 text-mint" />
-          <span>Project changes saved to database!</span>
+          <span>Project saved and published successfully!</span>
         </div>
       )}
 
@@ -491,13 +549,13 @@ export default function LiveProjectCaseStudy({
         
         {/* Breadcrumb Navigation */}
         <div className="mb-8 flex items-center justify-between">
-          <Link
-            href="/projects"
+          <button
+            onClick={() => handleAttemptNavigate('/projects')}
             className="group btn-tactile inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-deepInk dark:text-lavender-light bg-white dark:bg-[#1E1B33] px-4 py-2 rounded-full border border-lavender/40 dark:border-white/10 shadow-sm"
           >
             <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1" />
             <span>Back to All Projects</span>
-          </Link>
+          </button>
 
           {isAdmin && (
             <span className="text-xs font-bold text-bodyText-muted dark:text-lavender-light/70 bg-white/70 dark:bg-[#1E1B33] px-3 py-1 rounded-full border border-lavender/40">
@@ -662,7 +720,7 @@ export default function LiveProjectCaseStudy({
           isAdmin && isEditMode && (
             <div className="mb-14 p-6 rounded-3xl border-2 border-dashed border-lavender/60 dark:border-white/10 text-center bg-white/40 dark:bg-white/5">
               <p className="text-xs font-semibold text-bodyText-muted dark:text-lavender-light/60 mb-3">
-                No Video Reel currently attached to this project (video section is hidden from public).
+                No Video Reel attached to this project (video section is hidden from visitors).
               </p>
               <button
                 onClick={() => setIsVideoModalOpen(true)}
@@ -863,56 +921,58 @@ export default function LiveProjectCaseStudy({
         </div>
 
         {/* ======================================================================== */}
-        {/* NEXT / PREVIOUS NAVIGATION                                               */}
+        {/* NEXT / PREVIOUS NAVIGATION (Only shown on published projects)            */}
         {/* ======================================================================== */}
-        <div className="pt-8 border-t border-lavender/40 dark:border-white/10 mb-16">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            {prevProject ? (
-              <Link
-                href={`/projects/${prevProject.slug}`}
-                className="group p-6 rounded-[28px] bg-white dark:bg-[#1E1B33] border border-lavender/50 dark:border-white/10 shadow-sm card-float flex items-center gap-4"
-              >
-                <div className="w-12 h-12 rounded-full bg-lavender-light dark:bg-white/10 text-deepInk dark:text-white flex items-center justify-center shrink-0 group-hover:bg-deepInk group-hover:text-white transition-colors">
-                  <ArrowLeft className="w-5 h-5 transition-transform group-hover:-translate-x-1" />
-                </div>
-                <div className="overflow-hidden">
-                  <span className="text-xs font-bold uppercase text-bodyText-muted dark:text-lavender-light/60">
-                    Previous Project
-                  </span>
-                  <h4 className="font-serif font-bold text-base text-deepInk dark:text-white truncate group-hover:text-deepInk transition-colors">
-                    {prevProject.title}
-                  </h4>
-                </div>
-              </Link>
-            ) : (
-              <div />
-            )}
+        {!isNew && (
+          <div className="pt-8 border-t border-lavender/40 dark:border-white/10 mb-16">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              {prevProject ? (
+                <Link
+                  href={`/projects/${prevProject.slug}`}
+                  className="group p-6 rounded-[28px] bg-white dark:bg-[#1E1B33] border border-lavender/50 dark:border-white/10 shadow-sm card-float flex items-center gap-4"
+                >
+                  <div className="w-12 h-12 rounded-full bg-lavender-light dark:bg-white/10 text-deepInk dark:text-white flex items-center justify-center shrink-0 group-hover:bg-deepInk group-hover:text-white transition-colors">
+                    <ArrowLeft className="w-5 h-5 transition-transform group-hover:-translate-x-1" />
+                  </div>
+                  <div className="overflow-hidden">
+                    <span className="text-xs font-bold uppercase text-bodyText-muted dark:text-lavender-light/60">
+                      Previous Project
+                    </span>
+                    <h4 className="font-serif font-bold text-base text-deepInk dark:text-white truncate group-hover:text-deepInk transition-colors">
+                      {prevProject.title}
+                    </h4>
+                  </div>
+                </Link>
+              ) : (
+                <div />
+              )}
 
-            {nextProject ? (
-              <Link
-                href={`/projects/${nextProject.slug}`}
-                className="group p-6 rounded-[28px] bg-white dark:bg-[#1E1B33] border border-lavender/50 dark:border-white/10 shadow-sm card-float flex items-center justify-end text-right gap-4"
-              >
-                <div className="overflow-hidden">
-                  <span className="text-xs font-bold uppercase text-bodyText-muted dark:text-lavender-light/60">
-                    Next Project
-                  </span>
-                  <h4 className="font-serif font-bold text-base text-deepInk dark:text-white truncate group-hover:text-deepInk transition-colors">
-                    {nextProject.title}
-                  </h4>
-                </div>
-                <div className="w-12 h-12 rounded-full bg-lavender-light dark:bg-white/10 text-deepInk dark:text-white flex items-center justify-center shrink-0 group-hover:bg-deepInk group-hover:text-white transition-colors">
-                  <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
-                </div>
-              </Link>
-            ) : (
-              <div />
-            )}
+              {nextProject ? (
+                <Link
+                  href={`/projects/${nextProject.slug}`}
+                  className="group p-6 rounded-[28px] bg-white dark:bg-[#1E1B33] border border-lavender/50 dark:border-white/10 shadow-sm card-float flex items-center justify-end text-right gap-4"
+                >
+                  <div className="overflow-hidden">
+                    <span className="text-xs font-bold uppercase text-bodyText-muted dark:text-lavender-light/60">
+                      Next Project
+                    </span>
+                    <h4 className="font-serif font-bold text-base text-deepInk dark:text-white truncate group-hover:text-deepInk transition-colors">
+                      {nextProject.title}
+                    </h4>
+                  </div>
+                  <div className="w-12 h-12 rounded-full bg-lavender-light dark:bg-white/10 text-deepInk dark:text-white flex items-center justify-center shrink-0 group-hover:bg-deepInk group-hover:text-white transition-colors">
+                    <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
+                  </div>
+                </Link>
+              ) : (
+                <div />
+              )}
+            </div>
           </div>
-        </div>
+        )}
 
         {/* Related Projects Row */}
-        {relatedProjects.length > 0 && (
+        {!isNew && relatedProjects.length > 0 && (
           <div>
             <div className="flex items-center justify-between mb-8">
               <div>
@@ -938,6 +998,48 @@ export default function LiveProjectCaseStudy({
       </div>
 
       {/* ======================================================================== */}
+      {/* DISCARD CONFIRMATION WARNING MODAL                                       */}
+      {/* ======================================================================== */}
+      {showDiscardModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm animate-fade-in">
+          <div className="bg-white dark:bg-[#1E1B33] rounded-[32px] border-2 border-rose-300/60 dark:border-rose-500/30 p-6 sm:p-8 max-w-md w-full shadow-2xl text-center space-y-4">
+            <div className="w-14 h-14 rounded-full bg-rose-100 dark:bg-rose-950/50 text-rose-600 dark:text-rose-400 flex items-center justify-center mx-auto shadow-inner">
+              <AlertTriangle className="w-7 h-7" />
+            </div>
+
+            <div>
+              <h3 className="font-serif font-black text-2xl text-deepInk dark:text-white">
+                {isNew ? 'Discard New Project?' : 'Discard Unsaved Changes?'}
+              </h3>
+              <p className="text-xs sm:text-sm text-bodyText-muted dark:text-lavender-light/70 font-medium mt-2 leading-relaxed">
+                {isNew
+                  ? 'You are currently in live creation mode. If you discard now, this project draft will not be saved or published to your portfolio.'
+                  : 'You have unsaved changes in this case study. If you leave without saving, all new modifications will be discarded.'}
+              </p>
+            </div>
+
+            <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-3">
+              <button
+                type="button"
+                onClick={() => setShowDiscardModal(false)}
+                className="btn-tactile w-full sm:w-auto px-5 py-2.5 rounded-full bg-lavender-light dark:bg-white/10 text-deepInk dark:text-white text-xs font-bold"
+              >
+                Continue Editing
+              </button>
+
+              <button
+                type="button"
+                onClick={handleConfirmDiscard}
+                className="btn-tactile w-full sm:w-auto px-5 py-2.5 rounded-full bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold shadow-md active:scale-95 transition-all"
+              >
+                Discard & Leave
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ======================================================================== */}
       {/* MODAL: EDIT PROJECT INFO (Title, Category, Role, Client, Tools, etc.)     */}
       {/* ======================================================================== */}
       {isInfoModalOpen && (
@@ -945,7 +1047,7 @@ export default function LiveProjectCaseStudy({
           <div className="bg-white dark:bg-[#1E1B33] rounded-[32px] md:rounded-[40px] border border-lavender/50 dark:border-white/10 p-6 sm:p-8 max-w-xl w-full shadow-2xl max-h-[90vh] overflow-y-auto">
             <div className="flex items-center justify-between pb-4 border-b border-lavender/30 dark:border-white/10 mb-6">
               <h3 className="font-serif font-bold text-xl text-deepInk dark:text-white">
-                Edit Project Information
+                {isNew ? 'Set Project Details' : 'Edit Project Information'}
               </h3>
               <button
                 onClick={() => setIsInfoModalOpen(false)}
@@ -965,6 +1067,7 @@ export default function LiveProjectCaseStudy({
                   required
                   value={infoForm.title}
                   onChange={(e) => setInfoForm({ ...infoForm, title: e.target.value })}
+                  placeholder="e.g. Crunchy Piper - 3D Brand System"
                   className="w-full px-4 py-2.5 rounded-xl bg-bg dark:bg-[#161426] border border-lavender/50 text-deepInk dark:text-white text-sm font-semibold focus:outline-none focus:border-deepInk"
                 />
               </div>
@@ -1063,7 +1166,7 @@ export default function LiveProjectCaseStudy({
                   type="submit"
                   className="btn-tactile btn-tactile-dark px-6 py-2.5 rounded-full bg-deepInk text-white text-xs font-bold"
                 >
-                  Save Information
+                  Apply Details
                 </button>
               </div>
             </form>

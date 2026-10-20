@@ -313,10 +313,7 @@ export default function AdminDashboardPage() {
             <ClayButton
               variant="dark"
               size="sm"
-              onClick={() => {
-                setEditingProject(null);
-                setIsProjectModalOpen(true);
-              }}
+              href="/projects/new"
             >
               <Plus className="w-4 h-4 mr-1" />
               Add New Project
