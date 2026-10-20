@@ -2,13 +2,16 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { Menu, X, Lock, Download } from 'lucide-react';
+import { useTheme } from '@/components/theme/ThemeProvider';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const pathname = usePathname();
+  const { themeConfig } = useTheme();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -42,15 +45,37 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between">
           
-          {/* Brand Logo: 's.' in bold serif with periwinkle/lavender dot */}
+          {/* Brand Logo: customizable text or image from Theme Config */}
           <Link
             href="/"
             className="group flex items-baseline gap-1 no-underline select-none"
           >
-            <span className="font-serif font-black text-4xl sm:text-5xl text-deepInk dark:text-white tracking-tighter leading-none group-hover:text-deepInk/80 transition-colors">
-              s
-            </span>
-            <span className="w-2.5 h-2.5 rounded-full bg-periwinkle group-hover:bg-lavender inline-block group-hover:scale-125 transition-transform" />
+            {themeConfig?.logo?.type === 'image' && themeConfig.logo.imageUrl ? (
+              <div className="relative h-8 sm:h-9 w-28 sm:w-36 flex items-center">
+                <Image
+                  src={themeConfig.logo.imageUrl}
+                  alt={themeConfig.logo.text || 'Sumit Kumar'}
+                  fill
+                  sizes="160px"
+                  className="object-contain object-left"
+                  priority
+                />
+              </div>
+            ) : (
+              <>
+                <span className="font-serif font-black text-4xl sm:text-5xl text-deepInk dark:text-white tracking-tighter leading-none group-hover:text-deepInk/80 transition-colors">
+                  {themeConfig?.logo?.text || 's'}
+                </span>
+                {themeConfig?.logo?.dotColor ? (
+                  <span
+                    className="w-2.5 h-2.5 rounded-full inline-block group-hover:scale-125 transition-transform"
+                    style={{ backgroundColor: themeConfig.logo.dotColor }}
+                  />
+                ) : (
+                  <span className="w-2.5 h-2.5 rounded-full bg-periwinkle group-hover:bg-lavender inline-block group-hover:scale-125 transition-transform" />
+                )}
+              </>
+            )}
           </Link>
 
           {/* Desktop Navigation */}

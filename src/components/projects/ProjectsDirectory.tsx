@@ -8,20 +8,36 @@ import { Sparkles, Search } from 'lucide-react';
 
 interface ProjectsDirectoryProps {
   initialProjects: Project[];
+  categories?: string[];
 }
 
-const CATEGORIES: { label: ProjectCategory; pastel: string }[] = [
-  { label: 'All', pastel: 'hover:bg-lavender-light' },
-  { label: '3D Design', pastel: 'hover:bg-periwinkle-light' },
-  { label: 'Motion Graphics', pastel: 'hover:bg-babyPink-light' },
-  { label: 'Packaging', pastel: 'hover:bg-peach-light' },
-  { label: 'Branding', pastel: 'hover:bg-mint-light' },
-  { label: 'AI Video', pastel: 'hover:bg-butterYellow-light' },
+const PASTEL_HOVERS = [
+  'hover:bg-lavender-light',
+  'hover:bg-periwinkle-light',
+  'hover:bg-babyPink-light',
+  'hover:bg-peach-light',
+  'hover:bg-mint-light',
+  'hover:bg-butterYellow-light',
 ];
 
-export default function ProjectsDirectory({ initialProjects }: ProjectsDirectoryProps) {
-  const [selectedCategory, setSelectedCategory] = useState<ProjectCategory>('All');
+export default function ProjectsDirectory({ initialProjects, categories }: ProjectsDirectoryProps) {
+  const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [searchQuery, setSearchQuery] = useState('');
+
+  // Dynamically build category pills list
+  const categoryPills = useMemo(() => {
+    const list = categories && categories.length > 0
+      ? categories
+      : Array.from(new Set(initialProjects.map((p) => p.category)));
+    
+    return [
+      { label: 'All', pastel: 'hover:bg-lavender-light' },
+      ...list.map((cat, idx) => ({
+        label: cat,
+        pastel: PASTEL_HOVERS[idx % PASTEL_HOVERS.length],
+      })),
+    ];
+  }, [categories, initialProjects]);
 
   const filteredProjects = useMemo(() => {
     return initialProjects.filter((project) => {
@@ -64,7 +80,7 @@ export default function ProjectsDirectory({ initialProjects }: ProjectsDirectory
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             {/* Category Filter Pills */}
             <div className="flex flex-wrap items-center justify-center gap-2 bg-white/80 dark:bg-[#1E1B33]/80 backdrop-blur-md p-2 rounded-full border border-lavender/40 dark:border-white/10 shadow-[0_2px_8px_rgba(46,42,79,0.04)]">
-              {CATEGORIES.map(({ label, pastel }) => {
+              {categoryPills.map(({ label, pastel }) => {
                 const active = selectedCategory === label;
                 return (
                   <button

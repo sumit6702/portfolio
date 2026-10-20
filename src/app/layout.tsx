@@ -5,6 +5,7 @@ import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import { ThemeProvider } from '@/components/theme/ThemeProvider';
 import { fetchProfileSettings } from '@/lib/data-service';
+import { DEFAULT_THEME_CONFIG } from '@/config/theme-presets';
 
 const fraunces = Fraunces({
   subsets: ['latin'],
@@ -94,7 +95,7 @@ export default async function RootLayout({
         />
       </head>
       <body className="min-h-screen flex flex-col bg-bg text-bodyText dark:bg-[#161426] dark:text-[#E7E4F5] antialiased selection:bg-lavender selection:text-deepInk transition-colors duration-200">
-        <ThemeProvider defaultTheme={siteTheme}>
+        <ThemeProvider defaultTheme={siteTheme} initialThemeConfig={profile.themeConfig || DEFAULT_THEME_CONFIG}>
           <Navbar />
           <main className="flex-1">{children}</main>
           <Footer />

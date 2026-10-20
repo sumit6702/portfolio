@@ -11,7 +11,8 @@ import {
 } from 'lucide-react';
 import { Project, CaseStudyBlock } from '@/lib/types';
 import { uploadPortfolioImage } from '@/lib/storage';
-import { generateUuid, isValidUuid } from '@/lib/data-service';
+import { generateUuid, isValidUuid, fetchProfileSettings } from '@/lib/data-service';
+import { DEFAULT_CATEGORIES } from '@/lib/initial-data';
 import ClayButton from '@/components/3d/ClayButton';
 
 interface ProjectModalProps {
@@ -49,6 +50,15 @@ export default function ProjectModal({
   const [isUploadingGallery, setIsUploadingGallery] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
+  const [availableCategories, setAvailableCategories] = useState<string[]>(DEFAULT_CATEGORIES);
+
+  useEffect(() => {
+    fetchProfileSettings().then((prof) => {
+      if (prof?.categories && prof.categories.length > 0) {
+        setAvailableCategories(prof.categories);
+      }
+    });
+  }, []);
 
   useEffect(() => {
     if (initialProject) {
@@ -272,15 +282,18 @@ export default function ProjectModal({
                 Category
               </label>
               <select
-                value={formData.category || '3D Design'}
+                value={formData.category || (availableCategories[0] || '3D Design')}
                 onChange={(e) => setFormData({ ...formData, category: e.target.value })}
                 className="w-full px-4 py-2.5 rounded-2xl bg-bg dark:bg-[#161426] border border-lavender/50 dark:border-white/10 text-deepInk dark:text-white text-sm font-semibold focus:outline-none focus:border-deepInk"
               >
-                <option value="3D Design">3D Design</option>
-                <option value="Motion Graphics">Motion Graphics</option>
-                <option value="Packaging">Packaging</option>
-                <option value="Branding">Branding</option>
-                <option value="AI Video">AI Video</option>
+                {formData.category && !availableCategories.includes(formData.category) && (
+                  <option value={formData.category}>{formData.category}</option>
+                )}
+                {availableCategories.map((cat) => (
+                  <option key={cat} value={cat}>
+                    {cat}
+                  </option>
+                ))}
               </select>
             </div>
 

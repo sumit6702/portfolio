@@ -59,8 +59,10 @@ CREATE TABLE IF NOT EXISTS public.profile_settings (
   updated_at TIMESTAMPTZ DEFAULT NOW()
 );
 
--- Ensure theme_mode column exists on existing installations
+-- Ensure theme_mode, categories, and theme_config columns exist on existing installations
 ALTER TABLE public.profile_settings ADD COLUMN IF NOT EXISTS theme_mode TEXT DEFAULT 'system';
+ALTER TABLE public.profile_settings ADD COLUMN IF NOT EXISTS categories JSONB DEFAULT '["3D Design", "Motion Graphics", "Packaging", "Branding", "AI Video"]'::jsonb;
+ALTER TABLE public.profile_settings ADD COLUMN IF NOT EXISTS theme_config JSONB DEFAULT '{}'::jsonb;
 
 -- 5. CONTACT INQUIRIES TABLE
 CREATE TABLE IF NOT EXISTS public.contact_inquiries (

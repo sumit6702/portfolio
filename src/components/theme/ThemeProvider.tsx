@@ -1,6 +1,8 @@
 'use client';
 
 import React, { createContext, useContext, useEffect, useState } from 'react';
+import { ThemeConfig } from '@/lib/types';
+import { DEFAULT_THEME_CONFIG } from '@/config/theme-presets';
 
 export type ThemeMode = 'light' | 'dark' | 'system';
 
@@ -8,27 +10,36 @@ interface ThemeContextType {
   theme: ThemeMode;
   resolvedTheme: 'light' | 'dark';
   setTheme: (theme: ThemeMode) => void;
+  themeConfig: ThemeConfig;
+  setThemeConfig: (config: ThemeConfig) => void;
 }
 
 const ThemeContext = createContext<ThemeContextType>({
   theme: 'system',
   resolvedTheme: 'light',
   setTheme: () => {},
+  themeConfig: DEFAULT_THEME_CONFIG,
+  setThemeConfig: () => {},
 });
 
 const STORAGE_KEY = 'portfolio_theme_mode';
+const CONFIG_STORAGE_KEY = 'portfolio_theme_config';
 
 export function ThemeProvider({
   children,
   defaultTheme = 'system',
+  initialThemeConfig = DEFAULT_THEME_CONFIG,
 }: {
   children: React.ReactNode;
   defaultTheme?: ThemeMode;
+  initialThemeConfig?: ThemeConfig;
 }) {
   const [theme, setThemeState] = useState<ThemeMode>(defaultTheme);
   const [resolvedTheme, setResolvedTheme] = useState<'light' | 'dark'>('light');
+  const [themeConfig, setThemeConfigState] = useState<ThemeConfig>(initialThemeConfig);
   const [mounted, setMounted] = useState(false);
 
+  // Initialize theme mode and theme config from storage or server defaults
   useEffect(() => {
     try {
       const stored = localStorage.getItem(STORAGE_KEY) as ThemeMode | null;
@@ -37,12 +48,27 @@ export function ThemeProvider({
       } else {
         setThemeState(defaultTheme);
       }
+
+      const storedConfig = localStorage.getItem(CONFIG_STORAGE_KEY);
+      if (storedConfig) {
+        try {
+          const parsed = JSON.parse(storedConfig);
+          if (parsed && typeof parsed === 'object') {
+            setThemeConfigState(parsed);
+          }
+        } catch {
+          // keep initial
+        }
+      } else if (initialThemeConfig) {
+        setThemeConfigState(initialThemeConfig);
+      }
     } catch {
       setThemeState(defaultTheme);
     }
     setMounted(true);
-  }, [defaultTheme]);
+  }, [defaultTheme, initialThemeConfig]);
 
+  // Apply dark class to documentElement
   useEffect(() => {
     const root = document.documentElement;
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
@@ -66,7 +92,6 @@ export function ThemeProvider({
 
     applyTheme();
 
-    // Listen to OS changes when in system mode
     const handler = () => {
       if (theme === 'system') {
         applyTheme();
@@ -77,6 +102,60 @@ export function ThemeProvider({
     return () => mediaQuery.removeEventListener('change', handler);
   }, [theme]);
 
+  // Apply dynamic font and style overrides when themeConfig changes
+  useEffect(() => {
+    if (!themeConfig) return;
+
+    // 1. Dynamically load Google Font if custom font is specified
+    const headingFont = themeConfig.typography?.headingFont;
+    const bodyFont = themeConfig.typography?.bodyFont;
+
+    const fontsToLoad = [headingFont, bodyFont].filter(
+      (f): f is string => Boolean(f) && f !== 'Fraunces' && f !== 'Plus Jakarta Sans' && f !== 'Caveat'
+    );
+
+    fontsToLoad.forEach((fontName) => {
+      const linkId = `google-font-${fontName.toLowerCase().replace(/\s+/g, '-')}`;
+      if (!document.getElementById(linkId)) {
+        const link = document.createElement('link');
+        link.id = linkId;
+        link.rel = 'stylesheet';
+        link.href = `https://fonts.googleapis.com/css2?family=${encodeURIComponent(
+          fontName
+        )}:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,700&display=swap`;
+        document.head.appendChild(link);
+      }
+    });
+
+    // 2. Inject or update dynamic typography stylesheet
+    let styleEl = document.getElementById('theme-dynamic-styles') as HTMLStyleElement | null;
+    if (!styleEl) {
+      styleEl = document.createElement('style');
+      styleEl.id = 'theme-dynamic-styles';
+      document.head.appendChild(styleEl);
+    }
+
+    const headingFontFamily = headingFont
+      ? `'${headingFont}', var(--font-fraunces), serif`
+      : 'var(--font-fraunces), serif';
+    const bodyFontFamily = bodyFont
+      ? `'${bodyFont}', var(--font-sans), sans-serif`
+      : 'var(--font-sans), sans-serif';
+
+    styleEl.innerHTML = `
+      :root {
+        --font-custom-heading: ${headingFontFamily};
+        --font-custom-body: ${bodyFontFamily};
+      }
+      .font-serif, [class*="font-serif"] {
+        font-family: var(--font-custom-heading) !important;
+      }
+      body {
+        font-family: var(--font-custom-body) !important;
+      }
+    `;
+  }, [themeConfig]);
+
   const setTheme = (newTheme: ThemeMode) => {
     setThemeState(newTheme);
     try {
@@ -86,8 +165,21 @@ export function ThemeProvider({
     }
   };
 
+  const setThemeConfig = (newConfig: ThemeConfig) => {
+    setThemeConfigState(newConfig);
+    try {
+      localStorage.setItem(CONFIG_STORAGE_KEY, JSON.stringify(newConfig));
+    } catch (e) {
+      console.warn('Failed to persist theme config:', e);
+    }
+    // Also update themeMode if specified in config
+    if (newConfig.themeMode) {
+      setTheme(newConfig.themeMode);
+    }
+  };
+
   return (
-    <ThemeContext.Provider value={{ theme, resolvedTheme, setTheme }}>
+    <ThemeContext.Provider value={{ theme, resolvedTheme, setTheme, themeConfig, setThemeConfig }}>
       {children}
     </ThemeContext.Provider>
   );

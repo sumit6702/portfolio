@@ -31,7 +31,8 @@ import {
 } from 'lucide-react';
 import { Project, CaseStudyBlock } from '@/lib/types';
 import { checkAdminSession } from '@/lib/auth';
-import { saveProject } from '@/lib/data-service';
+import { saveProject, fetchProfileSettings } from '@/lib/data-service';
+import { DEFAULT_CATEGORIES } from '@/lib/initial-data';
 import { uploadPortfolioImage } from '@/lib/storage';
 import VideoEmbed from '@/components/videos/VideoEmbed';
 import ProjectCard from '@/components/projects/ProjectCard';
@@ -64,6 +65,15 @@ export default function LiveProjectCaseStudy({
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState<boolean>(isNew);
   const [showDiscardModal, setShowDiscardModal] = useState<boolean>(false);
   const [pendingRedirect, setPendingRedirect] = useState<string | null>(null);
+  const [availableCategories, setAvailableCategories] = useState<string[]>(DEFAULT_CATEGORIES);
+
+  useEffect(() => {
+    fetchProfileSettings().then((prof) => {
+      if (prof?.categories && prof.categories.length > 0) {
+        setAvailableCategories(prof.categories);
+      }
+    });
+  }, []);
 
   // Info modal state
   const [isInfoModalOpen, setIsInfoModalOpen] = useState(false);
@@ -1082,11 +1092,14 @@ export default function LiveProjectCaseStudy({
                     onChange={(e) => setInfoForm({ ...infoForm, category: e.target.value })}
                     className="w-full px-4 py-2.5 rounded-xl bg-bg dark:bg-[#161426] border border-lavender/50 text-deepInk dark:text-white text-sm font-semibold focus:outline-none"
                   >
-                    <option value="3D Design">3D Design</option>
-                    <option value="Motion Graphics">Motion Graphics</option>
-                    <option value="Packaging">Packaging</option>
-                    <option value="Branding">Branding</option>
-                    <option value="AI Video">AI Video</option>
+                    {infoForm.category && !availableCategories.includes(infoForm.category) && (
+                      <option value={infoForm.category}>{infoForm.category}</option>
+                    )}
+                    {availableCategories.map((cat) => (
+                      <option key={cat} value={cat}>
+                        {cat}
+                      </option>
+                    ))}
                   </select>
                 </div>
 

@@ -17,6 +17,9 @@ import {
   Database,
   Star,
   CheckCircle2,
+  Tag,
+  Palette,
+  Sparkles,
 } from 'lucide-react';
 import { checkAdminSession, logoutAdmin, AdminUser } from '@/lib/auth';
 import {
@@ -31,9 +34,12 @@ import {
   fetchContactInquiries,
 } from '@/lib/data-service';
 import { Project, VideoItem, ProfileSettings, ContactInquiry } from '@/lib/types';
+import { DEFAULT_CATEGORIES } from '@/lib/initial-data';
 import ProjectModal from '@/components/admin/ProjectModal';
 import VideoModal from '@/components/admin/VideoModal';
 import ProfileEditor from '@/components/admin/ProfileEditor';
+import CategoryManager from '@/components/admin/CategoryManager';
+import AppearanceEditor from '@/components/admin/AppearanceEditor';
 import SupabaseSetupHelper from '@/components/admin/SupabaseSetupHelper';
 import ClayButton from '@/components/3d/ClayButton';
 import ThemeToggle from '@/components/theme/ThemeToggle';
@@ -41,7 +47,9 @@ import ThemeToggle from '@/components/theme/ThemeToggle';
 export default function AdminDashboardPage() {
   const router = useRouter();
   const [currentUser, setCurrentUser] = useState<AdminUser | null>(null);
-  const [activeTab, setActiveTab] = useState<'projects' | 'videos' | 'profile' | 'inquiries' | 'setup'>('projects');
+  const [activeTab, setActiveTab] = useState<
+    'projects' | 'videos' | 'categories' | 'appearance' | 'profile' | 'inquiries' | 'setup'
+  >('projects');
 
   // Data states
   const [projects, setProjects] = useState<Project[]>([]);
@@ -126,6 +134,63 @@ export default function AdminDashboardPage() {
       } else {
         alert(`Error deleting project: ${res.error}`);
       }
+    }
+  };
+
+  // Toggle Featured Project status (Add/Remove from Featured Section)
+  const handleToggleFeatured = async (proj: Project) => {
+    const updatedStatus = !proj.featured;
+    const updatedProj: Project = { ...proj, featured: updatedStatus };
+    const res = await saveProject(updatedProj);
+    if (!res.error) {
+      setProjects((prev) =>
+        prev.map((p) => (p.id === proj.id ? { ...p, featured: updatedStatus } : p))
+      );
+      showNotification(
+        updatedStatus
+          ? `Added "${proj.title}" to Featured section!`
+          : `Removed "${proj.title}" from Featured section.`
+      );
+    } else {
+      alert(`Error updating featured status: ${res.error}`);
+    }
+  };
+
+  // Categories Save & Optional Rename Sync across projects/videos
+  const handleSaveCategories = async (
+    updatedCategories: string[],
+    renamedMap?: { from: string; to: string }
+  ) => {
+    if (!profile) return;
+    const newProfile: ProfileSettings = {
+      ...profile,
+      categories: updatedCategories,
+    };
+    const res = await saveProfileSettings(newProfile);
+    if (!res.error && res.data) {
+      setProfile(res.data);
+      showNotification('Categories updated successfully!');
+
+      // If a category was renamed, also update projects and videos that used the old name
+      if (renamedMap && renamedMap.from && renamedMap.to) {
+        const { from, to } = renamedMap;
+        for (const p of projects) {
+          if (p.category.toLowerCase().trim() === from.toLowerCase().trim()) {
+            await saveProject({ ...p, category: to });
+          }
+        }
+        for (const v of videos) {
+          if (v.category.toLowerCase().trim() === from.toLowerCase().trim()) {
+            await saveVideo({ ...v, category: to });
+          }
+        }
+        const freshProjects = await fetchProjects();
+        setProjects(freshProjects);
+        const freshVideos = await fetchVideos();
+        setVideos(freshVideos);
+      }
+    } else {
+      alert(`Error saving categories: ${res.error}`);
     }
   };
 
@@ -255,6 +320,34 @@ export default function AdminDashboardPage() {
         </button>
 
         <button
+          onClick={() => setActiveTab('categories')}
+          className={`btn-tactile flex items-center gap-2 px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold transition-all ${
+            activeTab === 'categories'
+              ? 'btn-tactile-dark bg-deepInk text-white shadow-sm'
+              : 'text-deepInk dark:text-lavender-light hover:bg-lavender-light'
+          }`}
+        >
+          <span className="relative z-10 flex items-center gap-2">
+            <Tag className="w-4 h-4" />
+            <span>Categories ({profile?.categories?.length || DEFAULT_CATEGORIES.length})</span>
+          </span>
+        </button>
+
+        <button
+          onClick={() => setActiveTab('appearance')}
+          className={`btn-tactile flex items-center gap-2 px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold transition-all ${
+            activeTab === 'appearance'
+              ? 'btn-tactile-dark bg-deepInk text-white shadow-sm'
+              : 'text-deepInk dark:text-lavender-light hover:bg-lavender-light'
+          }`}
+        >
+          <span className="relative z-10 flex items-center gap-2">
+            <Palette className="w-4 h-4" />
+            <span>Appearance & Themes</span>
+          </span>
+        </button>
+
+        <button
           onClick={() => setActiveTab('profile')}
           className={`btn-tactile flex items-center gap-2 px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold transition-all ${
             activeTab === 'profile'
@@ -264,7 +357,7 @@ export default function AdminDashboardPage() {
         >
           <span className="relative z-10 flex items-center gap-2">
             <UserCheck className="w-4 h-4" />
-            <span>Profile, Contact & Resume</span>
+            <span>Profile & Bio</span>
           </span>
         </button>
 
@@ -302,11 +395,17 @@ export default function AdminDashboardPage() {
         <div className="space-y-6">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
-              <h2 className="font-serif font-black text-2xl text-deepInk dark:text-white">
-                Manage Portfolio Projects
-              </h2>
-              <p className="text-xs text-bodyText-muted dark:text-lavender-light/70 font-semibold">
-                Add, edit, or delete case studies shown across the website.
+              <div className="flex items-center gap-3">
+                <h2 className="font-serif font-black text-2xl text-deepInk dark:text-white">
+                  Manage Portfolio Projects
+                </h2>
+                <span className="px-3 py-1 rounded-full bg-butterYellow/50 dark:bg-butterYellow/20 text-deepInk dark:text-butterYellow-light text-xs font-bold border border-butterYellow-border/70 flex items-center gap-1.5 shadow-xs">
+                  <Star className="w-3.5 h-3.5 fill-deepInk dark:fill-butterYellow-light" />
+                  <span>{projects.filter((p) => p.featured).length} of {projects.length} in Featured Section</span>
+                </span>
+              </div>
+              <p className="text-xs text-bodyText-muted dark:text-lavender-light/70 font-semibold mt-1">
+                Add, live edit, or toggle projects in and out of the Featured Section displayed on the Home page.
               </p>
             </div>
 
@@ -354,15 +453,31 @@ export default function AdminDashboardPage() {
                   </p>
                 </div>
 
-                <div className="mt-4 pt-3 border-t border-lavender/30 dark:border-white/10 flex items-center justify-between">
-                  <span className="text-[11px] font-bold text-bodyText-muted dark:text-lavender-light/60">
-                    {proj.year} • {proj.tools.length} Tools
-                  </span>
+                <div className="mt-4 pt-3 border-t border-lavender/30 dark:border-white/10 flex flex-col gap-3">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[11px] font-bold text-bodyText-muted dark:text-lavender-light/60">
+                      {proj.year} • {proj.tools.length} Tools
+                    </span>
 
-                  <div className="flex items-center gap-2">
+                    {/* Feature Section Add/Remove Button */}
+                    <button
+                      onClick={() => handleToggleFeatured(proj)}
+                      className={`btn-tactile inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold transition-all shadow-xs ${
+                        proj.featured
+                          ? 'bg-butterYellow text-deepInk border border-butterYellow-border hover:bg-babyPink-light hover:text-red-600'
+                          : 'bg-bg dark:bg-[#161426] border border-lavender/50 dark:border-white/10 text-bodyText-muted dark:text-lavender-light hover:bg-butterYellow hover:text-deepInk hover:border-butterYellow'
+                      }`}
+                      title={proj.featured ? 'Click to remove from Featured section' : 'Click to add to Featured section on Home'}
+                    >
+                      <Star className={`w-3.5 h-3.5 ${proj.featured ? 'fill-deepInk' : ''}`} />
+                      <span>{proj.featured ? 'Remove from Featured' : 'Add to Featured'}</span>
+                    </button>
+                  </div>
+
+                  <div className="flex items-center justify-between pt-1">
                     <Link
                       href={`/projects/${proj.slug}`}
-                      className="btn-tactile inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-deepInk dark:bg-white text-white dark:text-deepInk text-xs font-bold shadow-sm hover:scale-105 active:scale-95 transition-all"
+                      className="btn-tactile inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-deepInk dark:bg-white text-white dark:text-deepInk text-xs font-bold shadow-sm hover:scale-105 active:scale-95 transition-all"
                       title="Edit in live Behance preview mode"
                     >
                       <Edit className="w-3.5 h-3.5" />
@@ -485,7 +600,25 @@ export default function AdminDashboardPage() {
         </div>
       )}
 
-      {/* TAB 3: PROFILE, CONTACT & RESUME */}
+      {/* TAB 3: CATEGORIES */}
+      {activeTab === 'categories' && (
+        <CategoryManager
+          categories={profile?.categories || DEFAULT_CATEGORIES}
+          projects={projects}
+          videos={videos}
+          onSaveCategories={handleSaveCategories}
+        />
+      )}
+
+      {/* TAB 4: APPEARANCE */}
+      {activeTab === 'appearance' && profile && (
+        <AppearanceEditor
+          profile={profile}
+          onSaveProfile={handleSaveProfile}
+        />
+      )}
+
+      {/* TAB 5: PROFILE, CONTACT & RESUME */}
       {activeTab === 'profile' && profile && (
         <ProfileEditor
           initialProfile={profile}

@@ -1,4 +1,13 @@
 import { ProfileSettings, Project, VideoItem, ExperienceItem, EducationItem, CertificationItem } from './types';
+import { DEFAULT_THEME_CONFIG } from '@/config/theme-presets';
+
+export const DEFAULT_CATEGORIES = [
+  '3D Design',
+  'Motion Graphics',
+  'Packaging',
+  'Branding',
+  'AI Video',
+];
 
 export const INITIAL_PROFILE: ProfileSettings = {
   id: 'main',
@@ -18,6 +27,8 @@ export const INITIAL_PROFILE: ProfileSettings = {
   socialWebsite: 'https://sumitk.in',
   resumeUrl: '/resume-sumit-kumar.pdf',
   themeMode: 'system',
+  categories: DEFAULT_CATEGORIES,
+  themeConfig: DEFAULT_THEME_CONFIG,
 };
 
 export const INITIAL_EXPERIENCES: ExperienceItem[] = [

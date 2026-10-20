@@ -4,7 +4,8 @@ import React, { useState, useEffect } from 'react';
 import { X, Upload } from 'lucide-react';
 import { VideoItem } from '@/lib/types';
 import { uploadPortfolioImage } from '@/lib/storage';
-import { generateUuid, isValidUuid } from '@/lib/data-service';
+import { generateUuid, isValidUuid, fetchProfileSettings } from '@/lib/data-service';
+import { DEFAULT_CATEGORIES } from '@/lib/initial-data';
 import ClayButton from '@/components/3d/ClayButton';
 
 interface VideoModalProps {
@@ -32,6 +33,31 @@ export default function VideoModal({
   const [isUploadingThumb, setIsUploadingThumb] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
+  const [availableCategories, setAvailableCategories] = useState<string[]>([
+    'Motion Graphics',
+    '3D Animation',
+    '3D Simulation',
+    'AI Video',
+    'Commercial Reel',
+  ]);
+
+  useEffect(() => {
+    fetchProfileSettings().then((prof) => {
+      if (prof?.categories && prof.categories.length > 0) {
+        const combined = Array.from(
+          new Set([
+            'Motion Graphics',
+            '3D Animation',
+            '3D Simulation',
+            'AI Video',
+            'Commercial Reel',
+            ...prof.categories,
+          ])
+        );
+        setAvailableCategories(combined);
+      }
+    });
+  }, []);
 
   useEffect(() => {
     if (initialVideo) {
@@ -165,11 +191,14 @@ export default function VideoModal({
                 onChange={(e) => setFormData({ ...formData, category: e.target.value })}
                 className="w-full px-4 py-2.5 rounded-2xl bg-bg dark:bg-[#161426] border border-lavender/50 dark:border-white/10 text-deepInk dark:text-white text-sm font-semibold focus:outline-none focus:border-deepInk"
               >
-                <option value="Motion Graphics">Motion Graphics</option>
-                <option value="3D Animation">3D Animation</option>
-                <option value="3D Simulation">3D Simulation</option>
-                <option value="AI Video">AI Video</option>
-                <option value="Commercial Reel">Commercial Reel</option>
+                {formData.category && !availableCategories.includes(formData.category) && (
+                  <option value={formData.category}>{formData.category}</option>
+                )}
+                {availableCategories.map((cat) => (
+                  <option key={cat} value={cat}>
+                    {cat}
+                  </option>
+                ))}
               </select>
             </div>
 

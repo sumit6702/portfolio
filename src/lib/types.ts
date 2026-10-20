@@ -1,3 +1,5 @@
+export type ThemeMode = 'light' | 'dark' | 'system';
+
 export type ProjectCategory =
   | 'All'
   | '3D Design'
@@ -74,6 +76,39 @@ export interface CertificationItem {
   year?: string;
 }
 
+export interface ThemeLogoConfig {
+  type: 'text' | 'image';
+  text: string;
+  dotColor?: string;
+  imageUrl?: string;
+}
+
+export interface ThemeTypographyConfig {
+  headingFont: string;
+  bodyFont: string;
+  accentFont?: string;
+}
+
+export interface ThemePaletteConfig {
+  background: string;
+  text: string;
+  primary: string;
+  card: string;
+  border: string;
+  accent?: string;
+}
+
+export interface ThemeConfig {
+  name?: string;
+  themeMode?: 'light' | 'dark' | 'system';
+  logo: ThemeLogoConfig;
+  typography: ThemeTypographyConfig;
+  colors: {
+    light: ThemePaletteConfig;
+    dark: ThemePaletteConfig;
+  };
+}
+
 export interface ProfileSettings {
   id: string;
   fullName: string;
@@ -90,6 +125,8 @@ export interface ProfileSettings {
   socialWebsite: string;
   resumeUrl: string;
   themeMode?: 'light' | 'dark' | 'system';
+  categories?: string[];
+  themeConfig?: ThemeConfig;
   updatedAt?: string;
 }
 

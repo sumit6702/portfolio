@@ -1,7 +1,7 @@
 import React from 'react';
 import type { Metadata } from 'next';
 import ProjectsDirectory from '@/components/projects/ProjectsDirectory';
-import { fetchProjects } from '@/lib/data-service';
+import { fetchProjects, fetchProfileSettings } from '@/lib/data-service';
 
 export const dynamic = 'force-dynamic';
 export const revalidate = 0;
@@ -13,7 +13,10 @@ export const metadata: Metadata = {
 };
 
 export default async function ProjectsPage() {
-  const projects = await fetchProjects();
+  const [projects, profile] = await Promise.all([
+    fetchProjects(),
+    fetchProfileSettings(),
+  ]);
 
-  return <ProjectsDirectory initialProjects={projects} />;
+  return <ProjectsDirectory initialProjects={projects} categories={profile?.categories} />;
 }
