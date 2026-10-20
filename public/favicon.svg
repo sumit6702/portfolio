@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <defs>
+    <radialGradient id="favGrad" cx="35%" cy="30%" r="65%">
+      <stop offset="0%" stop-color="#2DD4BF" />
+      <stop offset="45%" stop-color="#14B8A6" />
+      <stop offset="90%" stop-color="#0F766E" />
+      <stop offset="100%" stop-color="#093231" />
+    </radialGradient>
+  </defs>
+  <rect width="100" height="100" rx="30" fill="url(#favGrad)" />
+  <circle cx="36" cy="30" r="10" fill="#ffffff" opacity="0.35" />
+  <text x="50" y="68" font-family="system-ui, sans-serif" font-size="52" font-weight="900" fill="#ffffff" text-anchor="middle">S</text>
+</svg>

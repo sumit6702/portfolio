@@ -1,0 +1,185 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-fredoka: 'Fredoka', 'Quicksand', sans-serif;
+  --font-outfit: 'Outfit', 'Plus Jakarta Sans', sans-serif;
+}
+
+body {
+  color: #0F4C4A;
+  background-color: #FFF8F0;
+  font-family: var(--font-outfit), system-ui, -apple-system, sans-serif;
+  overflow-x: hidden;
+  selection-background-color: #14B8A6;
+  selection-color: #ffffff;
+}
+
+::selection {
+  background-color: #14B8A6;
+  color: #ffffff;
+}
+
+/* Custom smooth scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #FFF8F0;
+}
+::-webkit-scrollbar-thumb {
+  background: #99F6E4;
+  border-radius: 9999px;
+  border: 2px solid #FFF8F0;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #14B8A6;
+}
+
+/* Cute 3D tactile button effects */
+.btn-3d-teal {
+  background: #14B8A6;
+  color: #ffffff;
+  box-shadow: 0 5px 0 #0D9488, 0 10px 16px rgba(15, 76, 74, 0.2);
+  transition: all 0.15s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.btn-3d-teal:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 7px 0 #0D9488, 0 14px 22px rgba(15, 76, 74, 0.25);
+  background: #19C7B4;
+}
+.btn-3d-teal:active {
+  transform: translateY(3px);
+  box-shadow: 0 2px 0 #0D9488, 0 4px 8px rgba(15, 76, 74, 0.15);
+}
+
+.btn-3d-coral {
+  background: #FF8A7A;
+  color: #ffffff;
+  box-shadow: 0 5px 0 #E55C4A, 0 10px 16px rgba(229, 92, 74, 0.25);
+  transition: all 0.15s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.btn-3d-coral:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 7px 0 #E55C4A, 0 14px 22px rgba(229, 92, 74, 0.3);
+  background: #FFA092;
+}
+.btn-3d-coral:active {
+  transform: translateY(3px);
+  box-shadow: 0 2px 0 #E55C4A, 0 4px 8px rgba(229, 92, 74, 0.2);
+}
+
+.btn-3d-cream {
+  background: #ffffff;
+  color: #0F4C4A;
+  border: 2px solid #CCFBF1;
+  box-shadow: 0 5px 0 #99F6E4, 0 10px 16px rgba(15, 76, 74, 0.08);
+  transition: all 0.15s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.btn-3d-cream:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 7px 0 #99F6E4, 0 14px 22px rgba(15, 76, 74, 0.12);
+  background: #F0FDFA;
+}
+.btn-3d-cream:active {
+  transform: translateY(3px);
+  box-shadow: 0 2px 0 #99F6E4, 0 4px 8px rgba(15, 76, 74, 0.06);
+}
+
+.btn-3d-yellow {
+  background: #FFE69A;
+  color: #0F4C4A;
+  box-shadow: 0 5px 0 #E6B83B, 0 10px 16px rgba(230, 184, 59, 0.25);
+  transition: all 0.15s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.btn-3d-yellow:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 7px 0 #E6B83B, 0 14px 22px rgba(230, 184, 59, 0.3);
+  background: #FFF0B8;
+}
+.btn-3d-yellow:active {
+  transform: translateY(3px);
+  box-shadow: 0 2px 0 #E6B83B, 0 4px 8px rgba(230, 184, 59, 0.2);
+}
+
+/* Claymorphic card style */
+.clay-card {
+  background: #FFFFFF;
+  border-radius: 1.75rem;
+  border: 2px solid rgba(204, 251, 241, 0.8);
+  box-shadow: 
+    0 8px 0 rgba(15, 76, 74, 0.04), 
+    0 16px 30px -8px rgba(15, 76, 74, 0.08),
+    inset 0 2px 4px rgba(255, 255, 255, 0.9);
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease;
+}
+
+.clay-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 
+    0 12px 0 #CCFBF1, 
+    0 24px 38px -10px rgba(15, 76, 74, 0.12),
+    inset 0 3px 6px rgba(255, 255, 255, 1);
+}
+
+.clay-mint-card {
+  background: #CCFBF1;
+  border-radius: 1.75rem;
+  border: 2px solid #99F6E4;
+  box-shadow: 
+    0 8px 0 #5EEAD4, 
+    0 16px 28px -6px rgba(15, 76, 74, 0.1),
+    inset 0 2px 4px rgba(255, 255, 255, 0.7);
+}
+
+/* 3D Social Buttons */
+.social-3d-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.25rem;
+  height: 3.25rem;
+  border-radius: 1rem;
+  background: #ffffff;
+  border: 2px solid #CCFBF1;
+  box-shadow: 0 5px 0 #99F6E4, 0 8px 14px rgba(15, 76, 74, 0.08);
+  transition: all 0.15s cubic-bezier(0.34, 1.56, 0.64, 1);
+  color: #0F4C4A;
+}
+.social-3d-btn:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 8px 0 #14B8A6, 0 14px 20px rgba(20, 184, 166, 0.25);
+  color: #14B8A6;
+  border-color: #14B8A6;
+}
+.social-3d-btn:active {
+  transform: translateY(2px) scale(0.98);
+  box-shadow: 0 2px 0 #0D9488, 0 4px 6px rgba(15, 76, 74, 0.1);
+}
+
+/* Floating animation utilities */
+@keyframes floatGentle {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-10px) rotate(2deg);
+  }
+}
+
+.animate-float-gentle {
+  animation: floatGentle 5s ease-in-out infinite;
+}
+
+@keyframes spinSlow {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+.animate-spin-slow {
+  animation: spinSlow 24s linear infinite;
+}

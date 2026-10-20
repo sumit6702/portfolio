@@ -1,91 +1,115 @@
-# Magic Portfolio
+# Sumit Kumar — Motion Graphics & 3D Designer Portfolio
 
-Magic Portfolio is a simple, clean, beginner-friendly portfolio template. It supports an MDX-based content system for projects and blog posts, an about / CV page and a gallery.
+> Cute & playful 3D-styled personal portfolio website for **Sumit Kumar**, Graphic Designer specializing in **Motion Graphics**, **3D Design**, and **AI-Assisted Video Production**.
 
-View the demo [here](https://demo.magic-portfolio.com).
+Built with **Next.js (App Router)**, **Tailwind CSS**, and **Supabase (PostgreSQL, Auth, and Storage)** for zero-cost deployment on **Vercel** and **Supabase Free Tiers**.
 
-![Magic Portfolio](public/images/og/home.jpg)
+---
 
-## Getting started
+## 🎨 Design Theme & Aesthetic
 
-**1. Clone the repository**
-```
-git clone https://github.com/once-ui-system/magic-portfolio.git
-```
+- **Theme**: Cute, playful claymorphism with soft rounded shapes, tactile 3D buttons, glossy bevels, floating geometry, and gentle drop shadows.
+- **Teal Color Palette**:
+  - **Primary Teal**: `#14B8A6` (buttons, interactive highlights, brand badge)
+  - **Deep Teal**: `#0F4C4A` (headings, body typography, contrast elements)
+  - **Mint**: `#CCFBF1` (cards, badges, soft background panels)
+  - **Cream**: `#FFF8F0` (main canvas background)
+  - **Coral Peach**: `#FF8A7A` (accent pops, notifications, hover states)
+  - **Butter Yellow**: `#FFE69A` (stickers, decorative pills, highlights)
+- **Typography**: Modern rounded sans-serif font system (`Outfit` & `Fredoka`).
+- **Responsive**: 100% mobile, tablet, and widescreen optimized.
 
-**2. Install dependencies**
-```
-npm install
-```
+---
 
-**3. Run dev server**
-```
-npm run dev
-```
+## 🚀 Key Features & Pages
 
-**4. Edit config**
-```
-src/resources/once-ui.config.js
-```
+### 1. Home Page (`/`)
+- **Hero Section**:
+  - Real name: **Sumit Kumar**
+  - Role: **Graphic Designer • Motion Graphics & 3D Specialist**
+  - Profile intro: Real overview of Adobe Creative Suite, Figma, Blender, and AI video pipelines (Veo, Kling 2.0).
+  - Prominent 3D **"Download Resume"** button.
+  - Tactile 3D social buttons for **Instagram**, **Behance**, **LinkedIn**, **WhatsApp**, and **Email**.
+  - Interactive 3D preview card leading to video showreels.
+- **Stats Highlights**: Quick breakdown of tools mastered, e-commerce brand campaigns, and 3D pipelines.
+- **Featured Projects**: Curated card grid with playful hover lift, tags, and links to in-depth case studies.
+- **Motion & 3D Teaser**: Direct gateway into the video showcase theater.
+- **About Section**:
+  - Detailed narrative philosophy.
+  - Professional experience timeline: **ABA Technologies (Shop4Smile)** and **Zabaan School for Languages**.
+  - Interactive tools & software grid (Blender, After Effects, Premiere Pro, Photoshop, Illustrator, InDesign, Figma, Canva, Affinity, Tripo3D, Veo, Kling 2.0).
+  - Academic background (**B.Com, SOL Delhi University**) and professional certifications (**Udemy**).
+- **Contact Section**:
+  - Direct email with 1-click clipboard copy (`sumitkdesigns@gmail.com`).
+  - Instant WhatsApp chat button (`+91 9891997885`).
+  - Interactive inquiry message form saving directly to Supabase with instant confirmation.
 
-**5. Edit content**
-```
-src/resources/content.js
-```
+### 2. Projects Listing & Case Study Pages (`/projects` & `/projects/[slug]`)
+- **Filterable Grid**: Filter projects by *All*, *3D Design*, *Motion Graphics*, *Packaging*, *Branding*, and *AI Video*, with real-time keyword search.
+- **Behance-Style Case Study Detail Page**:
+  - Full-width hero cover.
+  - Project meta header (Role, Client, Year, Software badges).
+  - Vertical stack of visual blocks: high-res renders, packaging dielines, process commentary, pull quotes, two-column layouts, and responsive video embeds.
+  - Previous / Next project navigation cards.
+  - Related projects row.
 
-**6. Create blog posts / projects**
-```
-Add a new .mdx file to src/app/blog/posts or src/app/work/projects
-```
+### 3. Motion Graphics & Video Showcase (`/videos`)
+- Single dedicated theater page displaying all commercial reels and 3D animations.
+- Filterable by video category (*Motion Graphics*, *3D Animation*, *AI Video*, *3D Simulation*).
+- Click-to-play responsive **Lightbox Modal Player** supporting YouTube and Vimeo embeds.
 
-Magic Portfolio was built with [Once UI](https://once-ui.com) for [Next.js](https://nextjs.org). It requires Node.js v18.17+.
+### 4. Admin Portal (`/admin`)
+- **Password-Protected Authentication** (`/admin/login`): Integrated with Supabase Auth with Row Level Security (and fallback demo sandbox).
+- **Projects Management**: Add, edit, delete, and reorder projects. Supports uploading high-res covers and galleries directly to Supabase Storage, embedding YouTube/Vimeo links, and editing custom Behance-style story blocks.
+- **Videos Management**: Add, edit, delete video showreel links with custom titles, categories, durations, and auto-generated YouTube thumbnails.
+- **Profile & Resume Management**: Edit contact info, phone, email, location, social links, and upload/replace the resume PDF directly in Supabase Storage (`resumes` bucket).
+- **Inquiries Manager**: View all messages submitted by portfolio visitors.
+- **Supabase Setup Hub**: Interactive checklist and 1-click SQL copy for easy database initialization.
+- **Live Updates**: Data changes reflect immediately without redeploying Vercel!
 
-## Documentation
+---
 
-Docs available at: [docs.once-ui.com](https://docs.once-ui.com/docs/magic-portfolio/quick-start)
+## 🛠️ Technical Stack
 
-## Features
+- **Next.js 14** (App Router, Server & Client Components)
+- **TypeScript** for strict type safety
+- **Tailwind CSS** with custom 3D shadows and claymorphism utilities
+- **Supabase**:
+  - PostgreSQL database with Row Level Security (RLS)
+  - Supabase Auth for admin protection
+  - Supabase Storage buckets: `portfolio-assets` and `resumes`
+- **Lucide React** for clean, responsive iconography
+- **Vercel** deployment with continuous integration from GitHub
 
-### Once UI
-- All tokens, components & features of [Once UI](https://once-ui.com)
+---
 
-### SEO
-- Automatic open-graph and X image generation with next/og
-- Automatic schema and metadata generation based on the content file
+## ⚙️ Quick Start (Local Development)
 
-### Design
-- Responsive layout optimized for all screen sizes
-- Timeless design without heavy animations and motion
-- Endless customization options through [data attributes](https://once-ui.com/docs/theming)
+1. Clone or download the repository:
+   ```bash
+   cd portfolio
+   ```
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Copy environment variables:
+   ```bash
+   cp .env.example .env.local
+   ```
+4. Run the development server:
+   ```bash
+   npm run dev
+   ```
+5. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-### Content
-- Render sections conditionally based on the content file
-- Enable or disable pages for blog, work, gallery and about / CV
-- Generate and display social links automatically
-- Set up password protection for URLs
+---
 
-### Localization
-- A localized, earlier version of Magic Portfolio is available with the next-intl library
-- To use localization, switch to the 'i18n' branch
+## 📖 Supabase & Vercel Setup Guide
 
-## Creators
-
-Lorant One: [Threads](https://www.threads.net/@lorant.one) / [LinkedIn](https://www.linkedin.com/in/lorant-one/)
-
-## Get involved
-
-- Join the Design Engineers Club on [Discord](https://discord.com/invite/5EyAQ4eNdS) and share your project with us!
-- Deployed your docs? Share it on the [Once UI Hub](https://once-ui.com/hub) too! We feature our favorite apps on our landing page.
-
-## License
-
-Distributed under the CC BY-NC 4.0 License.
-- Attribution is required.
-- Commercial usage is not allowed.
-- You can extend the license to [Dopler CC](https://dopler.app/license) by purchasing a [Once UI Pro](https://once-ui.com/pricing) license.
-
-See `LICENSE.txt` for more information.
-
-## Deploy with Vercel
-
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fonce-ui-system%2Fmagic-portfolio&project-name=portfolio&repository-name=portfolio&redirect-url=https%3A%2F%2Fgithub.com%2Fonce-ui-system%2Fmagic-portfolio&demo-title=Magic%20Portfolio&demo-description=Showcase%20your%20designers%20or%20developer%20portfolio&demo-url=https%3A%2F%2Fdemo.magic-portfolio.com&demo-image=%2F%2Fraw.githubusercontent.com%2Fonce-ui-system%2Fmagic-portfolio%2Fmain%2Fpublic%2Fimages%2Fog%2Fhome.jpg)
+Refer to [**`SETUP-GUIDE.md`**](file:///c:/Users/owlis/.gemini/antigravity/scratch/portfolio/SETUP-GUIDE.md) for full step-by-step instructions on:
+1. Executing `supabase/schema.sql` in the Supabase SQL Editor.
+2. Creating the admin user in Supabase Auth.
+3. Setting up storage buckets and RLS policies.
+4. Adding environment variables on Vercel.
+5. Deploying through GitHub.
