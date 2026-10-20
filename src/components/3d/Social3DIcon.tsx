@@ -88,7 +88,7 @@ export default function Social3DIcon({
       rel={isMailOrTel ? undefined : 'noopener noreferrer'}
       aria-label={label || current.name}
       title={label || current.name}
-      className={`group relative inline-flex items-center justify-center rounded-full bg-white dark:bg-[#252240] text-deepInk dark:text-white border border-white/90 dark:border-[#38345C] shadow-[0_4px_12px_rgba(46,42,79,0.08)] hover:shadow-[0_8px_20px_rgba(46,42,79,0.14)] hover:-translate-y-1 active:translate-y-0.5 transition-all duration-200 ${sizeMap[size]} ${className}`}
+      className={`group relative inline-flex items-center justify-center rounded-full bg-white dark:bg-[#252240] text-deepInk dark:text-white border border-white/90 dark:border-[#38345C] shadow-[0_4px_12px_rgba(46,42,79,0.08)] hover:shadow-[0_8px_20px_rgba(46,42,79,0.14)] sm:hover:-translate-y-1 active:scale-95 active:translate-y-0.5 transition-all duration-200 ${sizeMap[size]} ${className}`}
     >
       <div className={`transition-transform duration-200 group-hover:scale-110 ${current.accent}`}>
         {current.icon}

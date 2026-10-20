@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { X, Upload } from 'lucide-react';
 import { VideoItem } from '@/lib/types';
 import { uploadPortfolioImage } from '@/lib/storage';
+import { generateUuid, isValidUuid } from '@/lib/data-service';
 import ClayButton from '@/components/3d/ClayButton';
 
 interface VideoModalProps {
@@ -37,7 +38,7 @@ export default function VideoModal({
       setFormData(initialVideo);
     } else {
       setFormData({
-        id: `vid-${Date.now()}`,
+        id: undefined,
         title: '',
         category: 'Motion Graphics',
         videoUrl: '',
@@ -99,7 +100,7 @@ export default function VideoModal({
 
     try {
       const finalVideo: VideoItem = {
-        id: formData.id || `vid-${Date.now()}`,
+        id: formData.id && isValidUuid(formData.id) ? formData.id : generateUuid(),
         title: formData.title!,
         category: formData.category || 'Motion Graphics',
         videoUrl: formData.videoUrl!,

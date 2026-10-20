@@ -116,10 +116,10 @@ export default function ProjectCard({ project, priority = false }: ProjectCardPr
             )}
           </div>
 
-          {/* View case study arrow button with liquid water fill */}
+          {/* View case study arrow button with tactile spring animation */}
           <Link
             href={`/projects/${project.slug}`}
-            className="btn-water btn-water-periwinkle w-10 h-10 rounded-full bg-lavender-light dark:bg-white/10 text-deepInk dark:text-white group-hover:text-deepInk flex items-center justify-center shrink-0 shadow-sm transition-all duration-200 active:translate-y-0.5"
+            className="btn-tactile btn-tactile-periwinkle w-10 h-10 rounded-full bg-lavender-light dark:bg-white/10 text-deepInk dark:text-white group-hover:text-deepInk flex items-center justify-center shrink-0 shadow-sm"
             aria-label={`View ${project.title}`}
           >
             <span className="relative z-10 flex items-center justify-center">

@@ -205,7 +205,7 @@ export default function ContactSection({ profile }: ContactSectionProps) {
                   </p>
                   <button
                     onClick={() => setSubmitted(false)}
-                    className="btn-water btn-water-dark mt-4 px-6 py-2.5 rounded-full bg-deepInk text-white font-bold text-xs uppercase tracking-wider hover:bg-deepInk-hover transition-colors"
+                    className="btn-tactile btn-tactile-dark mt-4 px-6 py-2.5 rounded-full bg-deepInk text-white font-bold text-xs uppercase tracking-wider shadow-sm"
                   >
                     <span className="relative z-10">Send Another Message</span>
                   </button>

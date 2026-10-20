@@ -44,16 +44,16 @@ export default function VideoGallery({ initialVideos }: VideoGalleryProps) {
             A curated theater of dynamic 3D animation reels, AI-assisted video productions, and commercial motion work.
           </p>
 
-          {/* Filter Pills with fluid water-fill effect */}
+          {/* Filter Pills with tactile spring effect */}
           <div className="mt-8 flex flex-wrap items-center justify-center gap-2">
             {categories.map((cat) => (
               <button
                 key={cat}
                 onClick={() => setSelectedFilter(cat)}
-                className={`btn-water px-4 py-2 rounded-full text-xs sm:text-sm font-bold transition-all duration-150 ${
+                className={`btn-tactile px-4 py-2 rounded-full text-xs sm:text-sm font-bold transition-all duration-150 ${
                   selectedFilter === cat
-                    ? 'btn-water-dark bg-deepInk text-white shadow-sm'
-                    : 'btn-water-white bg-white dark:bg-[#1E1B33] text-deepInk dark:text-lavender-light border border-lavender/40 dark:border-white/10 hover:shadow-sm'
+                    ? 'btn-tactile-dark bg-deepInk text-white shadow-sm'
+                    : 'btn-tactile-white bg-white dark:bg-[#1E1B33] text-deepInk dark:text-lavender-light border border-lavender/40 dark:border-white/10 hover:shadow-sm'
                 }`}
               >
                 <span className="relative z-10">{cat}</span>

@@ -39,15 +39,15 @@ export default function ClayButton({
   };
 
   const variantClasses = {
-    dark: 'btn-water btn-water-dark bg-deepInk text-white shadow-[0_4px_14px_rgba(46,42,79,0.18)] hover:shadow-[0_8px_24px_rgba(46,42,79,0.28)]',
-    teal: 'btn-water btn-water-dark bg-deepInk text-white shadow-[0_4px_14px_rgba(46,42,79,0.18)] hover:shadow-[0_8px_24px_rgba(46,42,79,0.28)]',
-    coral: 'btn-water btn-water-peach bg-peach text-deepInk border border-peach-border shadow-[0_4px_12px_rgba(255,211,184,0.4)] hover:shadow-[0_8px_20px_rgba(255,211,184,0.6)]',
-    yellow: 'btn-water btn-water-yellow bg-butterYellow text-deepInk border border-butterYellow-border shadow-[0_4px_12px_rgba(255,233,168,0.4)] hover:shadow-[0_8px_20px_rgba(255,233,168,0.6)]',
-    cream: 'btn-water btn-water-white bg-white/85 dark:bg-white/10 backdrop-blur-md text-deepInk dark:text-white border-2 border-white/90 dark:border-white/20 shadow-sm hover:shadow-[0_8px_20px_rgba(184,201,245,0.3)]',
-    mint: 'btn-water btn-water-mint bg-mint text-deepInk border border-mint-border shadow-[0_4px_12px_rgba(207,241,224,0.5)] hover:shadow-[0_8px_20px_rgba(207,241,224,0.7)]',
+    dark: 'btn-tactile btn-tactile-dark bg-deepInk text-white shadow-[0_4px_14px_rgba(46,42,79,0.18)]',
+    teal: 'btn-tactile btn-tactile-dark bg-deepInk text-white shadow-[0_4px_14px_rgba(46,42,79,0.18)]',
+    coral: 'btn-tactile btn-tactile-peach bg-peach text-deepInk border border-peach-border shadow-[0_4px_12px_rgba(255,211,184,0.4)]',
+    yellow: 'btn-tactile btn-tactile-yellow bg-butterYellow text-deepInk border border-butterYellow-border shadow-[0_4px_12px_rgba(255,233,168,0.4)]',
+    cream: 'btn-tactile btn-tactile-white bg-white/85 dark:bg-white/10 backdrop-blur-md text-deepInk dark:text-white border-2 border-white/90 dark:border-white/20 shadow-sm',
+    mint: 'btn-tactile btn-tactile-mint bg-mint text-deepInk border border-mint-border shadow-[0_4px_12px_rgba(207,241,224,0.5)]',
   };
 
-  const baseClasses = `inline-flex items-center justify-center select-none cursor-pointer text-center no-underline transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0.5 ${
+  const baseClasses = `inline-flex items-center justify-center select-none cursor-pointer text-center no-underline transition-all ${
     fullWidth ? 'w-full' : ''
   } ${sizeClasses[size]} ${variantClasses[variant] || variantClasses.dark} ${
     disabled ? 'opacity-50 cursor-not-allowed pointer-events-none' : ''

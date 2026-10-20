@@ -8,6 +8,22 @@ const LOCAL_VIDEOS_KEY = 'sumit_portfolio_videos';
 const LOCAL_PROFILE_KEY = 'sumit_portfolio_profile';
 const LOCAL_INQUIRIES_KEY = 'sumit_portfolio_inquiries';
 
+export function isValidUuid(id?: string | null): boolean {
+  if (!id || typeof id !== 'string') return false;
+  return /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(id);
+}
+
+export function generateUuid(): string {
+  if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
+    return crypto.randomUUID();
+  }
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
+    const r = (Math.random() * 16) | 0;
+    const v = c === 'x' ? r : (r & 0x3) | 0x8;
+    return v.toString(16);
+  });
+}
+
 function getLocalData<T>(key: string, defaultVal: T): T {
   if (typeof window === 'undefined') return defaultVal;
   try {
@@ -52,7 +68,7 @@ function mapDbProject(row: any): Project {
 // Convert Project type to Supabase row
 function mapProjectToDb(proj: Partial<Project>) {
   const mapped: any = {};
-  if (proj.id) mapped.id = proj.id;
+  if (proj.id && isValidUuid(proj.id)) mapped.id = proj.id;
   if (proj.slug) mapped.slug = proj.slug;
   if (proj.title !== undefined) mapped.title = proj.title;
   if (proj.category !== undefined) mapped.category = proj.category;
@@ -87,7 +103,7 @@ function mapDbVideo(row: any): VideoItem {
 
 function mapVideoToDb(vid: Partial<VideoItem>) {
   const mapped: any = {};
-  if (vid.id) mapped.id = vid.id;
+  if (vid.id && isValidUuid(vid.id)) mapped.id = vid.id;
   if (vid.title !== undefined) mapped.title = vid.title;
   if (vid.category !== undefined) mapped.category = vid.category;
   if (vid.videoUrl !== undefined) mapped.video_url = vid.videoUrl;
@@ -188,11 +204,46 @@ export async function saveProject(project: Project): Promise<{ data: Project | n
   if (supabase) {
     try {
       const dbPayload = mapProjectToDb(project);
-      const { data, error } = await supabase
-        .from('projects')
-        .upsert(dbPayload)
-        .select()
-        .single();
+      let data: any = null;
+      let error: any = null;
+
+      if (dbPayload.id) {
+        // Valid UUID provided -> upsert on primary key id
+        const res = await supabase
+          .from('projects')
+          .upsert(dbPayload)
+          .select()
+          .single();
+        data = res.data;
+        error = res.error;
+      } else {
+        // No valid UUID -> check if slug already exists to update
+        const { data: existing } = await supabase
+          .from('projects')
+          .select('id')
+          .eq('slug', project.slug)
+          .maybeSingle();
+
+        if (existing?.id) {
+          const res = await supabase
+            .from('projects')
+            .update(dbPayload)
+            .eq('id', existing.id)
+            .select()
+            .single();
+          data = res.data;
+          error = res.error;
+        } else {
+          // Brand new project -> Supabase generates UUID via uuid_generate_v4()
+          const res = await supabase
+            .from('projects')
+            .insert(dbPayload)
+            .select()
+            .single();
+          data = res.data;
+          error = res.error;
+        }
+      }
 
       if (error) {
         return { data: null, error: error.message };
@@ -205,21 +256,30 @@ export async function saveProject(project: Project): Promise<{ data: Project | n
 
   // Fallback mode
   const currentList = getLocalData<Project[]>(LOCAL_PROJECTS_KEY, INITIAL_PROJECTS);
-  const existingIdx = currentList.findIndex((p) => p.id === project.id);
+  const safeId = project.id || generateUuid();
+  const normalizedProject: Project = { ...project, id: safeId };
+  const existingIdx = currentList.findIndex(
+    (p) => p.id === normalizedProject.id || p.slug === normalizedProject.slug
+  );
   let updatedList: Project[];
   if (existingIdx >= 0) {
     updatedList = [...currentList];
-    updatedList[existingIdx] = project;
+    updatedList[existingIdx] = normalizedProject;
   } else {
-    updatedList = [project, ...currentList];
+    updatedList = [normalizedProject, ...currentList];
   }
   setLocalData(LOCAL_PROJECTS_KEY, updatedList);
-  return { data: project, error: null };
+  return { data: normalizedProject, error: null };
 }
 
 export async function deleteProject(id: string): Promise<{ success: boolean; error: string | null }> {
   const supabase = getSupabaseClient();
   if (supabase) {
+    if (!isValidUuid(id)) {
+      const currentList = getLocalData<Project[]>(LOCAL_PROJECTS_KEY, INITIAL_PROJECTS);
+      setLocalData(LOCAL_PROJECTS_KEY, currentList.filter((p) => p.id !== id));
+      return { success: true, error: null };
+    }
     try {
       const { error } = await supabase.from('projects').delete().eq('id', id);
       if (error) return { success: false, error: error.message };
@@ -262,11 +322,26 @@ export async function saveVideo(video: VideoItem): Promise<{ data: VideoItem | n
   if (supabase) {
     try {
       const dbPayload = mapVideoToDb(video);
-      const { data, error } = await supabase
-        .from('videos')
-        .upsert(dbPayload)
-        .select()
-        .single();
+      let data: any = null;
+      let error: any = null;
+
+      if (dbPayload.id) {
+        const res = await supabase
+          .from('videos')
+          .upsert(dbPayload)
+          .select()
+          .single();
+        data = res.data;
+        error = res.error;
+      } else {
+        const res = await supabase
+          .from('videos')
+          .insert(dbPayload)
+          .select()
+          .single();
+        data = res.data;
+        error = res.error;
+      }
 
       if (error) {
         return { data: null, error: error.message };
@@ -278,21 +353,28 @@ export async function saveVideo(video: VideoItem): Promise<{ data: VideoItem | n
   }
 
   const currentList = getLocalData<VideoItem[]>(LOCAL_VIDEOS_KEY, INITIAL_VIDEOS);
-  const existingIdx = currentList.findIndex((v) => v.id === video.id);
+  const safeId = video.id || generateUuid();
+  const normalizedVideo: VideoItem = { ...video, id: safeId };
+  const existingIdx = currentList.findIndex((v) => v.id === normalizedVideo.id);
   let updatedList: VideoItem[];
   if (existingIdx >= 0) {
     updatedList = [...currentList];
-    updatedList[existingIdx] = video;
+    updatedList[existingIdx] = normalizedVideo;
   } else {
-    updatedList = [video, ...currentList];
+    updatedList = [normalizedVideo, ...currentList];
   }
   setLocalData(LOCAL_VIDEOS_KEY, updatedList);
-  return { data: video, error: null };
+  return { data: normalizedVideo, error: null };
 }
 
 export async function deleteVideo(id: string): Promise<{ success: boolean; error: string | null }> {
   const supabase = getSupabaseClient();
   if (supabase) {
+    if (!isValidUuid(id)) {
+      const currentList = getLocalData<VideoItem[]>(LOCAL_VIDEOS_KEY, INITIAL_VIDEOS);
+      setLocalData(LOCAL_VIDEOS_KEY, currentList.filter((v) => v.id !== id));
+      return { success: true, error: null };
+    }
     try {
       const { error } = await supabase.from('videos').delete().eq('id', id);
       if (error) return { success: false, error: error.message };

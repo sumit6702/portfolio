@@ -110,15 +110,15 @@ export default function AboutSection({ profile }: AboutSectionProps) {
           </div>
         </div>
 
-        {/* Tab Navigation with Fluid Water Fill Pills */}
+        {/* Tab Navigation with Tactile Spring Pills */}
         <div className="flex justify-center mb-10">
           <div className="inline-flex p-1.5 rounded-full bg-white dark:bg-[#1E1B33] border border-lavender/40 dark:border-white/10 shadow-sm">
             <button
               onClick={() => setActiveTab('experience')}
-              className={`btn-water flex items-center gap-2 px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold transition-all duration-150 ${
+              className={`btn-tactile flex items-center gap-2 px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold transition-all duration-150 ${
                 activeTab === 'experience'
-                  ? 'btn-water-dark bg-deepInk text-white shadow-sm'
-                  : 'btn-water-white text-deepInk dark:text-lavender-light'
+                  ? 'btn-tactile-dark bg-deepInk text-white shadow-sm'
+                  : 'btn-tactile-white text-deepInk dark:text-lavender-light'
               }`}
             >
               <span className="relative z-10 flex items-center gap-2">
@@ -129,10 +129,10 @@ export default function AboutSection({ profile }: AboutSectionProps) {
 
             <button
               onClick={() => setActiveTab('tools')}
-              className={`btn-water flex items-center gap-2 px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold transition-all duration-150 ${
+              className={`btn-tactile flex items-center gap-2 px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold transition-all duration-150 ${
                 activeTab === 'tools'
-                  ? 'btn-water-dark bg-deepInk text-white shadow-sm'
-                  : 'btn-water-white text-deepInk dark:text-lavender-light'
+                  ? 'btn-tactile-dark bg-deepInk text-white shadow-sm'
+                  : 'btn-tactile-white text-deepInk dark:text-lavender-light'
               }`}
             >
               <span className="relative z-10 flex items-center gap-2">
@@ -143,10 +143,10 @@ export default function AboutSection({ profile }: AboutSectionProps) {
 
             <button
               onClick={() => setActiveTab('education')}
-              className={`btn-water flex items-center gap-2 px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold transition-all duration-150 ${
+              className={`btn-tactile flex items-center gap-2 px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold transition-all duration-150 ${
                 activeTab === 'education'
-                  ? 'btn-water-dark bg-deepInk text-white shadow-sm'
-                  : 'btn-water-white text-deepInk dark:text-lavender-light'
+                  ? 'btn-tactile-dark bg-deepInk text-white shadow-sm'
+                  : 'btn-tactile-white text-deepInk dark:text-lavender-light'
               }`}
             >
               <span className="relative z-10 flex items-center gap-2">

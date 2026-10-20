@@ -40,7 +40,7 @@ export default function StatsBar() {
           {stats.map((stat, i) => (
             <div
               key={i}
-              className={`p-5 rounded-[24px] bg-white dark:bg-[#1E1B33] border ${stat.border} shadow-soft-sm card-float card-shimmer flex items-center gap-4 transition-transform duration-200 hover:-translate-y-1.5`}
+              className={`p-5 rounded-[24px] bg-white dark:bg-[#1E1B33] border ${stat.border} shadow-soft-sm card-float card-shimmer flex items-center gap-4`}
             >
               <div className={`w-12 h-12 rounded-2xl ${stat.bgIcon} flex items-center justify-center shrink-0 shadow-inner transition-transform group-hover:scale-110`}>
                 {stat.icon}

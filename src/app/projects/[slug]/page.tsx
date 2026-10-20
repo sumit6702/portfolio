@@ -302,10 +302,10 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
             {prevProject ? (
               <Link
                 href={`/projects/${prevProject.slug}`}
-                className="group p-6 rounded-[28px] bg-white dark:bg-[#1E1B33] border border-lavender/50 dark:border-white/10 shadow-sm hover:-translate-y-1 transition-all flex items-center gap-4"
+                className="group p-6 rounded-[28px] bg-white dark:bg-[#1E1B33] border border-lavender/50 dark:border-white/10 shadow-sm card-float flex items-center gap-4"
               >
                 <div className="w-12 h-12 rounded-full bg-lavender-light dark:bg-white/10 text-deepInk dark:text-white flex items-center justify-center shrink-0 group-hover:bg-deepInk group-hover:text-white transition-colors">
-                  <ArrowLeft className="w-5 h-5" />
+                  <ArrowLeft className="w-5 h-5 transition-transform group-hover:-translate-x-1" />
                 </div>
                 <div className="overflow-hidden">
                   <span className="text-xs font-bold uppercase text-bodyText-muted dark:text-lavender-light/60">
@@ -323,7 +323,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
             {nextProject ? (
               <Link
                 href={`/projects/${nextProject.slug}`}
-                className="group p-6 rounded-[28px] bg-white dark:bg-[#1E1B33] border border-lavender/50 dark:border-white/10 shadow-sm hover:-translate-y-1 transition-all flex items-center justify-end text-right gap-4"
+                className="group p-6 rounded-[28px] bg-white dark:bg-[#1E1B33] border border-lavender/50 dark:border-white/10 shadow-sm card-float flex items-center justify-end text-right gap-4"
               >
                 <div className="overflow-hidden">
                   <span className="text-xs font-bold uppercase text-bodyText-muted dark:text-lavender-light/60">
@@ -334,7 +334,7 @@ export default async function ProjectDetailPage({ params }: ProjectDetailPagePro
                   </h4>
                 </div>
                 <div className="w-12 h-12 rounded-full bg-lavender-light dark:bg-white/10 text-deepInk dark:text-white flex items-center justify-center shrink-0 group-hover:bg-deepInk group-hover:text-white transition-colors">
-                  <ArrowRight className="w-5 h-5" />
+                  <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
                 </div>
               </Link>
             ) : (

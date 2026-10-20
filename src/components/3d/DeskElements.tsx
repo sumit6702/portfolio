@@ -14,7 +14,7 @@ export function FloatingSideRibbon() {
     >
       <a
         href="#contact"
-        className="group flex flex-col items-center gap-2 py-4 px-2.5 rounded-l-2xl bg-mint text-deepInk shadow-[0_8px_20px_rgba(207,241,224,0.6)] border-l-2 border-y-2 border-white/90 hover:-translate-x-1 transition-all"
+        className="group flex flex-col items-center gap-2 py-4 px-2.5 rounded-l-2xl bg-mint text-deepInk shadow-[0_8px_20px_rgba(207,241,224,0.6)] border-l-2 border-y-2 border-white/90 hover:-translate-x-1 active:scale-95 transition-all"
       >
         <span className="w-2 h-2 rounded-full bg-deepInk animate-ping" />
         <span className="[writing-mode:vertical-lr] rotate-180 text-[11px] font-bold uppercase tracking-widest text-deepInk">

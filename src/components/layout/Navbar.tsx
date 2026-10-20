@@ -64,9 +64,9 @@ export default function Navbar() {
                   <Link
                     key={link.name}
                     href={link.href}
-                    className={`btn-water px-4 py-1.5 rounded-full text-xs font-bold transition-all ${
+                    className={`btn-tactile px-4 py-1.5 rounded-full text-xs font-bold transition-all ${
                       active
-                        ? 'btn-water-dark bg-deepInk text-white shadow-sm'
+                        ? 'btn-tactile-dark bg-deepInk text-white shadow-sm'
                         : `text-deepInk dark:text-lavender-light ${link.pastel} dark:hover:bg-white/10`
                     }`}
                   >
@@ -76,11 +76,11 @@ export default function Navbar() {
               })}
             </nav>
 
-            {/* White-outlined Resume Pill with fluid water fill */}
+            {/* White-outlined Resume Pill with tactile spring */}
             <a
               href="/resume-sumit-kumar.pdf"
               download="Sumit-Kumar-Resume.pdf"
-              className="btn-water btn-water-white inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-white dark:bg-white/10 text-deepInk dark:text-white text-xs font-bold border-2 border-white dark:border-white/20 shadow-[0_2px_8px_rgba(46,42,79,0.06)] hover:shadow-[0_4px_14px_rgba(184,201,245,0.4)] transition-all"
+              className="btn-tactile btn-tactile-white inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-white dark:bg-white/10 text-deepInk dark:text-white text-xs font-bold border-2 border-white dark:border-white/20 shadow-[0_2px_8px_rgba(46,42,79,0.06)] transition-all"
             >
               <span className="relative z-10 flex items-center gap-1.5">
                 <Download className="w-3.5 h-3.5" />
@@ -88,12 +88,12 @@ export default function Navbar() {
               </span>
             </a>
 
-            {/* Admin shortcut round button with water fill */}
+            {/* Admin shortcut round button with tactile spring */}
             <Link
               href="/admin"
               aria-label="Admin Portal"
               title="Admin Portal"
-              className="btn-water btn-water-white w-9 h-9 rounded-full bg-white dark:bg-[#1E1B33] border border-lavender/40 dark:border-white/10 text-bodyText-muted dark:text-lavender-light hover:text-deepInk flex items-center justify-center transition-colors shadow-sm"
+              className="btn-tactile btn-tactile-white w-9 h-9 rounded-full bg-white dark:bg-[#1E1B33] border border-lavender/40 dark:border-white/10 text-bodyText-muted dark:text-lavender-light hover:text-deepInk flex items-center justify-center transition-colors shadow-sm"
             >
               <span className="relative z-10 flex items-center justify-center">
                 <Lock className="w-3.5 h-3.5" />

@@ -70,13 +70,13 @@ export default function ProjectsDirectory({ initialProjects }: ProjectsDirectory
                   <button
                     key={label}
                     onClick={() => setSelectedCategory(label)}
-                    className={`px-4 py-2 rounded-full text-xs sm:text-sm font-bold transition-all duration-150 ${
+                    className={`btn-tactile px-4 py-2 rounded-full text-xs sm:text-sm font-bold transition-all duration-150 ${
                       active
-                        ? 'bg-deepInk text-white shadow-sm'
-                        : `text-deepInk dark:text-lavender-light ${pastel} dark:hover:bg-white/10`
+                        ? 'btn-tactile-dark bg-deepInk text-white shadow-sm'
+                        : `btn-tactile-white text-deepInk dark:text-lavender-light ${pastel} dark:hover:bg-white/10`
                     }`}
                   >
-                    {label}
+                    <span className="relative z-10">{label}</span>
                   </button>
                 );
               })}

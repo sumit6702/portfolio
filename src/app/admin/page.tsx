@@ -225,62 +225,72 @@ export default function AdminDashboardPage() {
       <div className="flex flex-wrap items-center gap-2 mb-8 bg-white/80 dark:bg-[#1E1B33]/80 backdrop-blur-md p-2 rounded-full border border-lavender/40 dark:border-white/10 shadow-sm">
         <button
           onClick={() => setActiveTab('projects')}
-          className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold transition-all ${
+          className={`btn-tactile flex items-center gap-2 px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold transition-all ${
             activeTab === 'projects'
-              ? 'bg-deepInk text-white shadow-sm'
+              ? 'btn-tactile-dark bg-deepInk text-white shadow-sm'
               : 'text-deepInk dark:text-lavender-light hover:bg-lavender-light'
           }`}
         >
-          <FolderKanban className="w-4 h-4" />
-          Projects ({projects.length})
+          <span className="relative z-10 flex items-center gap-2">
+            <FolderKanban className="w-4 h-4" />
+            <span>Projects ({projects.length})</span>
+          </span>
         </button>
 
         <button
           onClick={() => setActiveTab('videos')}
-          className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold transition-all ${
+          className={`btn-tactile flex items-center gap-2 px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold transition-all ${
             activeTab === 'videos'
-              ? 'bg-deepInk text-white shadow-sm'
+              ? 'btn-tactile-dark bg-deepInk text-white shadow-sm'
               : 'text-deepInk dark:text-lavender-light hover:bg-lavender-light'
           }`}
         >
-          <Film className="w-4 h-4" />
-          Videos ({videos.length})
+          <span className="relative z-10 flex items-center gap-2">
+            <Film className="w-4 h-4" />
+            <span>Videos ({videos.length})</span>
+          </span>
         </button>
 
         <button
           onClick={() => setActiveTab('profile')}
-          className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold transition-all ${
+          className={`btn-tactile flex items-center gap-2 px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold transition-all ${
             activeTab === 'profile'
-              ? 'bg-deepInk text-white shadow-sm'
+              ? 'btn-tactile-dark bg-deepInk text-white shadow-sm'
               : 'text-deepInk dark:text-lavender-light hover:bg-lavender-light'
           }`}
         >
-          <UserCheck className="w-4 h-4" />
-          Profile, Contact & Resume
+          <span className="relative z-10 flex items-center gap-2">
+            <UserCheck className="w-4 h-4" />
+            <span>Profile, Contact & Resume</span>
+          </span>
         </button>
 
         <button
           onClick={() => setActiveTab('inquiries')}
-          className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold transition-all ${
+          className={`btn-tactile flex items-center gap-2 px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold transition-all ${
             activeTab === 'inquiries'
-              ? 'bg-deepInk text-white shadow-sm'
+              ? 'btn-tactile-dark bg-deepInk text-white shadow-sm'
               : 'text-deepInk dark:text-lavender-light hover:bg-lavender-light'
           }`}
         >
-          <Mail className="w-4 h-4" />
-          Messages ({inquiries.length})
+          <span className="relative z-10 flex items-center gap-2">
+            <Mail className="w-4 h-4" />
+            <span>Messages ({inquiries.length})</span>
+          </span>
         </button>
 
         <button
           onClick={() => setActiveTab('setup')}
-          className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold transition-all ${
+          className={`btn-tactile flex items-center gap-2 px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold transition-all ${
             activeTab === 'setup'
-              ? 'bg-deepInk text-white shadow-sm'
+              ? 'btn-tactile-dark bg-deepInk text-white shadow-sm'
               : 'text-deepInk dark:text-lavender-light hover:bg-lavender-light'
           }`}
         >
-          <Database className="w-4 h-4" />
-          Supabase SQL & Setup
+          <span className="relative z-10 flex items-center gap-2">
+            <Database className="w-4 h-4" />
+            <span>Supabase SQL & Setup</span>
+          </span>
         </button>
       </div>
 

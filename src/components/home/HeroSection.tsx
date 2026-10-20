@@ -136,27 +136,27 @@ export default function HeroSection({ profile }: HeroSectionProps) {
                   Graphic designer specializing in branding, layout, and 3D design, skilled in Blender, Adobe Creative Suite, and AI-assisted creative production pipelines.
                 </p>
 
-                {/* Action Buttons: Water Fill Animations */}
+                {/* Action Buttons: Tactile Spring & Luminous Sheen */}
                 <div className="pt-2 flex flex-wrap items-center gap-3 sm:gap-4">
-                  {/* Deep Ink Water-Fill pill button */}
+                  {/* Deep Ink Tactile pill button */}
                   <Link
                     href="/projects"
-                    className="btn-water btn-water-dark inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-deepInk dark:bg-white text-white dark:text-deepInk font-bold text-sm shadow-[0_4px_14px_rgba(46,42,79,0.2)] hover:shadow-[0_8px_24px_rgba(46,42,79,0.3)] hover:-translate-y-0.5 active:translate-y-0.5 transition-all"
+                    className="group btn-tactile btn-tactile-dark inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-deepInk dark:bg-white text-white dark:text-deepInk font-bold text-sm shadow-[0_4px_14px_rgba(46,42,79,0.2)]"
                   >
                     <span className="relative z-10 flex items-center gap-2">
                       <span>Explore Case Studies</span>
-                      <ArrowRight className="w-4 h-4" />
+                      <ArrowRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" />
                     </span>
                   </Link>
 
-                  {/* Frosted Acrylic White-Outlined Water-Fill Resume pill */}
+                  {/* Frosted Acrylic White-Outlined Tactile Resume pill */}
                   <a
                     href={profile.resumeUrl || '/resume-sumit-kumar.pdf'}
                     download="Sumit-Kumar-Resume.pdf"
-                    className="btn-water btn-water-white inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-white/85 dark:bg-white/10 backdrop-blur-md text-deepInk dark:text-white font-bold text-sm border-2 border-white/95 dark:border-white/20 shadow-sm hover:shadow-[0_8px_20px_rgba(184,201,245,0.3)] active:translate-y-0.5 transition-all"
+                    className="group btn-tactile btn-tactile-white inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-white/85 dark:bg-white/10 backdrop-blur-md text-deepInk dark:text-white font-bold text-sm border-2 border-white/95 dark:border-white/20 shadow-sm"
                   >
                     <span className="relative z-10 flex items-center gap-2">
-                      <Download className="w-4 h-4 text-deepInk dark:text-lavender-light" />
+                      <Download className="w-4 h-4 text-deepInk dark:text-lavender-light transition-transform duration-200 group-hover:-translate-y-0.5" />
                       <span>Download Resume</span>
                     </span>
                   </a>
@@ -167,15 +167,15 @@ export default function HeroSection({ profile }: HeroSectionProps) {
               <div className="lg:col-span-5">
                 <div className="relative bg-white/85 dark:bg-[#1E1B33]/85 backdrop-blur-md rounded-3xl p-6 sm:p-7 border border-white/95 dark:border-white/10 shadow-[0_14px_35px_rgba(46,42,79,0.07)] card-float">
                   
-                  {/* Pastel Segmented Tabs: [Inquire] [Services] [WhatsApp] with fluid pill animation */}
+                  {/* Pastel Segmented Tabs: [Inquire] [Services] [WhatsApp] */}
                   <div className="flex items-center gap-1.5 p-1 rounded-full bg-bg dark:bg-[#161426] border border-lavender/40 dark:border-white/10 mb-5">
                     <button
                       type="button"
                       onClick={() => setActiveTab('inquire')}
-                      className={`btn-water flex-1 py-1.5 rounded-full text-xs font-bold transition-all ${
+                      className={`btn-tactile flex-1 py-1.5 rounded-full text-xs font-bold transition-all ${
                         activeTab === 'inquire'
-                          ? 'btn-water-dark bg-deepInk text-white shadow-sm'
-                          : 'btn-water-white text-bodyText-muted hover:text-deepInk dark:text-lavender-light/70'
+                          ? 'btn-tactile-dark bg-deepInk text-white shadow-sm'
+                          : 'btn-tactile-white text-bodyText-muted hover:text-deepInk dark:text-lavender-light/70'
                       }`}
                     >
                       <span className="relative z-10">Inquire</span>
@@ -183,10 +183,10 @@ export default function HeroSection({ profile }: HeroSectionProps) {
                     <button
                       type="button"
                       onClick={() => setActiveTab('services')}
-                      className={`btn-water flex-1 py-1.5 rounded-full text-xs font-bold transition-all ${
+                      className={`btn-tactile flex-1 py-1.5 rounded-full text-xs font-bold transition-all ${
                         activeTab === 'services'
-                          ? 'btn-water-dark bg-deepInk text-white shadow-sm'
-                          : 'btn-water-white text-bodyText-muted hover:text-deepInk dark:text-lavender-light/70'
+                          ? 'btn-tactile-dark bg-deepInk text-white shadow-sm'
+                          : 'btn-tactile-white text-bodyText-muted hover:text-deepInk dark:text-lavender-light/70'
                       }`}
                     >
                       <span className="relative z-10">Services</span>
@@ -194,10 +194,10 @@ export default function HeroSection({ profile }: HeroSectionProps) {
                     <button
                       type="button"
                       onClick={() => setActiveTab('chat')}
-                      className={`btn-water flex-1 py-1.5 rounded-full text-xs font-bold transition-all ${
+                      className={`btn-tactile flex-1 py-1.5 rounded-full text-xs font-bold transition-all ${
                         activeTab === 'chat'
-                          ? 'btn-water-dark bg-deepInk text-white shadow-sm'
-                          : 'btn-water-white text-bodyText-muted hover:text-deepInk dark:text-lavender-light/70'
+                          ? 'btn-tactile-dark bg-deepInk text-white shadow-sm'
+                          : 'btn-tactile-white text-bodyText-muted hover:text-deepInk dark:text-lavender-light/70'
                       }`}
                     >
                       <span className="relative z-10">WhatsApp</span>
@@ -319,11 +319,11 @@ export default function HeroSection({ profile }: HeroSectionProps) {
                             />
                           </div>
 
-                          {/* Deep Ink Water-Fill Submit Button */}
+                          {/* Deep Ink Tactile Submit Button */}
                           <button
                             type="submit"
                             disabled={isSubmitting}
-                            className="btn-water btn-water-dark w-full py-2.5 rounded-xl bg-deepInk dark:bg-white text-white dark:text-deepInk text-xs font-bold shadow-sm hover:shadow-[0_6px_18px_rgba(46,42,79,0.25)] active:translate-y-0.5 transition-all"
+                            className="btn-tactile btn-tactile-dark w-full py-2.5 rounded-xl bg-deepInk dark:bg-white text-white dark:text-deepInk text-xs font-bold shadow-sm"
                           >
                             <span className="relative z-10 flex items-center justify-center gap-1.5">
                               <span>{isSubmitting ? 'Sending note...' : 'Send inquiry'}</span>
@@ -386,7 +386,7 @@ export default function HeroSection({ profile }: HeroSectionProps) {
                         href={profile.socialWhatsapp}
                         target="_blank"
                         rel="noreferrer"
-                        className="btn-water btn-water-dark inline-flex items-center justify-center gap-2 w-full py-2.5 rounded-xl bg-[#25D366] text-white font-bold text-xs shadow-md hover:bg-[#20ba5a] transition-colors"
+                        className="btn-tactile btn-tactile-dark inline-flex items-center justify-center gap-2 w-full py-2.5 rounded-xl bg-[#25D366] text-white font-bold text-xs shadow-md hover:bg-[#20ba5a] transition-colors"
                       >
                         <span className="relative z-10 flex items-center justify-center gap-2">
                           <span>Open WhatsApp ({profile.phone})</span>

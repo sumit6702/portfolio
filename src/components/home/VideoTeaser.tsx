@@ -37,11 +37,11 @@ export default function VideoTeaser() {
 
                 <Link
                   href="/#contact"
-                  className="btn-water btn-water-white px-4 py-2 rounded-full text-sm font-bold text-deepInk dark:text-white flex items-center gap-1 shadow-sm transition-all"
+                  className="group btn-tactile btn-tactile-white px-5 py-2.5 rounded-full text-sm font-bold text-deepInk dark:text-white flex items-center gap-1.5 shadow-sm"
                 >
-                  <span className="relative z-10 flex items-center gap-1">
+                  <span className="relative z-10 flex items-center gap-1.5">
                     <span>Commission a Video Reel</span>
-                    <ArrowRight className="w-4 h-4" />
+                    <ArrowRight className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" />
                   </span>
                 </Link>
               </div>

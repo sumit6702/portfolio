@@ -11,6 +11,7 @@ import {
 } from 'lucide-react';
 import { Project, CaseStudyBlock } from '@/lib/types';
 import { uploadPortfolioImage } from '@/lib/storage';
+import { generateUuid, isValidUuid } from '@/lib/data-service';
 import ClayButton from '@/components/3d/ClayButton';
 
 interface ProjectModalProps {
@@ -56,7 +57,7 @@ export default function ProjectModal({
       setGalleryInput(initialProject.galleryImages.join('\n'));
     } else {
       setFormData({
-        id: `proj-${Date.now()}`,
+        id: undefined,
         title: '',
         slug: '',
         category: '3D Design',
@@ -183,7 +184,7 @@ export default function ProjectModal({
         .filter(Boolean);
 
       const finalProject: Project = {
-        id: formData.id || `proj-${Date.now()}`,
+        id: formData.id && isValidUuid(formData.id) ? formData.id : generateUuid(),
         slug: formData.slug!,
         title: formData.title!,
         category: formData.category || '3D Design',
