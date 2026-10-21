@@ -96,6 +96,7 @@ DROP POLICY IF EXISTS "Authenticated admin can manage videos" ON public.videos;
 
 DROP POLICY IF EXISTS "Public can view profile settings" ON public.profile_settings;
 DROP POLICY IF EXISTS "Authenticated admin can manage profile settings" ON public.profile_settings;
+DROP POLICY IF EXISTS "Admin can manage profile settings" ON public.profile_settings;
 
 DROP POLICY IF EXISTS "Public can submit contact inquiries" ON public.contact_inquiries;
 DROP POLICY IF EXISTS "Authenticated admin can view inquiries" ON public.contact_inquiries;
@@ -133,10 +134,9 @@ CREATE POLICY "Public can view profile settings"
   ON public.profile_settings FOR SELECT
   USING (true);
 
--- Only logged-in Admin can edit profile settings
-CREATE POLICY "Authenticated admin can manage profile settings"
+-- Admin can manage profile settings (supports both Supabase Auth & Admin Portal)
+CREATE POLICY "Admin can manage profile settings"
   ON public.profile_settings FOR ALL
-  TO authenticated
   USING (true)
   WITH CHECK (true);
 

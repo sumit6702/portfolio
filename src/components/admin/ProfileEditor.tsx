@@ -18,7 +18,7 @@ import ClayButton from '@/components/3d/ClayButton';
 
 interface ProfileEditorProps {
   initialProfile: ProfileSettings;
-  onSave: (profile: ProfileSettings) => Promise<void>;
+  onSave: (profile: ProfileSettings) => Promise<any>;
 }
 
 export default function ProfileEditor({

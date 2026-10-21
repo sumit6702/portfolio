@@ -38,7 +38,7 @@ import { uploadPortfolioImage } from '@/lib/storage';
 
 interface AppearanceEditorProps {
   profile: ProfileSettings;
-  onSaveProfile: (updatedProfile: ProfileSettings) => Promise<void>;
+  onSaveProfile: (updatedProfile: ProfileSettings) => Promise<any>;
 }
 
 const QUICK_ACCENT_COLORS = [
@@ -273,13 +273,17 @@ export default function AppearanceEditor({ profile, onSaveProfile }: AppearanceE
       setThemeConfig(finalConfig);
 
       // 2. Persist to database & storage
-      await onSaveProfile({
+      const res: any = await onSaveProfile({
         ...profile,
         themeMode,
         themeConfig: finalConfig,
       });
 
-      showFeedback('✓ Appearance & Theme saved successfully to database!');
+      if (res?.error) {
+        showFeedback(`⚠ Notice: ${res.error}`);
+      } else {
+        showFeedback('✓ Appearance & Theme saved successfully to database!');
+      }
     } catch (err: any) {
       alert(`Save failed: ${err?.message || 'Unknown error'}`);
     } finally {

@@ -1,4 +1,5 @@
 import { getSupabaseClient, isSupabaseConfigured } from './supabase/client';
+import { getServerSupabaseClient } from './supabase/server';
 import { Project, VideoItem, ProfileSettings, ContactInquiry, ThemeMode } from './types';
 import { INITIAL_PROJECTS, INITIAL_VIDEOS, INITIAL_PROFILE, DEFAULT_CATEGORIES } from './initial-data';
 import { DEFAULT_THEME_CONFIG } from '@/config/theme-presets';
@@ -479,7 +480,7 @@ export async function deleteVideo(id: string): Promise<{ success: boolean; error
 /* ---------------- PROFILE & CONTACT API ---------------- */
 
 export async function fetchProfileSettings(): Promise<ProfileSettings> {
-  const supabase = getSupabaseClient();
+  const supabase = typeof window === 'undefined' ? getServerSupabaseClient() : getSupabaseClient();
   let dbProfile: ProfileSettings | null = null;
   if (supabase) {
     try {
@@ -597,18 +598,50 @@ export async function saveProfileSettings(
     } catch {}
   }
 
-  const supabase = getSupabaseClient();
+  // 1. In browser, save via dedicated server API first (server handles service role + local server file fallback)
+  if (typeof window !== 'undefined') {
+    try {
+      const res = await fetch('/api/admin/profile', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(profile),
+      });
+      if (res.ok) {
+        const json = await res.json();
+        if (json.success && json.data) {
+          const mapped = json.data;
+          setLocalData(LOCAL_PROFILE_KEY, mapped);
+          if (mapped.categories) setLocalData(LOCAL_CATEGORIES_KEY, mapped.categories);
+          return { data: mapped, error: json.warning || null };
+        }
+        if (json.error) {
+          console.warn('API /api/admin/profile error notice:', json.error);
+        }
+      }
+    } catch (apiErr) {
+      console.warn('API /api/admin/profile fetch exception:', apiErr);
+    }
+  }
+
+  // 2. Direct Supabase client fallback
+  const supabase = typeof window === 'undefined' ? getServerSupabaseClient() : getSupabaseClient();
   if (supabase) {
     try {
       const dbPayload = mapProfileToDb(profile);
       let { data, error } = await supabase
         .from('profile_settings')
-        .upsert(dbPayload)
+        .upsert(dbPayload, { onConflict: 'id' })
         .select()
         .single();
 
       // Graceful fallback if theme_mode, categories, or theme_config columns are not yet in Supabase SQL schema
-      if (error && (error.message?.includes('theme_mode') || error.message?.includes('categories') || error.message?.includes('theme_config') || error.message?.includes('column'))) {
+      if (
+        error &&
+        (error.message?.includes('theme_mode') ||
+          error.message?.includes('categories') ||
+          error.message?.includes('theme_config') ||
+          error.message?.includes('column'))
+      ) {
         console.warn('Supabase profile schema notice, attempting fallback:', error.message);
         const fallbackPayload = { ...dbPayload };
         delete fallbackPayload.theme_mode;
@@ -616,7 +649,7 @@ export async function saveProfileSettings(
         delete fallbackPayload.theme_config;
         const retry = await supabase
           .from('profile_settings')
-          .upsert(fallbackPayload)
+          .upsert(fallbackPayload, { onConflict: 'id' })
           .select()
           .single();
         if (!retry.error && retry.data) {

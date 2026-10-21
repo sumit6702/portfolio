@@ -5,7 +5,12 @@ import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import { ThemeProvider } from '@/components/theme/ThemeProvider';
 import { fetchProfileSettings } from '@/lib/data-service';
+import { readServerProfileFile } from '@/lib/server-profile';
 import { DEFAULT_THEME_CONFIG } from '@/config/theme-presets';
+
+// Force dynamic execution on every request so incognito & guest visitors always get the latest saved Supabase theme
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 const fraunces = Fraunces({
   subsets: ['latin'],
@@ -64,7 +69,20 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const profile = await fetchProfileSettings();
+  let profile = await fetchProfileSettings();
+  const serverFile = readServerProfileFile();
+  if (serverFile) {
+    if (serverFile.themeConfig && (!profile.themeConfig || profile.themeConfig === DEFAULT_THEME_CONFIG)) {
+      profile.themeConfig = serverFile.themeConfig;
+    }
+    if (serverFile.themeMode && (!profile.themeMode || profile.themeMode === 'system')) {
+      profile.themeMode = serverFile.themeMode;
+    }
+    if (serverFile.resumeUrl && (!profile.resumeUrl || profile.resumeUrl === '/resume-sumit-kumar.pdf')) {
+      profile.resumeUrl = serverFile.resumeUrl;
+    }
+  }
+
   const siteTheme = profile.themeMode || 'system';
   const config = profile.themeConfig || DEFAULT_THEME_CONFIG;
 

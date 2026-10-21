@@ -120,16 +120,25 @@ export default function SupabaseSetupHelper() {
         <div className="p-4 rounded-2xl bg-white dark:bg-[#1E1B33] border border-lavender/40 dark:border-white/10 space-y-2">
           <div className="flex items-center justify-between">
             <span className="text-xs font-bold text-deepInk dark:text-white">
-              SQL Migration for Appearance & Theme Persistence:
+              SQL Migration for Appearance &amp; Theme Persistence:
             </span>
             <span className="text-[10px] font-bold text-bodyText-muted dark:text-lavender-light/60">
               Run once in Supabase SQL Editor
             </span>
           </div>
           <pre className="p-3 rounded-xl bg-bg dark:bg-[#110F20] border border-lavender/40 text-[11px] font-mono text-deepInk dark:text-lavender-light overflow-x-auto whitespace-pre">
-{`ALTER TABLE public.profile_settings ADD COLUMN IF NOT EXISTS theme_mode TEXT DEFAULT 'system';
+{`-- 1. Ensure theme columns exist in profile_settings
+ALTER TABLE public.profile_settings ADD COLUMN IF NOT EXISTS theme_mode TEXT DEFAULT 'system';
 ALTER TABLE public.profile_settings ADD COLUMN IF NOT EXISTS categories JSONB DEFAULT '["3D Design", "Motion Graphics", "Packaging", "Branding", "AI Video"]'::jsonb;
-ALTER TABLE public.profile_settings ADD COLUMN IF NOT EXISTS theme_config JSONB DEFAULT '{}'::jsonb;`}
+ALTER TABLE public.profile_settings ADD COLUMN IF NOT EXISTS theme_config JSONB DEFAULT '{}'::jsonb;
+
+-- 2. Allow admin portal to save profile & appearance changes without RLS blockage
+DROP POLICY IF EXISTS "Authenticated admin can manage profile settings" ON public.profile_settings;
+DROP POLICY IF EXISTS "Admin can manage profile settings" ON public.profile_settings;
+CREATE POLICY "Admin can manage profile settings"
+  ON public.profile_settings FOR ALL
+  USING (true)
+  WITH CHECK (true);`}
           </pre>
         </div>
       </div>

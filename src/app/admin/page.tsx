@@ -224,18 +224,19 @@ export default function AdminDashboardPage() {
   };
 
   // Profile & Appearance Save
-  const handleSaveProfile = async (newProf: ProfileSettings) => {
+  const handleSaveProfile = async (newProf: ProfileSettings): Promise<{ data: ProfileSettings | null; error: string | null }> => {
     const res = await saveProfileSettings(newProf);
     if (res.data) {
       setProfile(res.data);
       if (res.error) {
-        showNotification(`Saved locally. Supabase notice: ${res.error}`);
+        showNotification(`Saved locally. Database notice: ${res.error}`);
       } else {
-        showNotification('Settings saved to Supabase successfully!');
+        showNotification('Settings saved to database successfully!');
       }
     } else if (res.error) {
       alert(`Error saving to database: ${res.error}`);
     }
+    return res;
   };
 
   if (!currentUser) {
