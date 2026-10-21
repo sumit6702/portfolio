@@ -153,6 +153,8 @@ export default function HeroSection({ profile }: HeroSectionProps) {
                   <a
                     href={profile.resumeUrl || '/resume-sumit-kumar.pdf'}
                     download="Sumit-Kumar-Resume.pdf"
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="group btn-tactile btn-tactile-white inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-white/85 dark:bg-white/10 backdrop-blur-md text-deepInk dark:text-white font-bold text-sm border-2 border-white/95 dark:border-white/20 shadow-sm"
                   >
                     <span className="relative z-10 flex items-center gap-2">

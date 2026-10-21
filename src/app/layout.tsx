@@ -96,7 +96,7 @@ export default async function RootLayout({
       </head>
       <body className="min-h-screen flex flex-col bg-bg text-bodyText dark:bg-[#161426] dark:text-[#E7E4F5] antialiased selection:bg-lavender selection:text-deepInk transition-colors duration-200">
         <ThemeProvider defaultTheme={siteTheme} initialThemeConfig={profile.themeConfig || DEFAULT_THEME_CONFIG}>
-          <Navbar />
+          <Navbar resumeUrl={profile.resumeUrl} />
           <main className="flex-1">{children}</main>
           <Footer />
         </ThemeProvider>

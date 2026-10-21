@@ -6,12 +6,32 @@ import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { Menu, X, Download } from 'lucide-react';
 import { useTheme } from '@/components/theme/ThemeProvider';
+import { fetchProfileSettings } from '@/lib/data-service';
 
-export default function Navbar() {
+interface NavbarProps {
+  resumeUrl?: string;
+}
+
+export default function Navbar({ resumeUrl }: NavbarProps = {}) {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const pathname = usePathname();
   const { themeConfig } = useTheme();
+  const [activeResumeUrl, setActiveResumeUrl] = useState<string>(
+    resumeUrl || '/resume-sumit-kumar.pdf'
+  );
+
+  useEffect(() => {
+    if (resumeUrl) {
+      setActiveResumeUrl(resumeUrl);
+    } else {
+      fetchProfileSettings().then((prof) => {
+        if (prof?.resumeUrl) {
+          setActiveResumeUrl(prof.resumeUrl);
+        }
+      });
+    }
+  }, [resumeUrl]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -102,8 +122,10 @@ export default function Navbar() {
 
             {/* White-outlined Resume Pill with tactile spring */}
             <a
-              href="/resume-sumit-kumar.pdf"
+              href={activeResumeUrl || '/resume-sumit-kumar.pdf'}
               download="Sumit-Kumar-Resume.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
               className="btn-tactile btn-tactile-white inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-white dark:bg-white/10 text-deepInk dark:text-white text-xs font-bold border-2 border-white dark:border-white/20 shadow-[0_2px_8px_rgba(46,42,79,0.06)] transition-all"
             >
               <span className="relative z-10 flex items-center gap-1.5">
@@ -146,8 +168,10 @@ export default function Navbar() {
             ))}
 
             <a
-              href="/resume-sumit-kumar.pdf"
+              href={activeResumeUrl || '/resume-sumit-kumar.pdf'}
               download="Sumit-Kumar-Resume.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
               onClick={() => setIsOpen(false)}
               className="btn-tactile btn-tactile-mint px-4 py-2.5 rounded-2xl text-sm font-bold bg-mint dark:bg-mint/20 text-deepInk dark:text-mint flex items-center justify-between"
             >
