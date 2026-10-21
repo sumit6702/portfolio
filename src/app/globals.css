@@ -9,24 +9,32 @@
 }
 
 body {
-  color: #4A4668;
-  background-color: #FBFAFF;
-  font-family: var(--font-sans), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  color: var(--theme-text, #4A4668);
+  background-color: var(--theme-bg, #FBFAFF);
+  font-family: var(--font-custom-body, var(--font-sans)), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   overflow-x: hidden;
   /* Very light pastel background with subtle thin lavender grid line pattern */
   background-image: 
-    linear-gradient(to right, rgba(217, 204, 242, 0.4) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(217, 204, 242, 0.4) 1px, transparent 1px);
+    linear-gradient(to right, var(--theme-border-subtle, rgba(217, 204, 242, 0.4)) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--theme-border-subtle, rgba(217, 204, 242, 0.4)) 1px, transparent 1px);
   background-size: 36px 36px;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .dark body {
-  color: #E7E4F5;
-  background-color: #161426;
+  color: var(--theme-text-dark, #E7E4F5);
+  background-color: var(--theme-bg-dark, #161426);
   background-image: 
-    linear-gradient(to right, rgba(217, 204, 242, 0.08) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(217, 204, 242, 0.08) 1px, transparent 1px);
+    linear-gradient(to right, var(--theme-border-subtle-dark, rgba(217, 204, 242, 0.08)) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--theme-border-subtle-dark, rgba(217, 204, 242, 0.08)) 1px, transparent 1px);
   background-size: 36px 36px;
+}
+
+.hero-card-themed {
+  background: linear-gradient(135deg, var(--theme-hero-from, #D9CCF2), var(--theme-hero-via, #B8C9F5), var(--theme-hero-to, #F9C9DC));
+}
+.dark .hero-card-themed {
+  background: linear-gradient(135deg, var(--theme-hero-dark-from, #25203D), var(--theme-hero-dark-via, #1E2545), var(--theme-hero-dark-to, #382436));
 }
 
 ::selection {

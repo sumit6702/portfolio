@@ -96,6 +96,7 @@ export interface ThemePaletteConfig {
   card: string;
   border: string;
   accent?: string;
+  heroGradient?: [string, string, string];
 }
 
 export interface ThemeConfig {

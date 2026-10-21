@@ -98,7 +98,7 @@ export default function HeroSection({ profile }: HeroSectionProps) {
           {/* ==================================================================== */}
           {/* MAIN HERO CARD (Large ~40px rounded pastel gradient card)            */}
           {/* ==================================================================== */}
-          <div className="relative rounded-[2.25rem] sm:rounded-[2.75rem] md:rounded-[40px] bg-gradient-to-br from-[#D9CCF2] via-[#B8C9F5] to-[#F9C9DC] dark:from-[#25203D] dark:via-[#1E2545] dark:to-[#382436] p-6 sm:p-10 md:p-14 lg:p-16 border-4 border-white/90 dark:border-white/10 shadow-[0_24px_50px_rgba(46,42,79,0.08)] dark:shadow-[0_24px_50px_rgba(0,0,0,0.5)] overflow-hidden animate-gradient-flow card-shimmer">
+          <div className="relative rounded-[2.25rem] sm:rounded-[2.75rem] md:rounded-[40px] hero-card-themed p-6 sm:p-10 md:p-14 lg:p-16 border-4 border-white/90 dark:border-white/10 shadow-[0_24px_50px_rgba(46,42,79,0.08)] dark:shadow-[0_24px_50px_rgba(0,0,0,0.5)] overflow-hidden animate-gradient-flow card-shimmer">
             
             {/* Subtle inner mat highlight glow */}
             <div className="absolute inset-0 bg-gradient-to-b from-white/30 to-transparent pointer-events-none rounded-[36px]" />

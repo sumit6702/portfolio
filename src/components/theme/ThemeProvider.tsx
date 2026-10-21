@@ -127,7 +127,7 @@ export function ThemeProvider({
       }
     });
 
-    // 2. Inject or update dynamic typography stylesheet
+    // 2. Inject or update dynamic typography & color theme stylesheet
     let styleEl = document.getElementById('theme-dynamic-styles') as HTMLStyleElement | null;
     if (!styleEl) {
       styleEl = document.createElement('style');
@@ -142,16 +142,70 @@ export function ThemeProvider({
       ? `'${bodyFont}', var(--font-sans), sans-serif`
       : 'var(--font-sans), sans-serif';
 
+    const light = themeConfig.colors?.light;
+    const dark = themeConfig.colors?.dark;
+
+    const lightHero = light?.heroGradient || [
+      light?.border || '#D9CCF2',
+      light?.accent || '#B8C9F5',
+      light?.border || '#F9C9DC',
+    ];
+    const darkHero = dark?.heroGradient || [
+      dark?.card || '#25203D',
+      dark?.border || '#1E2545',
+      dark?.accent ? `${dark.accent}33` : '#382436',
+    ];
+
     styleEl.innerHTML = `
       :root {
         --font-custom-heading: ${headingFontFamily};
         --font-custom-body: ${bodyFontFamily};
+        --theme-bg: ${light?.background || '#FBFAFF'};
+        --theme-text: ${light?.text || '#4A4668'};
+        --theme-primary: ${light?.primary || '#2E2A4F'};
+        --theme-primary-text: #FFFFFF;
+        --theme-card: ${light?.card || '#FFFFFF'};
+        --theme-border: ${light?.border || '#D9CCF2'};
+        --theme-accent: ${light?.accent || '#B8C9F5'};
+        --theme-border-subtle: ${light?.border ? `${light.border}55` : 'rgba(217, 204, 242, 0.4)'};
+        --theme-hero-from: ${lightHero[0]};
+        --theme-hero-via: ${lightHero[1]};
+        --theme-hero-to: ${lightHero[2]};
       }
-      .font-serif, [class*="font-serif"] {
+      .dark {
+        --theme-bg: ${dark?.background || '#161426'};
+        --theme-bg-dark: ${dark?.background || '#161426'};
+        --theme-text: ${dark?.text || '#E7E4F5'};
+        --theme-text-dark: ${dark?.text || '#E7E4F5'};
+        --theme-primary: ${dark?.primary || '#FFFFFF'};
+        --theme-primary-dark: ${dark?.primary || '#FFFFFF'};
+        --theme-primary-text-dark: #1F1C36;
+        --theme-card: ${dark?.card || '#1E1B33'};
+        --theme-border: ${dark?.border || '#38345C'};
+        --theme-accent: ${dark?.accent || '#D9CCF2'};
+        --theme-border-subtle: ${dark?.border ? `${dark.border}22` : 'rgba(217, 204, 242, 0.08)'};
+        --theme-border-subtle-dark: ${dark?.border ? `${dark.border}22` : 'rgba(217, 204, 242, 0.08)'};
+        --theme-hero-dark-from: ${darkHero[0]};
+        --theme-hero-dark-via: ${darkHero[1]};
+        --theme-hero-dark-to: ${darkHero[2]};
+      }
+      .font-serif, [class*="font-serif"], h1, h2, h3, .font-display {
         font-family: var(--font-custom-heading) !important;
       }
       body {
         font-family: var(--font-custom-body) !important;
+      }
+      body:not(.dark body) {
+        background-color: var(--theme-bg) !important;
+        color: var(--theme-text) !important;
+      }
+      .dark body {
+        background-color: var(--theme-bg-dark) !important;
+        color: var(--theme-text-dark) !important;
+      }
+      ::selection {
+        background-color: var(--theme-accent) !important;
+        color: var(--theme-primary) !important;
       }
     `;
   }, [themeConfig]);
