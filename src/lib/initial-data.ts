@@ -143,7 +143,6 @@ export const INITIAL_PROJECTS: Project[] = [
       'https://images.unsplash.com/photo-1546868871-7041f2a55e12?auto=format&fit=crop&w=1200&q=80',
       'https://images.unsplash.com/photo-1527661591475-527312dd65f5?auto=format&fit=crop&w=1200&q=80',
     ],
-    videoUrl: 'https://www.youtube.com/watch?v=aqz-KE-bpKQ',
     contentBlocks: [
       {
         id: 'block-1',
@@ -207,7 +206,6 @@ export const INITIAL_PROJECTS: Project[] = [
       'https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&w=1200&q=80',
       'https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&w=1200&q=80',
     ],
-    videoUrl: 'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
     contentBlocks: [
       {
         id: 'block-d1',
@@ -257,7 +255,6 @@ export const INITIAL_PROJECTS: Project[] = [
       'https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=1200&q=80',
       'https://images.unsplash.com/photo-1536240478700-b869070f9279?auto=format&fit=crop&w=1200&q=80',
     ],
-    videoUrl: 'https://www.youtube.com/watch?v=kJQP7kiw5Fk',
     contentBlocks: [
       {
         id: 'block-m1',
@@ -335,7 +332,6 @@ export const INITIAL_PROJECTS: Project[] = [
       'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1200&q=80',
       'https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?auto=format&fit=crop&w=1200&q=80',
     ],
-    videoUrl: 'https://www.youtube.com/watch?v=aqz-KE-bpKQ',
     contentBlocks: [
       {
         id: 'block-c1',

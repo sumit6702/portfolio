@@ -4,7 +4,6 @@ import React from 'react';
 import Link from 'next/link';
 import { Heart, Sparkles, ArrowUp } from 'lucide-react';
 import Social3DIcon from '@/components/3d/Social3DIcon';
-import ThemeToggle from '@/components/theme/ThemeToggle';
 
 export default function Footer() {
   const scrollToTop = () => {
@@ -97,16 +96,6 @@ export default function Footer() {
               <p>
                 <span className="font-bold text-deepInk dark:text-white">Location:</span> Gurugram & Delhi, India
               </p>
-              <div className="pt-3 flex flex-wrap items-center gap-2">
-                <Link
-                  href="/admin"
-                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-bg dark:bg-[#1E1B33] border border-lavender/40 dark:border-white/10 text-xs font-bold text-deepInk dark:text-lavender-light hover:bg-lavender-light transition-colors"
-                >
-                  Admin Portal
-                </Link>
-
-                <ThemeToggle variant="segmented" />
-              </div>
             </div>
           </div>
         </div>

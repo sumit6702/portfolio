@@ -161,36 +161,41 @@ export default function AdminDashboardPage() {
     updatedCategories: string[],
     renamedMap?: { from: string; to: string }
   ) => {
-    if (!profile) return;
-    const newProfile: ProfileSettings = {
-      ...profile,
-      categories: updatedCategories,
-    };
-    const res = await saveProfileSettings(newProfile);
-    if (!res.error && res.data) {
-      setProfile(res.data);
-      showNotification('Categories updated successfully!');
+    try {
+      const baseProfile = profile || (await fetchProfileSettings());
+      const newProfile: ProfileSettings = {
+        ...baseProfile,
+        categories: updatedCategories,
+      };
+      const res = await saveProfileSettings(newProfile);
+      if (res.data) {
+        setProfile(res.data);
+        showNotification('Categories updated successfully!');
 
-      // If a category was renamed, also update projects and videos that used the old name
-      if (renamedMap && renamedMap.from && renamedMap.to) {
-        const { from, to } = renamedMap;
-        for (const p of projects) {
-          if (p.category.toLowerCase().trim() === from.toLowerCase().trim()) {
-            await saveProject({ ...p, category: to });
+        // If a category was renamed, also update projects and videos that used the old name
+        if (renamedMap && renamedMap.from && renamedMap.to) {
+          const { from, to } = renamedMap;
+          for (const p of projects) {
+            if (p.category && p.category.toLowerCase().trim() === from.toLowerCase().trim()) {
+              await saveProject({ ...p, category: to });
+            }
           }
-        }
-        for (const v of videos) {
-          if (v.category.toLowerCase().trim() === from.toLowerCase().trim()) {
-            await saveVideo({ ...v, category: to });
+          for (const v of videos) {
+            if (v.category && v.category.toLowerCase().trim() === from.toLowerCase().trim()) {
+              await saveVideo({ ...v, category: to });
+            }
           }
+          const freshProjects = await fetchProjects();
+          setProjects(freshProjects);
+          const freshVideos = await fetchVideos();
+          setVideos(freshVideos);
         }
-        const freshProjects = await fetchProjects();
-        setProjects(freshProjects);
-        const freshVideos = await fetchVideos();
-        setVideos(freshVideos);
+      } else if (res.error) {
+        alert(`Error saving categories: ${res.error}`);
       }
-    } else {
-      alert(`Error saving categories: ${res.error}`);
+    } catch (err: any) {
+      console.error('Error in handleSaveCategories:', err);
+      alert('Error saving categories: ' + (err?.message || 'Unknown error'));
     }
   };
 

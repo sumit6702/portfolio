@@ -249,7 +249,7 @@ INSERT INTO public.projects (
   'Designed custom product packaging and labels for Crunchy Piper, exploring dieline structures, playful colorways, and shelf-impact typography. Built a full 3D brand system and packaging mockups in Blender.',
   '["Blender", "Adobe Illustrator", "Adobe Photoshop", "Figma"]'::jsonb,
   '["https://images.unsplash.com/photo-1622543925917-763c34d1a86e?auto=format&fit=crop&w=1200&q=80", "https://images.unsplash.com/photo-1556767576-5ec41e3239ea?auto=format&fit=crop&w=1200&q=80", "https://images.unsplash.com/photo-1546868871-7041f2a55e12?auto=format&fit=crop&w=1200&q=80"]'::jsonb,
-  'https://www.youtube.com/watch?v=aqz-KE-bpKQ',
+  NULL,
   true,
   1
 ),
@@ -264,7 +264,7 @@ INSERT INTO public.projects (
   'Created consistent brand alignment and high-precision visual systems across premium dental brands (MDK Handpieces, LiteTouch, Medency, Salvo, TurboRock). Engineered 3D product visualizations in Blender and Tripo3D alongside fortnightly e-commerce web banners.',
   '["Blender", "Tripo3D", "Adobe Photoshop", "Illustrator", "After Effects"]'::jsonb,
   '["https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?auto=format&fit=crop&w=1200&q=80", "https://images.unsplash.com/photo-1629909613654-28e377c37b09?auto=format&fit=crop&w=1200&q=80"]'::jsonb,
-  'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+  NULL,
   true,
   2
 ),
@@ -279,7 +279,7 @@ INSERT INTO public.projects (
   'Pioneered an AI-assisted creative production pipeline combining Veo, Kling 2.0, After Effects, and Premiere Pro. Produced dynamic product reels and micro-animations with snappy pacing and visual polish.',
   '["After Effects", "Premiere Pro", "Veo", "Kling 2.0", "Tripo3D"]'::jsonb,
   '["https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=1200&q=80", "https://images.unsplash.com/photo-1536240478700-b869070f9279?auto=format&fit=crop&w=1200&q=80"]'::jsonb,
-  'https://www.youtube.com/watch?v=kJQP7kiw5Fk',
+  NULL,
   true,
   3
 )

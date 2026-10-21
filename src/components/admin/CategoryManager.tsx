@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Tag, Plus, Edit2, Trash2, Check, X, RotateCcw, AlertCircle, Layers } from 'lucide-react';
 import { Project, VideoItem } from '@/lib/types';
 import { DEFAULT_CATEGORIES } from '@/lib/initial-data';
@@ -18,19 +18,29 @@ export default function CategoryManager({
   videos = [],
   onSaveCategories,
 }: CategoryManagerProps) {
+  const [currentCategories, setCurrentCategories] = useState<string[]>(
+    categories && categories.length > 0 ? categories : DEFAULT_CATEGORIES
+  );
   const [newCatInput, setNewCatInput] = useState('');
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
   const [editingValue, setEditingValue] = useState('');
   const [isSaving, setIsSaving] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
 
+  // Synchronize local state whenever categories prop changes
+  useEffect(() => {
+    if (categories && categories.length > 0) {
+      setCurrentCategories(categories);
+    }
+  }, [categories]);
+
   // Count usage of each category
   const getCategoryUsage = (cat: string) => {
     const projectCount = projects.filter(
-      (p) => p.category.toLowerCase().trim() === cat.toLowerCase().trim()
+      (p) => p?.category && p.category.toLowerCase().trim() === cat.toLowerCase().trim()
     ).length;
     const videoCount = videos.filter(
-      (v) => v.category.toLowerCase().trim() === cat.toLowerCase().trim()
+      (v) => v?.category && v.category.toLowerCase().trim() === cat.toLowerCase().trim()
     ).length;
     return { projectCount, videoCount, total: projectCount + videoCount };
   };
@@ -41,17 +51,24 @@ export default function CategoryManager({
     const trimmed = newCatInput.trim();
     if (!trimmed) return;
 
-    if (categories.some((c) => c.toLowerCase() === trimmed.toLowerCase())) {
+    if (currentCategories.some((c) => c.toLowerCase() === trimmed.toLowerCase())) {
       setErrorMsg(`Category "${trimmed}" already exists.`);
       return;
     }
 
     setErrorMsg('');
     setIsSaving(true);
+    const previous = [...currentCategories];
+    const updated = [...currentCategories, trimmed];
+    // Immediate optimistic update
+    setCurrentCategories(updated);
+    setNewCatInput('');
+
     try {
-      const updated = [...categories, trimmed];
       await onSaveCategories(updated);
-      setNewCatInput('');
+    } catch (err: any) {
+      setCurrentCategories(previous);
+      setErrorMsg(err?.message || 'Failed to add category. Please try again.');
     } finally {
       setIsSaving(false);
     }
@@ -73,7 +90,7 @@ export default function CategoryManager({
 
   // Save inline edit
   const handleSaveEdit = async (index: number) => {
-    const oldName = categories[index];
+    const oldName = currentCategories[index];
     const newName = editingValue.trim();
 
     if (!newName) {
@@ -81,19 +98,25 @@ export default function CategoryManager({
       return;
     }
 
-    if (newName !== oldName && categories.some((c) => c.toLowerCase() === newName.toLowerCase())) {
+    if (newName.toLowerCase() !== oldName.toLowerCase() && currentCategories.some((c) => c.toLowerCase() === newName.toLowerCase())) {
       setErrorMsg(`Category "${newName}" already exists.`);
       return;
     }
 
     setErrorMsg('');
     setIsSaving(true);
+    const previous = [...currentCategories];
+    const updated = [...currentCategories];
+    updated[index] = newName;
+    setCurrentCategories(updated);
+    setEditingIndex(null);
+    setEditingValue('');
+
     try {
-      const updated = [...categories];
-      updated[index] = newName;
       await onSaveCategories(updated, { from: oldName, to: newName });
-      setEditingIndex(null);
-      setEditingValue('');
+    } catch (err: any) {
+      setCurrentCategories(previous);
+      setErrorMsg(err?.message || 'Failed to rename category. Please try again.');
     } finally {
       setIsSaving(false);
     }
@@ -111,9 +134,15 @@ export default function CategoryManager({
 
     setErrorMsg('');
     setIsSaving(true);
+    const previous = [...currentCategories];
+    const updated = currentCategories.filter((c) => c !== catToDelete);
+    setCurrentCategories(updated);
+
     try {
-      const updated = categories.filter((c) => c !== catToDelete);
       await onSaveCategories(updated);
+    } catch (err: any) {
+      setCurrentCategories(previous);
+      setErrorMsg(err?.message || 'Failed to delete category. Please try again.');
     } finally {
       setIsSaving(false);
     }
@@ -122,9 +151,15 @@ export default function CategoryManager({
   // Reset to defaults
   const handleResetDefaults = async () => {
     if (confirm('Reset categories list to defaults (3D Design, Motion Graphics, Packaging, Branding, AI Video)?')) {
+      setErrorMsg('');
       setIsSaving(true);
+      const previous = [...currentCategories];
+      setCurrentCategories(DEFAULT_CATEGORIES);
       try {
         await onSaveCategories(DEFAULT_CATEGORIES);
+      } catch (err: any) {
+        setCurrentCategories(previous);
+        setErrorMsg(err?.message || 'Failed to reset categories. Please try again.');
       } finally {
         setIsSaving(false);
       }
@@ -193,7 +228,7 @@ export default function CategoryManager({
 
       {/* Categories Grid List */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {categories.map((cat, idx) => {
+        {currentCategories.map((cat, idx) => {
           const usage = getCategoryUsage(cat);
           const isEditing = editingIndex === idx;
 

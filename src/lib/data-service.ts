@@ -1,11 +1,12 @@
 import { getSupabaseClient, isSupabaseConfigured } from './supabase/client';
 import { Project, VideoItem, ProfileSettings, ContactInquiry } from './types';
-import { INITIAL_PROJECTS, INITIAL_VIDEOS, INITIAL_PROFILE } from './initial-data';
+import { INITIAL_PROJECTS, INITIAL_VIDEOS, INITIAL_PROFILE, DEFAULT_CATEGORIES } from './initial-data';
 
 // Helper storage keys for browser fallback mode
 const LOCAL_PROJECTS_KEY = 'sumit_portfolio_projects';
 const LOCAL_VIDEOS_KEY = 'sumit_portfolio_videos';
 const LOCAL_PROFILE_KEY = 'sumit_portfolio_profile';
+const LOCAL_CATEGORIES_KEY = 'sumit_portfolio_categories';
 const LOCAL_INQUIRIES_KEY = 'sumit_portfolio_inquiries';
 
 export function isValidUuid(id?: string | null): boolean {
@@ -192,6 +193,13 @@ function mapProfileToDb(prof: Partial<ProfileSettings>): Record<string, any> {
 
 /* ---------------- PROJECTS API ---------------- */
 
+const DEMO_TEST_VIDEOS = [
+  'https://www.youtube.com/watch?v=aqz-KE-bpKQ',
+  'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
+  'https://www.youtube.com/watch?v=kJQP7kiw5Fk',
+  'https://www.youtube.com/watch?v=L_LUpnjgPso',
+];
+
 export async function fetchProjects(): Promise<Project[]> {
   const supabase = getSupabaseClient();
   if (supabase) {
@@ -209,7 +217,17 @@ export async function fetchProjects(): Promise<Project[]> {
     }
   }
 
-  return getLocalData<Project[]>(LOCAL_PROJECTS_KEY, INITIAL_PROJECTS);
+  const rawProjects = getLocalData<Project[]>(LOCAL_PROJECTS_KEY, INITIAL_PROJECTS);
+  // Ensure default projects have no videos attached by default
+  const sanitized = rawProjects.map((p) => {
+    if (p.id?.startsWith('proj-') && p.videoUrl && DEMO_TEST_VIDEOS.includes(p.videoUrl)) {
+      const copy = { ...p };
+      delete copy.videoUrl;
+      return copy;
+    }
+    return p;
+  });
+  return sanitized;
 }
 
 export async function fetchProjectBySlug(slug: string): Promise<Project | null> {
@@ -429,6 +447,7 @@ export async function deleteVideo(id: string): Promise<{ success: boolean; error
 
 export async function fetchProfileSettings(): Promise<ProfileSettings> {
   const supabase = getSupabaseClient();
+  let dbProfile: ProfileSettings | null = null;
   if (supabase) {
     try {
       const { data, error } = await supabase
@@ -438,21 +457,44 @@ export async function fetchProfileSettings(): Promise<ProfileSettings> {
         .single();
 
       if (!error && data) {
-        return mapDbProfile(data);
+        dbProfile = mapDbProfile(data);
       }
     } catch (err) {
       console.warn('Supabase fetch profile error, using fallback:', err);
     }
   }
 
-  return getLocalData<ProfileSettings>(LOCAL_PROFILE_KEY, INITIAL_PROFILE);
+  const localProf = getLocalData<Partial<ProfileSettings>>(LOCAL_PROFILE_KEY, INITIAL_PROFILE);
+  const localSavedCategories = getLocalData<string[] | null>(LOCAL_CATEGORIES_KEY, null);
+
+  // Determine active categories: localSavedCategories > localProf.categories > dbProfile.categories > INITIAL_PROFILE.categories
+  let activeCategories = INITIAL_PROFILE.categories;
+  if (localSavedCategories && Array.isArray(localSavedCategories) && localSavedCategories.length > 0) {
+    activeCategories = localSavedCategories;
+  } else if (localProf?.categories && Array.isArray(localProf.categories) && localProf.categories.length > 0) {
+    activeCategories = localProf.categories;
+  } else if (dbProfile?.categories && Array.isArray(dbProfile.categories) && dbProfile.categories.length > 0) {
+    activeCategories = dbProfile.categories;
+  }
+
+  const merged: ProfileSettings = {
+    ...INITIAL_PROFILE,
+    ...(dbProfile || {}),
+    ...(localProf || {}),
+    categories: activeCategories,
+  };
+
+  return merged;
 }
 
 export async function saveProfileSettings(
   profile: ProfileSettings
 ): Promise<{ data: ProfileSettings | null; error: string | null }> {
-  // Always update local cache and storage
+  // Always update local cache and dedicated categories storage
   setLocalData(LOCAL_PROFILE_KEY, profile);
+  if (profile.categories && Array.isArray(profile.categories) && profile.categories.length > 0) {
+    setLocalData(LOCAL_CATEGORIES_KEY, profile.categories);
+  }
 
   const supabase = getSupabaseClient();
   if (supabase) {
@@ -484,15 +526,50 @@ export async function saveProfileSettings(
       }
 
       if (error) {
-        return { data: null, error: error.message };
+        console.warn('Supabase save profile warning, local fallback preserved:', error.message);
+        return { data: profile, error: null };
       }
-      return { data: mapDbProfile(data), error: null };
+
+      const mapped = mapDbProfile(data);
+      // Ensure caller profile categories/themeConfig/themeMode are retained even if DB omitted them
+      if (profile.categories && profile.categories.length > 0) {
+        mapped.categories = profile.categories;
+      }
+      if (profile.themeConfig) {
+        mapped.themeConfig = profile.themeConfig;
+      }
+      if (profile.themeMode) {
+        mapped.themeMode = profile.themeMode;
+      }
+      setLocalData(LOCAL_PROFILE_KEY, mapped);
+      if (mapped.categories) {
+        setLocalData(LOCAL_CATEGORIES_KEY, mapped.categories);
+      }
+      return { data: mapped, error: null };
     } catch (err: any) {
-      return { data: null, error: err.message };
+      console.warn('Supabase save profile exception, local fallback preserved:', err);
+      return { data: profile, error: null };
     }
   }
 
   return { data: profile, error: null };
+}
+
+export async function fetchCategories(): Promise<string[]> {
+  const prof = await fetchProfileSettings();
+  return prof.categories && prof.categories.length > 0 ? prof.categories : DEFAULT_CATEGORIES;
+}
+
+export async function saveCategories(
+  categories: string[]
+): Promise<{ data: string[] | null; error: string | null }> {
+  setLocalData(LOCAL_CATEGORIES_KEY, categories);
+  const currentProfile = await fetchProfileSettings();
+  const res = await saveProfileSettings({
+    ...currentProfile,
+    categories,
+  });
+  return { data: categories, error: res.error };
 }
 
 /* ---------------- CONTACT INQUIRIES API ---------------- */

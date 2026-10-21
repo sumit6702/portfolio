@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import { Menu, X, Lock, Download } from 'lucide-react';
+import { Menu, X, Download } from 'lucide-react';
 import { useTheme } from '@/components/theme/ThemeProvider';
 
 export default function Navbar() {
@@ -111,18 +111,6 @@ export default function Navbar() {
                 <span>Resume</span>
               </span>
             </a>
-
-            {/* Admin shortcut round button with tactile spring */}
-            <Link
-              href="/admin"
-              aria-label="Admin Portal"
-              title="Admin Portal"
-              className="btn-tactile btn-tactile-white w-9 h-9 rounded-full bg-white dark:bg-[#1E1B33] border border-lavender/40 dark:border-white/10 text-bodyText-muted dark:text-lavender-light hover:text-deepInk flex items-center justify-center transition-colors shadow-sm"
-            >
-              <span className="relative z-10 flex items-center justify-center">
-                <Lock className="w-3.5 h-3.5" />
-              </span>
-            </Link>
           </div>
 
           {/* Mobile Right Controls */}
