@@ -39,28 +39,38 @@ export function ThemeProvider({
   const [themeConfig, setThemeConfigState] = useState<ThemeConfig>(initialThemeConfig);
   const [mounted, setMounted] = useState(false);
 
-  // Initialize theme mode and theme config from storage or server defaults
+  // Initialize theme mode and theme config: Supabase initial values take priority
   useEffect(() => {
     try {
-      const stored = localStorage.getItem(STORAGE_KEY) as ThemeMode | null;
-      if (stored === 'light' || stored === 'dark' || stored === 'system') {
-        setThemeState(stored);
+      // 1. Theme Configuration
+      if (initialThemeConfig && initialThemeConfig.colors && initialThemeConfig.typography) {
+        setThemeConfigState(initialThemeConfig);
+        try {
+          localStorage.setItem(CONFIG_STORAGE_KEY, JSON.stringify(initialThemeConfig));
+        } catch {}
       } else {
-        setThemeState(defaultTheme);
+        const storedConfig = localStorage.getItem(CONFIG_STORAGE_KEY);
+        if (storedConfig) {
+          try {
+            const parsed = JSON.parse(storedConfig);
+            if (parsed && typeof parsed === 'object' && parsed.colors) {
+              setThemeConfigState(parsed);
+            }
+          } catch {}
+        }
       }
 
-      const storedConfig = localStorage.getItem(CONFIG_STORAGE_KEY);
-      if (storedConfig) {
+      // 2. Theme Mode
+      if (defaultTheme) {
+        setThemeState(defaultTheme);
         try {
-          const parsed = JSON.parse(storedConfig);
-          if (parsed && typeof parsed === 'object') {
-            setThemeConfigState(parsed);
-          }
-        } catch {
-          // keep initial
+          localStorage.setItem(STORAGE_KEY, defaultTheme);
+        } catch {}
+      } else {
+        const stored = localStorage.getItem(STORAGE_KEY) as ThemeMode | null;
+        if (stored === 'light' || stored === 'dark' || stored === 'system') {
+          setThemeState(stored);
         }
-      } else if (initialThemeConfig) {
-        setThemeConfigState(initialThemeConfig);
       }
     } catch {
       setThemeState(defaultTheme);

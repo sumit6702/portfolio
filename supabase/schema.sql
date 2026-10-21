@@ -56,6 +56,8 @@ CREATE TABLE IF NOT EXISTS public.profile_settings (
   social_website TEXT,
   resume_url TEXT,
   theme_mode TEXT DEFAULT 'system',
+  categories JSONB DEFAULT '["3D Design", "Motion Graphics", "Packaging", "Branding", "AI Video"]'::jsonb,
+  theme_config JSONB DEFAULT '{}'::jsonb,
   updated_at TIMESTAMPTZ DEFAULT NOW()
 );
 

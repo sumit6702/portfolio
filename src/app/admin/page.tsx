@@ -223,12 +223,18 @@ export default function AdminDashboardPage() {
     }
   };
 
-  // Profile Save
+  // Profile & Appearance Save
   const handleSaveProfile = async (newProf: ProfileSettings) => {
     const res = await saveProfileSettings(newProf);
-    if (!res.error && res.data) {
+    if (res.data) {
       setProfile(res.data);
-      showNotification('Profile updated successfully!');
+      if (res.error) {
+        showNotification(`Saved locally. Supabase notice: ${res.error}`);
+      } else {
+        showNotification('Settings saved to Supabase successfully!');
+      }
+    } else if (res.error) {
+      alert(`Error saving to database: ${res.error}`);
     }
   };
 

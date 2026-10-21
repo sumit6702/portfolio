@@ -103,7 +103,7 @@ export default function SupabaseSetupHelper() {
               Complete SQL Script (`supabase/schema.sql`)
             </h4>
             <p className="text-xs text-bodyText-muted dark:text-lavender-light/70 font-medium">
-              Creates 4 tables (`projects`, `videos`, `profile_settings`, `contact_inquiries`), Row Level Security policies, and 2 storage buckets (`portfolio-assets`, `resumes`).
+              Creates 4 tables (`projects`, `videos`, `profile_settings`, `contact_inquiries`), Row Level Security policies, storage buckets (`portfolio-assets`, `resumes`), and theme settings columns.
             </p>
           </div>
 
@@ -114,6 +114,23 @@ export default function SupabaseSetupHelper() {
           >
             Download schema.sql
           </a>
+        </div>
+
+        {/* Quick Migration snippet for existing profile_settings tables */}
+        <div className="p-4 rounded-2xl bg-white dark:bg-[#1E1B33] border border-lavender/40 dark:border-white/10 space-y-2">
+          <div className="flex items-center justify-between">
+            <span className="text-xs font-bold text-deepInk dark:text-white">
+              SQL Migration for Appearance & Theme Persistence:
+            </span>
+            <span className="text-[10px] font-bold text-bodyText-muted dark:text-lavender-light/60">
+              Run once in Supabase SQL Editor
+            </span>
+          </div>
+          <pre className="p-3 rounded-xl bg-bg dark:bg-[#110F20] border border-lavender/40 text-[11px] font-mono text-deepInk dark:text-lavender-light overflow-x-auto whitespace-pre">
+{`ALTER TABLE public.profile_settings ADD COLUMN IF NOT EXISTS theme_mode TEXT DEFAULT 'system';
+ALTER TABLE public.profile_settings ADD COLUMN IF NOT EXISTS categories JSONB DEFAULT '["3D Design", "Motion Graphics", "Packaging", "Branding", "AI Video"]'::jsonb;
+ALTER TABLE public.profile_settings ADD COLUMN IF NOT EXISTS theme_config JSONB DEFAULT '{}'::jsonb;`}
+          </pre>
         </div>
       </div>
     </div>

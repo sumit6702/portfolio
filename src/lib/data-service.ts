@@ -1,6 +1,7 @@
 import { getSupabaseClient, isSupabaseConfigured } from './supabase/client';
-import { Project, VideoItem, ProfileSettings, ContactInquiry } from './types';
+import { Project, VideoItem, ProfileSettings, ContactInquiry, ThemeMode } from './types';
 import { INITIAL_PROJECTS, INITIAL_VIDEOS, INITIAL_PROFILE, DEFAULT_CATEGORIES } from './initial-data';
+import { DEFAULT_THEME_CONFIG } from '@/config/theme-presets';
 
 // Helper storage keys for browser fallback mode
 const LOCAL_PROJECTS_KEY = 'sumit_portfolio_projects';
@@ -134,14 +135,37 @@ function mapDbProfile(row: any): ProfileSettings {
 
   let themeConfig = INITIAL_PROFILE.themeConfig;
   if (row.theme_config) {
-    if (typeof row.theme_config === 'object') {
-      themeConfig = row.theme_config;
-    } else if (typeof row.theme_config === 'string') {
+    let parsed = row.theme_config;
+    if (typeof parsed === 'string') {
       try {
-        themeConfig = JSON.parse(row.theme_config);
+        parsed = JSON.parse(parsed);
       } catch {
-        // fallback
+        parsed = null;
       }
+    }
+    if (parsed && typeof parsed === 'object' && parsed.colors && parsed.typography) {
+      themeConfig = {
+        ...DEFAULT_THEME_CONFIG,
+        ...parsed,
+        colors: {
+          light: {
+            ...DEFAULT_THEME_CONFIG.colors.light,
+            ...(parsed.colors.light || {}),
+          },
+          dark: {
+            ...DEFAULT_THEME_CONFIG.colors.dark,
+            ...(parsed.colors.dark || {}),
+          },
+        },
+        typography: {
+          ...DEFAULT_THEME_CONFIG.typography,
+          ...(parsed.typography || {}),
+        },
+        logo: {
+          ...DEFAULT_THEME_CONFIG.logo,
+          ...(parsed.logo || {}),
+        },
+      };
     }
   }
 
@@ -515,13 +539,41 @@ export async function fetchProfileSettings(): Promise<ProfileSettings> {
     }
   }
 
+  // Determine active themeConfig: Supabase dbProfile.themeConfig takes top priority!
+  let activeThemeConfig = DEFAULT_THEME_CONFIG;
+  if (dbProfile?.themeConfig && dbProfile.themeConfig.colors && dbProfile.themeConfig.typography) {
+    activeThemeConfig = dbProfile.themeConfig;
+  } else if (localProf?.themeConfig && localProf.themeConfig.colors && localProf.themeConfig.typography) {
+    activeThemeConfig = localProf.themeConfig;
+  }
+
+  // Determine active themeMode: Supabase dbProfile.themeMode takes top priority!
+  let activeThemeMode: ThemeMode = 'system';
+  if (dbProfile?.themeMode) {
+    activeThemeMode = dbProfile.themeMode;
+  } else if (localProf?.themeMode) {
+    activeThemeMode = localProf.themeMode;
+  }
+
   const merged: ProfileSettings = {
     ...INITIAL_PROFILE,
     ...(localProf || {}),
     ...(dbProfile || {}),
     resumeUrl: activeResumeUrl,
     categories: activeCategories,
+    themeConfig: activeThemeConfig,
+    themeMode: activeThemeMode,
   };
+
+  // Keep client local storage and cache synchronized with Supabase
+  if (typeof window !== 'undefined') {
+    try {
+      setLocalData(LOCAL_PROFILE_KEY, merged);
+      setLocalData(LOCAL_CATEGORIES_KEY, activeCategories);
+      localStorage.setItem('portfolio_theme_config', JSON.stringify(activeThemeConfig));
+      localStorage.setItem('portfolio_theme_mode', activeThemeMode);
+    } catch {}
+  }
 
   return merged;
 }
@@ -529,10 +581,20 @@ export async function fetchProfileSettings(): Promise<ProfileSettings> {
 export async function saveProfileSettings(
   profile: ProfileSettings
 ): Promise<{ data: ProfileSettings | null; error: string | null }> {
-  // Always update local cache and dedicated categories storage
+  // Always update local cache and dedicated storage immediately
   setLocalData(LOCAL_PROFILE_KEY, profile);
   if (profile.categories && Array.isArray(profile.categories) && profile.categories.length > 0) {
     setLocalData(LOCAL_CATEGORIES_KEY, profile.categories);
+  }
+  if (typeof window !== 'undefined') {
+    try {
+      if (profile.themeConfig) {
+        localStorage.setItem('portfolio_theme_config', JSON.stringify(profile.themeConfig));
+      }
+      if (profile.themeMode) {
+        localStorage.setItem('portfolio_theme_mode', profile.themeMode);
+      }
+    } catch {}
   }
 
   const supabase = getSupabaseClient();
@@ -547,6 +609,7 @@ export async function saveProfileSettings(
 
       // Graceful fallback if theme_mode, categories, or theme_config columns are not yet in Supabase SQL schema
       if (error && (error.message?.includes('theme_mode') || error.message?.includes('categories') || error.message?.includes('theme_config') || error.message?.includes('column'))) {
+        console.warn('Supabase profile schema notice, attempting fallback:', error.message);
         const fallbackPayload = { ...dbPayload };
         delete fallbackPayload.theme_mode;
         delete fallbackPayload.categories;
@@ -566,11 +629,11 @@ export async function saveProfileSettings(
 
       if (error) {
         console.warn('Supabase save profile warning, local fallback preserved:', error.message);
-        return { data: profile, error: null };
+        return { data: profile, error: error.message };
       }
 
       const mapped = mapDbProfile(data);
-      // Ensure caller profile categories/themeConfig/themeMode are retained even if DB omitted them
+      // Ensure caller profile categories/themeConfig/themeMode are retained
       if (profile.categories && profile.categories.length > 0) {
         mapped.categories = profile.categories;
       }
@@ -587,7 +650,7 @@ export async function saveProfileSettings(
       return { data: mapped, error: null };
     } catch (err: any) {
       console.warn('Supabase save profile exception, local fallback preserved:', err);
-      return { data: profile, error: null };
+      return { data: profile, error: err?.message || 'Database connection error' };
     }
   }
 
