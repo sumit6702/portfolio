@@ -355,3 +355,13 @@ body {
     transform: translateY(-10px);
   }
 }
+
+/* Utility to hide scrollbars while allowing smooth touch/scroll behavior */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+

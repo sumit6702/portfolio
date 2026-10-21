@@ -241,47 +241,47 @@ export default function AdminDashboardPage() {
   }
 
   return (
-    <div className="min-h-screen py-8 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto transition-colors duration-200">
+    <div className="min-h-screen py-6 sm:py-8 px-3.5 sm:px-6 lg:px-8 max-w-7xl mx-auto transition-colors duration-200">
       
       {/* Top Header Bar */}
-      <div className="bg-white dark:bg-[#1E1B33] rounded-[32px] md:rounded-[40px] border border-lavender/50 dark:border-white/10 p-6 shadow-soft-sm mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div className="flex items-center gap-4">
-          <div className="w-14 h-14 rounded-2xl bg-deepInk text-white flex items-center justify-center font-serif font-black text-2xl shadow-sm">
+      <div className="bg-white dark:bg-[#1E1B33] rounded-[28px] sm:rounded-[36px] md:rounded-[40px] border border-lavender/50 dark:border-white/10 p-4 sm:p-6 shadow-soft-sm mb-6 sm:mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div className="flex items-center gap-3 sm:gap-4 min-w-0">
+          <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-deepInk text-white flex items-center justify-center font-serif font-black text-xl sm:text-2xl shadow-sm shrink-0">
             S
           </div>
-          <div>
-            <div className="flex items-center gap-2">
-              <h1 className="font-serif font-black text-2xl text-deepInk dark:text-white">
+          <div className="min-w-0 flex-1">
+            <div className="flex flex-wrap items-center gap-2">
+              <h1 className="font-serif font-black text-xl sm:text-2xl text-deepInk dark:text-white truncate">
                 Portfolio Studio Admin
               </h1>
-              <span className="px-3 py-0.5 rounded-full bg-mint-light dark:bg-mint/20 text-deepInk dark:text-mint-light text-[11px] font-bold uppercase border border-mint-border/50">
+              <span className="px-2.5 sm:px-3 py-0.5 rounded-full bg-mint-light dark:bg-mint/20 text-deepInk dark:text-mint-light text-[10px] sm:text-[11px] font-bold uppercase border border-mint-border/50 shrink-0">
                 {currentUser.isSupabaseAuth ? 'Supabase Live' : 'Local Sandbox'}
               </span>
             </div>
-            <p className="text-xs font-semibold text-bodyText-muted dark:text-lavender-light/70 mt-0.5">
+            <p className="text-xs font-semibold text-bodyText-muted dark:text-lavender-light/70 mt-0.5 truncate">
               Logged in as <span className="font-bold text-deepInk dark:text-white">{currentUser.email}</span>
             </p>
           </div>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-2 sm:gap-3 shrink-0">
           <ThemeToggle />
 
           <Link
             href="/"
             target="_blank"
-            className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-full bg-bg dark:bg-[#161426] border border-lavender/40 dark:border-white/10 text-deepInk dark:text-lavender-light text-xs font-bold hover:bg-lavender-light transition-colors shadow-sm"
+            className="inline-flex items-center gap-1.5 px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-full bg-bg dark:bg-[#161426] border border-lavender/40 dark:border-white/10 text-deepInk dark:text-lavender-light text-xs font-bold hover:bg-lavender-light transition-colors shadow-sm shrink-0"
           >
             <ExternalLink className="w-3.5 h-3.5" />
-            View Live Site
+            <span>View Live Site</span>
           </Link>
 
           <button
             onClick={handleLogout}
-            className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-full bg-babyPink-light dark:bg-babyPink/20 border border-babyPink-border text-deepInk dark:text-babyPink-light text-xs font-bold hover:bg-babyPink transition-colors"
+            className="inline-flex items-center gap-1.5 px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-full bg-babyPink-light dark:bg-babyPink/20 border border-babyPink-border text-deepInk dark:text-babyPink-light text-xs font-bold hover:bg-babyPink transition-colors shrink-0"
           >
             <LogOut className="w-3.5 h-3.5" />
-            Sign Out
+            <span>Sign Out</span>
           </button>
         </div>
       </div>
@@ -295,104 +295,106 @@ export default function AdminDashboardPage() {
       )}
 
       {/* Navigation Tabs */}
-      <div className="flex flex-wrap items-center gap-2 mb-8 bg-white/80 dark:bg-[#1E1B33]/80 backdrop-blur-md p-2 rounded-full border border-lavender/40 dark:border-white/10 shadow-sm">
-        <button
-          onClick={() => setActiveTab('projects')}
-          className={`btn-tactile flex items-center gap-2 px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold transition-all ${
-            activeTab === 'projects'
-              ? 'btn-tactile-dark bg-deepInk text-white shadow-sm'
-              : 'text-deepInk dark:text-lavender-light hover:bg-lavender-light'
-          }`}
-        >
-          <span className="relative z-10 flex items-center gap-2">
-            <FolderKanban className="w-4 h-4" />
-            <span>Projects ({projects.length})</span>
-          </span>
-        </button>
+      <div className="mb-6 sm:mb-8 overflow-x-auto no-scrollbar pb-1 -mx-3.5 px-3.5 sm:mx-0 sm:px-0">
+        <div className="flex items-center gap-1.5 sm:gap-2 bg-white/90 dark:bg-[#1E1B33]/90 backdrop-blur-md p-1.5 sm:p-2 rounded-2xl sm:rounded-3xl lg:rounded-full border border-lavender/40 dark:border-white/10 shadow-sm min-w-max sm:min-w-0 sm:flex-wrap">
+          <button
+            onClick={() => setActiveTab('projects')}
+            className={`btn-tactile shrink-0 whitespace-nowrap flex items-center gap-2 px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm font-bold transition-all ${
+              activeTab === 'projects'
+                ? 'btn-tactile-dark bg-deepInk text-white shadow-sm'
+                : 'text-deepInk dark:text-lavender-light hover:bg-lavender-light'
+            }`}
+          >
+            <span className="relative z-10 flex items-center gap-2">
+              <FolderKanban className="w-4 h-4 shrink-0" />
+              <span>Projects ({projects.length})</span>
+            </span>
+          </button>
 
-        <button
-          onClick={() => setActiveTab('videos')}
-          className={`btn-tactile flex items-center gap-2 px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold transition-all ${
-            activeTab === 'videos'
-              ? 'btn-tactile-dark bg-deepInk text-white shadow-sm'
-              : 'text-deepInk dark:text-lavender-light hover:bg-lavender-light'
-          }`}
-        >
-          <span className="relative z-10 flex items-center gap-2">
-            <Film className="w-4 h-4" />
-            <span>Videos ({videos.length})</span>
-          </span>
-        </button>
+          <button
+            onClick={() => setActiveTab('videos')}
+            className={`btn-tactile shrink-0 whitespace-nowrap flex items-center gap-2 px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm font-bold transition-all ${
+              activeTab === 'videos'
+                ? 'btn-tactile-dark bg-deepInk text-white shadow-sm'
+                : 'text-deepInk dark:text-lavender-light hover:bg-lavender-light'
+            }`}
+          >
+            <span className="relative z-10 flex items-center gap-2">
+              <Film className="w-4 h-4 shrink-0" />
+              <span>Videos ({videos.length})</span>
+            </span>
+          </button>
 
-        <button
-          onClick={() => setActiveTab('categories')}
-          className={`btn-tactile flex items-center gap-2 px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold transition-all ${
-            activeTab === 'categories'
-              ? 'btn-tactile-dark bg-deepInk text-white shadow-sm'
-              : 'text-deepInk dark:text-lavender-light hover:bg-lavender-light'
-          }`}
-        >
-          <span className="relative z-10 flex items-center gap-2">
-            <Tag className="w-4 h-4" />
-            <span>Categories ({profile?.categories?.length || DEFAULT_CATEGORIES.length})</span>
-          </span>
-        </button>
+          <button
+            onClick={() => setActiveTab('categories')}
+            className={`btn-tactile shrink-0 whitespace-nowrap flex items-center gap-2 px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm font-bold transition-all ${
+              activeTab === 'categories'
+                ? 'btn-tactile-dark bg-deepInk text-white shadow-sm'
+                : 'text-deepInk dark:text-lavender-light hover:bg-lavender-light'
+            }`}
+          >
+            <span className="relative z-10 flex items-center gap-2">
+              <Tag className="w-4 h-4 shrink-0" />
+              <span>Categories ({profile?.categories?.length || DEFAULT_CATEGORIES.length})</span>
+            </span>
+          </button>
 
-        <button
-          onClick={() => setActiveTab('appearance')}
-          className={`btn-tactile flex items-center gap-2 px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold transition-all ${
-            activeTab === 'appearance'
-              ? 'btn-tactile-dark bg-deepInk text-white shadow-sm'
-              : 'text-deepInk dark:text-lavender-light hover:bg-lavender-light'
-          }`}
-        >
-          <span className="relative z-10 flex items-center gap-2">
-            <Palette className="w-4 h-4" />
-            <span>Appearance & Themes</span>
-          </span>
-        </button>
+          <button
+            onClick={() => setActiveTab('appearance')}
+            className={`btn-tactile shrink-0 whitespace-nowrap flex items-center gap-2 px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm font-bold transition-all ${
+              activeTab === 'appearance'
+                ? 'btn-tactile-dark bg-deepInk text-white shadow-sm'
+                : 'text-deepInk dark:text-lavender-light hover:bg-lavender-light'
+            }`}
+          >
+            <span className="relative z-10 flex items-center gap-2">
+              <Palette className="w-4 h-4 shrink-0" />
+              <span>Appearance & Themes</span>
+            </span>
+          </button>
 
-        <button
-          onClick={() => setActiveTab('profile')}
-          className={`btn-tactile flex items-center gap-2 px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold transition-all ${
-            activeTab === 'profile'
-              ? 'btn-tactile-dark bg-deepInk text-white shadow-sm'
-              : 'text-deepInk dark:text-lavender-light hover:bg-lavender-light'
-          }`}
-        >
-          <span className="relative z-10 flex items-center gap-2">
-            <UserCheck className="w-4 h-4" />
-            <span>Profile & Bio</span>
-          </span>
-        </button>
+          <button
+            onClick={() => setActiveTab('profile')}
+            className={`btn-tactile shrink-0 whitespace-nowrap flex items-center gap-2 px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm font-bold transition-all ${
+              activeTab === 'profile'
+                ? 'btn-tactile-dark bg-deepInk text-white shadow-sm'
+                : 'text-deepInk dark:text-lavender-light hover:bg-lavender-light'
+            }`}
+          >
+            <span className="relative z-10 flex items-center gap-2">
+              <UserCheck className="w-4 h-4 shrink-0" />
+              <span>Profile & Bio</span>
+            </span>
+          </button>
 
-        <button
-          onClick={() => setActiveTab('inquiries')}
-          className={`btn-tactile flex items-center gap-2 px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold transition-all ${
-            activeTab === 'inquiries'
-              ? 'btn-tactile-dark bg-deepInk text-white shadow-sm'
-              : 'text-deepInk dark:text-lavender-light hover:bg-lavender-light'
-          }`}
-        >
-          <span className="relative z-10 flex items-center gap-2">
-            <Mail className="w-4 h-4" />
-            <span>Messages ({inquiries.length})</span>
-          </span>
-        </button>
+          <button
+            onClick={() => setActiveTab('inquiries')}
+            className={`btn-tactile shrink-0 whitespace-nowrap flex items-center gap-2 px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm font-bold transition-all ${
+              activeTab === 'inquiries'
+                ? 'btn-tactile-dark bg-deepInk text-white shadow-sm'
+                : 'text-deepInk dark:text-lavender-light hover:bg-lavender-light'
+            }`}
+          >
+            <span className="relative z-10 flex items-center gap-2">
+              <Mail className="w-4 h-4 shrink-0" />
+              <span>Messages ({inquiries.length})</span>
+            </span>
+          </button>
 
-        <button
-          onClick={() => setActiveTab('setup')}
-          className={`btn-tactile flex items-center gap-2 px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold transition-all ${
-            activeTab === 'setup'
-              ? 'btn-tactile-dark bg-deepInk text-white shadow-sm'
-              : 'text-deepInk dark:text-lavender-light hover:bg-lavender-light'
-          }`}
-        >
-          <span className="relative z-10 flex items-center gap-2">
-            <Database className="w-4 h-4" />
-            <span>Supabase SQL & Setup</span>
-          </span>
-        </button>
+          <button
+            onClick={() => setActiveTab('setup')}
+            className={`btn-tactile shrink-0 whitespace-nowrap flex items-center gap-2 px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm font-bold transition-all ${
+              activeTab === 'setup'
+                ? 'btn-tactile-dark bg-deepInk text-white shadow-sm'
+                : 'text-deepInk dark:text-lavender-light hover:bg-lavender-light'
+            }`}
+          >
+            <span className="relative z-10 flex items-center gap-2">
+              <Database className="w-4 h-4 shrink-0" />
+              <span>Supabase SQL & Setup</span>
+            </span>
+          </button>
+        </div>
       </div>
 
       {/* TAB 1: PROJECTS */}

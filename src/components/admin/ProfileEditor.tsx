@@ -79,8 +79,8 @@ export default function ProfileEditor({
   };
 
   return (
-    <div className="bg-white dark:bg-[#1E1B33] rounded-[32px] md:rounded-[40px] border border-lavender/50 dark:border-white/10 p-6 sm:p-10 shadow-soft-sm">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-lavender/30 dark:border-white/10 mb-8">
+    <div className="bg-white dark:bg-[#1E1B33] rounded-[28px] sm:rounded-[36px] md:rounded-[40px] border border-lavender/50 dark:border-white/10 p-4 sm:p-8 md:p-10 shadow-soft-sm">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-lavender/30 dark:border-white/10 mb-6 sm:mb-8">
         <div>
           <h2 className="font-serif font-black text-2xl sm:text-3xl text-deepInk dark:text-white">
             Profile, Contact & Resume Settings
@@ -91,9 +91,9 @@ export default function ProfileEditor({
         </div>
 
         {saveSuccess && (
-          <div className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-mint-light text-deepInk text-xs font-bold border border-mint-border">
+          <div className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-mint-light text-deepInk text-xs font-bold border border-mint-border shrink-0 self-start sm:self-center">
             <Check className="w-4 h-4" />
-            Changes Saved Successfully!
+            <span>Changes Saved Successfully!</span>
           </div>
         )}
       </div>
@@ -104,85 +104,85 @@ export default function ProfileEditor({
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="space-y-8">
+      <form onSubmit={handleSubmit} className="space-y-6 sm:space-y-8">
         {/* Section 0: Global Public Site Theme Mode */}
-        <div className="p-6 rounded-[28px] bg-white dark:bg-[#161426] border-2 border-lavender/60 dark:border-white/10 shadow-sm space-y-4">
-          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
-            <div>
+        <div className="p-4 sm:p-6 rounded-[24px] sm:rounded-[28px] bg-white dark:bg-[#161426] border-2 border-lavender/60 dark:border-white/10 shadow-sm space-y-4">
+          <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-4">
+            <div className="min-w-0">
               <span className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-deepInk dark:text-lavender-light">
-                <Palette className="w-4 h-4 text-periwinkle" />
-                Global Public Site Theme Mode
+                <Palette className="w-4 h-4 text-periwinkle shrink-0" />
+                <span>Global Public Site Theme Mode</span>
               </span>
               <h3 className="font-serif font-bold text-lg text-deepInk dark:text-white mt-1">
                 Website Appearance & Color Mode
               </h3>
-              <p className="text-xs text-bodyText-muted dark:text-lavender-light/70 font-medium">
+              <p className="text-xs text-bodyText-muted dark:text-lavender-light/70 font-medium mt-0.5">
                 Set the default theme for all visitors on the public portfolio. The theme toggle is removed from the public site and managed exclusively here.
               </p>
             </div>
 
-            <div className="flex flex-wrap items-center gap-2 p-1.5 rounded-full bg-bg dark:bg-[#1E1B33] border border-lavender/50 dark:border-white/10">
+            <div className="grid grid-cols-3 gap-1 sm:gap-1.5 p-1 sm:p-1.5 rounded-2xl sm:rounded-full bg-bg dark:bg-[#1E1B33] border border-lavender/50 dark:border-white/10 w-full xl:w-auto shrink-0">
               <button
                 type="button"
                 onClick={() => handleThemeSelect('system')}
-                className={`btn-tactile flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-bold transition-all ${
+                className={`btn-tactile flex items-center justify-center gap-1.5 px-3 sm:px-4 py-2 rounded-xl sm:rounded-full text-xs font-bold transition-all whitespace-nowrap ${
                   (profile.themeMode || 'system') === 'system'
                     ? 'btn-tactile-dark bg-deepInk text-white shadow-sm'
                     : 'text-deepInk dark:text-lavender-light hover:bg-lavender-light'
                 }`}
               >
-                <Laptop className="w-3.5 h-3.5" />
-                <span>System (Auto)</span>
+                <Laptop className="w-3.5 h-3.5 shrink-0" />
+                <span>System</span>
               </button>
 
               <button
                 type="button"
                 onClick={() => handleThemeSelect('light')}
-                className={`btn-tactile flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-bold transition-all ${
+                className={`btn-tactile flex items-center justify-center gap-1.5 px-3 sm:px-4 py-2 rounded-xl sm:rounded-full text-xs font-bold transition-all whitespace-nowrap ${
                   profile.themeMode === 'light'
                     ? 'btn-tactile-dark bg-deepInk text-white shadow-sm'
                     : 'text-deepInk dark:text-lavender-light hover:bg-lavender-light'
                 }`}
               >
-                <Sun className="w-3.5 h-3.5 text-amber-500" />
-                <span>Light Pastel</span>
+                <Sun className="w-3.5 h-3.5 text-amber-500 shrink-0" />
+                <span>Light</span>
               </button>
 
               <button
                 type="button"
                 onClick={() => handleThemeSelect('dark')}
-                className={`btn-tactile flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-bold transition-all ${
+                className={`btn-tactile flex items-center justify-center gap-1.5 px-3 sm:px-4 py-2 rounded-xl sm:rounded-full text-xs font-bold transition-all whitespace-nowrap ${
                   profile.themeMode === 'dark'
                     ? 'btn-tactile-dark bg-deepInk text-white shadow-sm'
                     : 'text-deepInk dark:text-lavender-light hover:bg-lavender-light'
                 }`}
               >
-                <Moon className="w-3.5 h-3.5 text-teal-400" />
-                <span>Dark Mode</span>
+                <Moon className="w-3.5 h-3.5 text-teal-400 shrink-0" />
+                <span>Dark</span>
               </button>
             </div>
           </div>
         </div>
 
         {/* Section 1: Resume Upload to Supabase Storage */}
-        <div className="p-6 rounded-[28px] bg-lavender-soft dark:bg-[#161426] border border-lavender/60 dark:border-white/10 space-y-4">
+        <div className="p-4 sm:p-6 rounded-[24px] sm:rounded-[28px] bg-lavender-soft dark:bg-[#161426] border border-lavender/60 dark:border-white/10 space-y-4">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-            <div>
+            <div className="min-w-0">
               <span className="inline-flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-deepInk dark:text-lavender-light">
-                <FileText className="w-4 h-4" />
-                Resume Document (Supabase Storage)
+                <FileText className="w-4 h-4 shrink-0" />
+                <span>Resume Document (Supabase Storage)</span>
               </span>
               <h3 className="font-serif font-bold text-lg text-deepInk dark:text-white mt-1">
                 Replace or Upload Resume PDF
               </h3>
-              <p className="text-xs text-bodyText-muted dark:text-lavender-light/70 font-medium">
+              <p className="text-xs text-bodyText-muted dark:text-lavender-light/70 font-medium mt-0.5">
                 Uploaded PDFs are stored in Supabase Storage bucket &lsquo;resumes&rsquo; and update the public Download button.
               </p>
             </div>
 
-            <label className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-deepInk text-white text-xs font-bold cursor-pointer hover:bg-deepInk-hover shadow-sm active:translate-y-0.5 transition-all">
-              <Upload className="w-4 h-4" />
-              {isUploadingResume ? 'Uploading PDF...' : 'Upload New Resume PDF'}
+            <label className="inline-flex items-center justify-center gap-2 px-5 py-2.5 sm:py-3 rounded-full bg-deepInk text-white text-xs font-bold cursor-pointer hover:bg-deepInk-hover shadow-sm active:translate-y-0.5 transition-all shrink-0 w-full sm:w-auto">
+              <Upload className="w-4 h-4 shrink-0" />
+              <span>{isUploadingResume ? 'Uploading PDF...' : 'Upload New Resume PDF'}</span>
               <input
                 type="file"
                 accept=".pdf,application/pdf"
@@ -193,16 +193,16 @@ export default function ProfileEditor({
             </label>
           </div>
 
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-4 rounded-2xl bg-white dark:bg-[#1E1B33] border border-lavender/40 dark:border-white/10">
-            <div className="flex items-center gap-3 overflow-hidden">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3.5 sm:p-4 rounded-2xl bg-white dark:bg-[#1E1B33] border border-lavender/40 dark:border-white/10">
+            <div className="flex items-center gap-3 min-w-0">
               <div className="w-10 h-10 rounded-full bg-periwinkle-light dark:bg-periwinkle/20 text-deepInk dark:text-periwinkle-light flex items-center justify-center shrink-0">
                 <FileText className="w-5 h-5" />
               </div>
-              <div className="overflow-hidden">
+              <div className="min-w-0 flex-1">
                 <span className="text-[11px] font-bold text-bodyText-muted dark:text-lavender-light/60 block">
                   Active Resume File URL:
                 </span>
-                <span className="text-xs font-mono font-bold text-deepInk dark:text-white truncate block max-w-lg">
+                <span className="text-xs font-mono font-bold text-deepInk dark:text-white truncate block">
                   {profile.resumeUrl || 'Not uploaded yet'}
                 </span>
               </div>
@@ -213,10 +213,10 @@ export default function ProfileEditor({
                 href={profile.resumeUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-bg dark:bg-[#161426] border border-lavender/40 dark:border-white/10 text-xs font-bold text-deepInk dark:text-lavender-light hover:bg-lavender-light transition-colors shrink-0"
+                className="inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-full bg-bg dark:bg-[#161426] border border-lavender/40 dark:border-white/10 text-xs font-bold text-deepInk dark:text-lavender-light hover:bg-lavender-light transition-colors shrink-0 w-full sm:w-auto"
               >
-                <Download className="w-3.5 h-3.5" />
-                Preview Current Resume
+                <Download className="w-3.5 h-3.5 shrink-0" />
+                <span>Preview Current Resume</span>
               </a>
             )}
           </div>
@@ -416,6 +416,7 @@ export default function ProfileEditor({
             variant="dark"
             size="lg"
             disabled={isSaving}
+            className="w-full sm:w-auto"
           >
             {isSaving ? 'Saving Changes...' : 'Save Profile & Settings'}
           </ClayButton>
