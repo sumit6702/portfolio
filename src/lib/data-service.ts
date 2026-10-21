@@ -486,10 +486,40 @@ export async function fetchProfileSettings(): Promise<ProfileSettings> {
     activeCategories = dbProfile.categories;
   }
 
+  // Determine active resumeUrl from Supabase / uploaded resume
+  let activeResumeUrl = INITIAL_PROFILE.resumeUrl;
+  if (dbProfile?.resumeUrl && dbProfile.resumeUrl !== INITIAL_PROFILE.resumeUrl && dbProfile.resumeUrl.trim()) {
+    activeResumeUrl = dbProfile.resumeUrl.trim();
+  } else if (localProf?.resumeUrl && localProf.resumeUrl !== INITIAL_PROFILE.resumeUrl && localProf.resumeUrl.trim()) {
+    activeResumeUrl = localProf.resumeUrl.trim();
+  } else if (dbProfile?.resumeUrl && dbProfile.resumeUrl.trim()) {
+    activeResumeUrl = dbProfile.resumeUrl.trim();
+  }
+
+  // Fallback: If still default and Supabase is configured, check 'resumes' bucket for uploaded resume
+  if (supabase && activeResumeUrl === INITIAL_PROFILE.resumeUrl) {
+    try {
+      const { data: fileList, error: listErr } = await supabase.storage
+        .from('resumes')
+        .list('', { sortBy: { column: 'created_at', order: 'desc' }, limit: 1 });
+      if (!listErr && fileList && fileList.length > 0 && fileList[0].name) {
+        const { data: pubData } = supabase.storage
+          .from('resumes')
+          .getPublicUrl(fileList[0].name);
+        if (pubData?.publicUrl) {
+          activeResumeUrl = pubData.publicUrl;
+        }
+      }
+    } catch (storageErr) {
+      console.warn('Storage check warning:', storageErr);
+    }
+  }
+
   const merged: ProfileSettings = {
     ...INITIAL_PROFILE,
-    ...(dbProfile || {}),
     ...(localProf || {}),
+    ...(dbProfile || {}),
+    resumeUrl: activeResumeUrl,
     categories: activeCategories,
   };
 

@@ -22,15 +22,14 @@ export default function Navbar({ resumeUrl }: NavbarProps = {}) {
   );
 
   useEffect(() => {
-    if (resumeUrl) {
+    if (resumeUrl && resumeUrl !== '/resume-sumit-kumar.pdf') {
       setActiveResumeUrl(resumeUrl);
-    } else {
-      fetchProfileSettings().then((prof) => {
-        if (prof?.resumeUrl) {
-          setActiveResumeUrl(prof.resumeUrl);
-        }
-      });
     }
+    fetchProfileSettings().then((prof) => {
+      if (prof?.resumeUrl && prof.resumeUrl.trim()) {
+        setActiveResumeUrl(prof.resumeUrl.trim());
+      }
+    });
   }, [resumeUrl]);
 
   useEffect(() => {

@@ -48,9 +48,15 @@ export default function ProfileEditor({
     setIsUploadingResume(false);
 
     if (res.url) {
-      setProfile((prev) => ({ ...prev, resumeUrl: res.url! }));
+      const updated = { ...profile, resumeUrl: res.url };
+      setProfile(updated);
       setSaveSuccess(true);
       setTimeout(() => setSaveSuccess(false), 3000);
+      try {
+        await onSave(updated);
+      } catch (err: any) {
+        console.warn('Auto-save profile warning:', err);
+      }
     } else {
       setErrorMessage(res.error || 'Failed to upload resume to Supabase Storage.');
     }
@@ -213,6 +219,19 @@ export default function ProfileEditor({
                 Preview Current Resume
               </a>
             )}
+          </div>
+
+          <div className="space-y-1.5">
+            <label className="block text-xs font-bold uppercase tracking-wider text-bodyText-muted dark:text-lavender-light/70">
+              Direct Resume File URL (Supabase Storage / PDF URL)
+            </label>
+            <input
+              type="text"
+              value={profile.resumeUrl || ''}
+              onChange={(e) => setProfile((prev) => ({ ...prev, resumeUrl: e.target.value }))}
+              placeholder="https://...supabase.co/storage/v1/object/public/resumes/...pdf"
+              className="w-full px-4 py-2.5 rounded-2xl bg-white dark:bg-[#1E1B33] border border-lavender/50 dark:border-white/10 text-deepInk dark:text-white text-xs font-mono font-semibold focus:outline-none focus:border-deepInk shadow-inner"
+            />
           </div>
         </div>
 

@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import {
   Download,
@@ -11,7 +11,7 @@ import {
   ExternalLink,
 } from 'lucide-react';
 import { ProfileSettings } from '@/lib/types';
-import { submitContactInquiry } from '@/lib/data-service';
+import { submitContactInquiry, fetchProfileSettings } from '@/lib/data-service';
 import Social3DIcon from '@/components/3d/Social3DIcon';
 import DecorSlot from '@/components/decor/DecorSlot';
 import { FloatingSideRibbon } from '@/components/3d/DeskElements';
@@ -23,6 +23,20 @@ interface HeroSectionProps {
 export default function HeroSection({ profile }: HeroSectionProps) {
   const [showTooltip, setShowTooltip] = useState(true);
   const [activeTab, setActiveTab] = useState<'inquire' | 'services' | 'chat'>('inquire');
+  const [resumeUrl, setResumeUrl] = useState<string>(
+    profile.resumeUrl || '/resume-sumit-kumar.pdf'
+  );
+
+  useEffect(() => {
+    if (profile.resumeUrl && profile.resumeUrl !== '/resume-sumit-kumar.pdf') {
+      setResumeUrl(profile.resumeUrl);
+    }
+    fetchProfileSettings().then((p) => {
+      if (p?.resumeUrl && p.resumeUrl.trim()) {
+        setResumeUrl(p.resumeUrl.trim());
+      }
+    });
+  }, [profile.resumeUrl]);
 
   // Mini station form states
   const [formData, setFormData] = useState({
@@ -151,7 +165,7 @@ export default function HeroSection({ profile }: HeroSectionProps) {
 
                   {/* Frosted Acrylic White-Outlined Tactile Resume pill */}
                   <a
-                    href={profile.resumeUrl || '/resume-sumit-kumar.pdf'}
+                    href={resumeUrl}
                     download="Sumit-Kumar-Resume.pdf"
                     target="_blank"
                     rel="noopener noreferrer"
