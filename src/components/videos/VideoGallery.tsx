@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { Play, X, Film, ExternalLink } from 'lucide-react';
 import { VideoItem } from '@/lib/types';
 import VideoEmbed from './VideoEmbed';
@@ -44,115 +45,137 @@ export default function VideoGallery({ initialVideos }: VideoGalleryProps) {
             A curated theater of dynamic 3D animation reels, AI-assisted video productions, and commercial motion work.
           </p>
 
-          {/* Filter Pills with tactile spring effect */}
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-2">
-            {categories.map((cat) => (
-              <button
-                key={cat}
-                onClick={() => setSelectedFilter(cat)}
-                className={`btn-tactile px-4 py-2 rounded-full text-xs sm:text-sm font-bold transition-all duration-150 ${
-                  selectedFilter === cat
-                    ? 'btn-tactile-dark bg-deepInk text-white shadow-sm'
-                    : 'btn-tactile-white bg-white dark:bg-[#1E1B33] text-deepInk dark:text-lavender-light border border-lavender/40 dark:border-white/10 hover:shadow-sm'
-                }`}
-              >
-                <span className="relative z-10">{cat}</span>
-              </button>
-            ))}
-          </div>
+          {/* Filter Pills with tactile spring effect (only shown if multiple categories exist) */}
+          {categories.length > 2 && (
+            <div className="mt-8 flex flex-wrap items-center justify-center gap-2">
+              {categories.map((cat) => (
+                <button
+                  key={cat}
+                  onClick={() => setSelectedFilter(cat)}
+                  className={`btn-tactile px-4 py-2 rounded-full text-xs sm:text-sm font-bold transition-all duration-150 ${
+                    selectedFilter === cat
+                      ? 'btn-tactile-dark bg-deepInk text-white shadow-sm'
+                      : 'btn-tactile-white bg-white dark:bg-[#1E1B33] text-deepInk dark:text-lavender-light border border-lavender/40 dark:border-white/10 hover:shadow-sm'
+                  }`}
+                >
+                  <span className="relative z-10">{cat}</span>
+                </button>
+              ))}
+            </div>
+          )}
         </div>
 
-        {/* Video Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {filteredVideos.map((video) => (
-            <div
-              key={video.id}
-              className="group bg-white dark:bg-[#1E1B33] rounded-[28px] border border-lavender/50 dark:border-white/10 p-5 shadow-[0_10px_28px_rgba(46,42,79,0.05)] hover:shadow-[0_24px_48px_rgba(46,42,79,0.12)] card-float card-shimmer flex flex-col justify-between"
-            >
-              {/* Thumbnail / Trigger */}
+        {/* Video Grid or Empty State */}
+        {filteredVideos.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {filteredVideos.map((video) => (
               <div
-                onClick={() => setActiveVideo(video)}
-                className="relative aspect-video rounded-2xl overflow-hidden bg-bg dark:bg-[#161426] cursor-pointer mb-5 shadow-inner"
+                key={video.id}
+                className="group bg-white dark:bg-[#1E1B33] rounded-[28px] border border-lavender/50 dark:border-white/10 p-5 shadow-[0_10px_28px_rgba(46,42,79,0.05)] hover:shadow-[0_24px_48px_rgba(46,42,79,0.12)] card-float card-shimmer flex flex-col justify-between"
               >
-                {video.thumbnailUrl ? (
-                  <Image
-                    src={video.thumbnailUrl}
-                    alt={video.title}
-                    fill
-                    sizes="(max-width: 768px) 100vw, 50vw"
-                    className="object-cover group-hover:scale-108 transition-transform duration-700 opacity-90 group-hover:opacity-100"
-                  />
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center bg-lavender-light dark:bg-[#161426]">
-                    <Film className="w-16 h-16 text-deepInk/40" />
+                {/* Thumbnail / Trigger */}
+                <div
+                  onClick={() => setActiveVideo(video)}
+                  className="relative aspect-video rounded-2xl overflow-hidden bg-bg dark:bg-[#161426] cursor-pointer mb-5 shadow-inner"
+                >
+                  {video.thumbnailUrl ? (
+                    <Image
+                      src={video.thumbnailUrl}
+                      alt={video.title}
+                      fill
+                      sizes="(max-width: 768px) 100vw, 50vw"
+                      className="object-cover group-hover:scale-108 transition-transform duration-700 opacity-90 group-hover:opacity-100"
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center bg-lavender-light dark:bg-[#161426]">
+                      <Film className="w-16 h-16 text-deepInk/40" />
+                    </div>
+                  )}
+
+                  {/* Overlay with Water Ripple Play button */}
+                  <div className="absolute inset-0 bg-deepInk/20 group-hover:bg-deepInk/10 transition-colors flex items-center justify-center">
+                    <div className="w-16 h-16 rounded-full bg-white text-deepInk flex items-center justify-center shadow-[0_8px_25px_rgba(0,0,0,0.25)] animate-water-ripple group-hover:scale-115 transition-transform duration-300">
+                      <Play className="w-7 h-7 fill-deepInk ml-0.5" />
+                    </div>
                   </div>
-                )}
 
-                {/* Overlay with Water Ripple Play button */}
-                <div className="absolute inset-0 bg-deepInk/20 group-hover:bg-deepInk/10 transition-colors flex items-center justify-center">
-                  <div className="w-16 h-16 rounded-full bg-white text-deepInk flex items-center justify-center shadow-[0_8px_25px_rgba(0,0,0,0.25)] animate-water-ripple group-hover:scale-115 transition-transform duration-300">
-                    <Play className="w-7 h-7 fill-deepInk ml-0.5" />
-                  </div>
-                </div>
-
-                {/* Category & Duration Pill */}
-                <div className="absolute top-3 left-3">
-                  <span className="px-3 py-1 rounded-full bg-deepInk/85 backdrop-blur-md text-white text-xs font-bold shadow-sm group-hover:scale-105 transition-transform">
-                    {video.category}
-                  </span>
-                </div>
-
-                {video.duration && (
-                  <div className="absolute bottom-3 right-3">
-                    <span className="px-2.5 py-1 rounded-full bg-black/75 backdrop-blur-md text-white text-xs font-mono font-bold">
-                      {video.duration}
+                  {/* Category & Duration Pill */}
+                  <div className="absolute top-3 left-3">
+                    <span className="px-3 py-1 rounded-full bg-deepInk/85 backdrop-blur-md text-white text-xs font-bold shadow-sm group-hover:scale-105 transition-transform">
+                      {video.category}
                     </span>
                   </div>
-                )}
-              </div>
 
-              {/* Video Info */}
-              <div className="space-y-2">
-                <h3
-                  onClick={() => setActiveVideo(video)}
-                  className="font-serif font-bold text-xl text-deepInk dark:text-white group-hover:text-deepInk/80 transition-colors cursor-pointer leading-snug"
-                >
-                  {video.title}
-                </h3>
-                {video.description && (
-                  <p className="text-sm text-bodyText dark:text-lavender-light/80 font-medium line-clamp-3 leading-relaxed">
-                    {video.description}
-                  </p>
-                )}
-              </div>
+                  {video.duration && (
+                    <div className="absolute bottom-3 right-3">
+                      <span className="px-2.5 py-1 rounded-full bg-black/75 backdrop-blur-md text-white text-xs font-mono font-bold">
+                        {video.duration}
+                      </span>
+                    </div>
+                  )}
+                </div>
 
-              {/* Bottom Quick Play Link with water fill */}
-              <div className="mt-5 pt-3 border-t border-lavender/30 dark:border-white/10 flex items-center justify-between">
-                <button
-                  onClick={() => setActiveVideo(video)}
-                  className="btn-water btn-water-periwinkle px-3 py-1.5 rounded-full inline-flex items-center gap-1.5 text-xs font-bold text-deepInk dark:text-lavender-light hover:underline transition-colors"
-                >
-                  <span className="relative z-10 flex items-center gap-1.5">
-                    <Play className="w-3.5 h-3.5 fill-current" />
-                    <span>Watch Video Reel</span>
-                  </span>
-                </button>
+                {/* Video Info */}
+                <div className="space-y-2">
+                  <h3
+                    onClick={() => setActiveVideo(video)}
+                    className="font-serif font-bold text-xl text-deepInk dark:text-white group-hover:text-deepInk/80 transition-colors cursor-pointer leading-snug"
+                  >
+                    {video.title}
+                  </h3>
+                  {video.description && (
+                    <p className="text-sm text-bodyText dark:text-lavender-light/80 font-medium line-clamp-3 leading-relaxed">
+                      {video.description}
+                    </p>
+                  )}
+                </div>
 
-                <a
-                  href={video.videoUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn-water btn-water-white text-bodyText-muted dark:text-lavender-light/60 hover:text-deepInk p-2 rounded-full hover:bg-bg dark:hover:bg-white/10 transition-colors"
-                  title="Open on YouTube / Vimeo"
-                >
-                  <span className="relative z-10 flex items-center justify-center">
-                    <ExternalLink className="w-4 h-4" />
-                  </span>
-                </a>
+                {/* Bottom Quick Play Link with water fill */}
+                <div className="mt-5 pt-3 border-t border-lavender/30 dark:border-white/10 flex items-center justify-between">
+                  <button
+                    onClick={() => setActiveVideo(video)}
+                    className="btn-water btn-water-periwinkle px-3 py-1.5 rounded-full inline-flex items-center gap-1.5 text-xs font-bold text-deepInk dark:text-lavender-light hover:underline transition-colors"
+                  >
+                    <span className="relative z-10 flex items-center gap-1.5">
+                      <Play className="w-3.5 h-3.5 fill-current" />
+                      <span>Watch Video Reel</span>
+                    </span>
+                  </button>
+
+                  <a
+                    href={video.videoUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn-water btn-water-white text-bodyText-muted dark:text-lavender-light/60 hover:text-deepInk p-2 rounded-full hover:bg-bg dark:hover:bg-white/10 transition-colors"
+                    title="Open on YouTube / Vimeo"
+                  >
+                    <span className="relative z-10 flex items-center justify-center">
+                      <ExternalLink className="w-4 h-4" />
+                    </span>
+                  </a>
+                </div>
               </div>
+            ))}
+          </div>
+        ) : (
+          <div className="bg-white dark:bg-[#1E1B33] rounded-[32px] border border-lavender/50 dark:border-white/10 p-12 text-center max-w-md mx-auto shadow-sm">
+            <div className="w-16 h-16 rounded-2xl bg-lavender-light dark:bg-lavender/20 text-deepInk dark:text-lavender-light flex items-center justify-center mx-auto mb-4">
+              <Film className="w-8 h-8" />
             </div>
-          ))}
-        </div>
+            <h3 className="font-serif font-bold text-xl text-deepInk dark:text-white mb-2">
+              No videos published yet
+            </h3>
+            <p className="text-sm text-bodyText-muted dark:text-lavender-light/70 font-medium mb-6">
+              New 3D motion reels and video productions will be featured here. Explore project case studies in the meantime!
+            </p>
+            <Link
+              href="/projects"
+              className="btn-tactile btn-tactile-dark inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-deepInk dark:bg-white text-white dark:text-deepInk text-xs font-bold shadow-sm"
+            >
+              <span>Explore Projects</span>
+            </Link>
+          </div>
+        )}
       </div>
 
       {/* Lightbox Modal */}

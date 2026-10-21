@@ -348,6 +348,8 @@ export async function deleteProject(id: string): Promise<{ success: boolean; err
   return { success: true, error: null };
 }
 
+const DEFAULT_DEMO_VIDEO_IDS = ['vid-1', 'vid-2', 'vid-3', 'vid-4'];
+
 /* ---------------- VIDEOS API ---------------- */
 
 export async function fetchVideos(): Promise<VideoItem[]> {
@@ -359,15 +361,22 @@ export async function fetchVideos(): Promise<VideoItem[]> {
         .select('*')
         .order('order_index', { ascending: true });
 
-      if (!error && data && data.length > 0) {
-        return data.map(mapDbVideo);
+      if (!error && data) {
+        return data
+          .map(mapDbVideo)
+          .filter(
+            (v) => !DEFAULT_DEMO_VIDEO_IDS.includes(v.id) && !DEMO_TEST_VIDEOS.includes(v.videoUrl)
+          );
       }
     } catch (err) {
       console.warn('Supabase fetch videos error, using fallback:', err);
     }
   }
 
-  return getLocalData<VideoItem[]>(LOCAL_VIDEOS_KEY, INITIAL_VIDEOS);
+  const rawVideos = getLocalData<VideoItem[]>(LOCAL_VIDEOS_KEY, INITIAL_VIDEOS);
+  return rawVideos.filter(
+    (v) => !DEFAULT_DEMO_VIDEO_IDS.includes(v.id) && !DEMO_TEST_VIDEOS.includes(v.videoUrl)
+  );
 }
 
 export async function saveVideo(video: VideoItem): Promise<{ data: VideoItem | null; error: string | null }> {

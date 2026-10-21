@@ -285,35 +285,3 @@ INSERT INTO public.projects (
 )
 ON CONFLICT (slug) DO NOTHING;
 
--- Seed Videos
-INSERT INTO public.videos (
-  title, category, video_url, thumbnail_url, description, duration, order_index
-) VALUES
-(
-  '3D Motion Showreel 2026 - Kinetic Rhythms & Playful Visuals',
-  'Motion Graphics',
-  'https://www.youtube.com/watch?v=aqz-KE-bpKQ',
-  'https://images.unsplash.com/photo-1550745165-9bc0b252726f?auto=format&fit=crop&w=1000&q=80',
-  'A dynamic compilation of 3D animations, logo reveals, kinetic typography, and claymorphic renders produced across Blender and After Effects.',
-  '01:15',
-  1
-),
-(
-  'Shop4Smile Dental Precision Product Reel',
-  '3D Animation',
-  'https://www.youtube.com/watch?v=dQw4w9WgXcQ',
-  'https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?auto=format&fit=crop&w=1000&q=80',
-  'High-impact e-commerce product reel showcasing 3D dental handpieces with smooth rotations and exploded-view callouts.',
-  '00:45',
-  2
-),
-(
-  'AI-Generated Product Teaser with Kling 2.0 & Veo',
-  'AI Video',
-  'https://www.youtube.com/watch?v=kJQP7kiw5Fk',
-  'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1000&q=80',
-  'Cutting-edge generative video reel demonstrating AI video generation stitched together with After Effects sound design and motion tracking.',
-  '00:30',
-  3
-)
-ON CONFLICT DO NOTHING;
