@@ -48,6 +48,10 @@ function setLocalData<T>(key: string, data: T): void {
 
 // Convert Supabase row to Project type
 function mapDbProject(row: any): Project {
+  const blocks = Array.isArray(row.content_blocks) ? row.content_blocks : (row.content_blocks ? JSON.parse(row.content_blocks) : []);
+  const blockWithGap = blocks.find((b: any) => typeof b.imageGap === 'number');
+  const resolvedGap = typeof row.image_gap === 'number' ? row.image_gap : (blockWithGap?.imageGap ?? 48);
+
   return {
     id: row.id,
     slug: row.slug,
@@ -61,7 +65,8 @@ function mapDbProject(row: any): Project {
     tools: Array.isArray(row.tools) ? row.tools : (row.tools ? JSON.parse(row.tools) : []),
     galleryImages: Array.isArray(row.gallery_images) ? row.gallery_images : (row.gallery_images ? JSON.parse(row.gallery_images) : []),
     videoUrl: row.video_url || undefined,
-    contentBlocks: Array.isArray(row.content_blocks) ? row.content_blocks : (row.content_blocks ? JSON.parse(row.content_blocks) : []),
+    contentBlocks: blocks,
+    imageGap: resolvedGap,
     featured: Boolean(row.featured),
     orderIndex: row.order_index ?? 0,
     createdAt: row.created_at,
@@ -85,7 +90,16 @@ function mapProjectToDb(proj: Partial<Project>) {
   if (proj.videoUrl !== undefined) {
     mapped.video_url = proj.videoUrl && proj.videoUrl.trim() ? proj.videoUrl.trim() : null;
   }
-  if (proj.contentBlocks !== undefined) mapped.content_blocks = proj.contentBlocks;
+  if (proj.contentBlocks !== undefined) {
+    if (proj.imageGap !== undefined && Array.isArray(proj.contentBlocks)) {
+      mapped.content_blocks = proj.contentBlocks.map((b: any) => ({
+        ...b,
+        imageGap: proj.imageGap,
+      }));
+    } else {
+      mapped.content_blocks = proj.contentBlocks;
+    }
+  }
   if (proj.featured !== undefined) mapped.featured = proj.featured;
   if (proj.orderIndex !== undefined) mapped.order_index = proj.orderIndex;
   return mapped;

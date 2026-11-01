@@ -287,3 +287,7 @@ INSERT INTO public.projects (
 )
 ON CONFLICT (slug) DO NOTHING;
 
+
+
+-- Support for custom image gap spacing
+ALTER TABLE public.projects ADD COLUMN IF NOT EXISTS image_gap INTEGER DEFAULT 48;

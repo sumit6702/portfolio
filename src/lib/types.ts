@@ -17,6 +17,7 @@ export interface CaseStudyBlock {
   mediaUrl?: string;
   mediaCaption?: string;
   secondaryMediaUrl?: string;
+  imageGap?: number;
 }
 
 export interface Project {
@@ -33,6 +34,7 @@ export interface Project {
   galleryImages: string[];
   videoUrl?: string;
   contentBlocks: CaseStudyBlock[];
+  imageGap?: number;
   featured: boolean;
   orderIndex: number;
   createdAt?: string;

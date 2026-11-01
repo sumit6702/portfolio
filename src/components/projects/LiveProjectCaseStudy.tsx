@@ -28,6 +28,7 @@ import {
   ChevronRight,
   ImageIcon,
   AlertTriangle,
+  SlidersHorizontal,
 } from 'lucide-react';
 import { Project, CaseStudyBlock } from '@/lib/types';
 import { checkAdminSession } from '@/lib/auth';
@@ -102,6 +103,42 @@ export default function LiveProjectCaseStudy({
   // Cover image upload
   const [isUploadingCover, setIsUploadingCover] = useState(false);
   const coverInputRef = useRef<HTMLInputElement>(null);
+
+  // Image gap spacing state
+  const [imageGap, setImageGap] = useState<number>(() => {
+    if (typeof initialProject.imageGap === 'number') return initialProject.imageGap;
+    const found = initialProject.contentBlocks?.find((b: any) => typeof b.imageGap === 'number');
+    if (found && typeof (found as any).imageGap === 'number') return (found as any).imageGap;
+    return 48; // default matching original space-y-12 (48px)
+  });
+  const [showGapPopover, setShowGapPopover] = useState(false);
+  const gapPopoverRef = useRef<HTMLDivElement>(null);
+
+  // Close gap popover on click outside
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (gapPopoverRef.current && !gapPopoverRef.current.contains(e.target as Node)) {
+        setShowGapPopover(false);
+      }
+    };
+    if (showGapPopover) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [showGapPopover]);
+
+  const handleImageGapChange = (newGap: number) => {
+    setImageGap(newGap);
+    setHasUnsavedChanges(true);
+    setProject((prev) => ({
+      ...prev,
+      imageGap: newGap,
+      contentBlocks: (prev.contentBlocks || []).map((b) => ({
+        ...b,
+        imageGap: newGap,
+      })),
+    }));
+  };
 
   // Check admin session on mount
   useEffect(() => {
@@ -187,6 +224,11 @@ export default function LiveProjectCaseStudy({
 
     const toSave: Project = {
       ...target,
+      imageGap,
+      contentBlocks: stackItems.map((b) => ({
+        ...b,
+        imageGap,
+      })),
       slug: cleanSlug,
       videoUrl: target.videoUrl && target.videoUrl.trim() ? target.videoUrl.trim() : undefined,
     };
@@ -494,6 +536,94 @@ export default function LiveProjectCaseStudy({
                 </button>
               )}
 
+              {/* Image Gap Control Popover */}
+              {isEditMode && (
+                <div className="relative" ref={gapPopoverRef}>
+                  <button
+                    type="button"
+                    onClick={() => setShowGapPopover(!showGapPopover)}
+                    className={`btn-tactile px-3.5 py-1.5 rounded-full text-xs font-bold flex items-center gap-1.5 transition-all ${
+                      showGapPopover
+                        ? 'bg-periwinkle text-deepInk shadow-md font-extrabold'
+                        : 'bg-white/10 text-white hover:bg-white/20'
+                    }`}
+                    title="Adjust gap and relative corners between project images"
+                  >
+                    <SlidersHorizontal className="w-3.5 h-3.5 text-periwinkle-light" />
+                    <span>Gap: {imageGap}px</span>
+                  </button>
+
+                  {showGapPopover && (
+                    <div className="absolute right-0 top-full mt-2 w-72 sm:w-80 p-4 rounded-2xl bg-[#1E1B33] dark:bg-[#161426] border border-lavender/40 dark:border-white/15 shadow-2xl z-50 text-white space-y-3.5 animate-in fade-in zoom-in-95">
+                      <div className="flex items-center justify-between">
+                        <span className="text-xs font-bold uppercase tracking-wider text-lavender-light">
+                          Image Spacing
+                        </span>
+                        <span className="px-2 py-0.5 rounded-md bg-white/10 text-xs font-mono font-bold text-periwinkle-light">
+                          {imageGap}px
+                        </span>
+                      </div>
+
+                      {/* Quick Preset Buttons */}
+                      <div className="grid grid-cols-4 gap-1.5">
+                        {[
+                          { label: '0px', value: 0, sub: 'Seamless' },
+                          { label: '12px', value: 12, sub: 'Tight' },
+                          { label: '24px', value: 24, sub: 'Medium' },
+                          { label: '48px', value: 48, sub: 'Spacious' },
+                        ].map((preset) => (
+                          <button
+                            key={preset.value}
+                            type="button"
+                            onClick={() => handleImageGapChange(preset.value)}
+                            className={`btn-tactile py-1.5 px-1 rounded-xl text-center transition-all ${
+                              imageGap === preset.value
+                                ? 'bg-primary text-white font-bold ring-2 ring-periwinkle/50'
+                                : 'bg-white/5 hover:bg-white/10 text-lavender-light text-xs font-medium'
+                            }`}
+                          >
+                            <div className="text-xs font-bold">{preset.label}</div>
+                            <div className="text-[10px] opacity-70 leading-none">{preset.sub}</div>
+                          </button>
+                        ))}
+                      </div>
+
+                      {/* Range Slider */}
+                      <div className="space-y-1.5 pt-1">
+                        <input
+                          type="range"
+                          min="0"
+                          max="64"
+                          step="2"
+                          value={imageGap}
+                          onChange={(e) => handleImageGapChange(Number(e.target.value))}
+                          className="w-full h-1.5 bg-white/20 rounded-lg appearance-none cursor-pointer accent-periwinkle"
+                        />
+                        <div className="flex justify-between text-[10px] text-lavender-light/60 font-semibold">
+                          <span>0px (Fused)</span>
+                          <span>32px (Curved)</span>
+                          <span>64px (Wide)</span>
+                        </div>
+                      </div>
+
+                      {/* Contextual Explainer */}
+                      <div className="text-[11px] text-lavender-light/75 leading-relaxed border-t border-white/10 pt-2.5">
+                        {imageGap === 0 ? (
+                          <span className="text-emerald-400 font-semibold flex items-center gap-1">
+                            <Check className="w-3.5 h-3.5 shrink-0" />
+                            <span>0px gap: Touching corners are 0px for a seamless strip; top & last bottom corners remain rounded.</span>
+                          </span>
+                        ) : (
+                          <span>
+                            Corners dynamically curve to <strong className="text-white">{Math.min(32, imageGap)}px</strong> relative to spacing.
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
+
               {/* Discard Warning / Exit Button */}
               <button
                 onClick={() => handleAttemptNavigate('/admin')}
@@ -749,17 +879,51 @@ export default function LiveProjectCaseStudy({
         {/* ======================================================================== */}
         {/* BEHANCE CASE STUDY VERTICAL STACK WITH IN-LINE EDITING                  */}
         {/* ======================================================================== */}
-        <div className="space-y-12 mb-16">
+        <div className="mb-16">
           
           {stackItems.map((item, index) => {
+            const isImageBlock = (block?: CaseStudyBlock) => !block || block.type === 'image' || !block.type;
+            const currentIsImage = isImageBlock(item) && Boolean(item.mediaUrl);
+            const prevIsImage = index > 0 && isImageBlock(stackItems[index - 1]) && Boolean(stackItems[index - 1].mediaUrl);
+            const nextIsImage = index < stackItems.length - 1 && isImageBlock(stackItems[index + 1]) && Boolean(stackItems[index + 1].mediaUrl);
+
+            // Dynamic corner radii:
+            // If preceded by an image, top corners scale relative to gap (0px when gap is 0); first image top corners are 32px
+            const topRadius = prevIsImage ? Math.min(32, imageGap) : 32;
+            // If followed by an image, bottom corners scale relative to gap (0px when gap is 0); last image bottom corners are 32px
+            const bottomRadius = nextIsImage ? Math.min(32, imageGap) : 32;
+
+            const cardCornerStyle: React.CSSProperties = {
+              borderTopLeftRadius: `${topRadius}px`,
+              borderTopRightRadius: `${topRadius}px`,
+              borderBottomLeftRadius: `${bottomRadius}px`,
+              borderBottomRightRadius: `${bottomRadius}px`,
+              ...(imageGap === 0 && nextIsImage ? { borderBottomWidth: '0px' } : {}),
+              ...(imageGap === 0 && prevIsImage ? { borderTopWidth: '0px' } : {}),
+            };
+
+            const itemSpacingStyle: React.CSSProperties = index === 0 ? {} : {
+              marginTop: currentIsImage && prevIsImage ? `${imageGap}px` : '48px',
+            };
+
+            const shadowClass = (imageGap === 0 && (nextIsImage || prevIsImage))
+              ? 'shadow-none'
+              : 'shadow-[0_12px_32px_rgba(46,42,79,0.06)]';
+
             return (
               <React.Fragment key={item.id || index}>
                 {/* ---------------- Gap [+] Insert Box Between Items ---------------- */}
                 {isAdmin && isEditMode && (
-                  <div className="relative group py-2 flex items-center justify-center">
-                    <div className="w-full border-t border-dashed border-lavender/50 dark:border-white/10" />
+                  <div className={`relative group flex items-center justify-center z-20 ${
+                    imageGap === 0 && currentIsImage && prevIsImage ? 'h-0 -my-0 overflow-visible' : 'py-2'
+                  }`}>
+                    <div className={`w-full border-t border-dashed border-lavender/50 dark:border-white/10 ${
+                      imageGap === 0 && currentIsImage && prevIsImage ? 'opacity-0 group-hover:opacity-100 transition-opacity' : ''
+                    }`} />
                     
-                    <div className="absolute flex items-center gap-2">
+                    <div className={`absolute flex items-center gap-2 ${
+                      imageGap === 0 && currentIsImage && prevIsImage ? 'opacity-0 group-hover:opacity-100 transition-opacity scale-90 group-hover:scale-100' : ''
+                    }`}>
                       <button
                         onClick={() => setInsertModalIndex(index)}
                         className="btn-tactile px-3.5 py-1.5 rounded-full bg-white dark:bg-[#1E1B33] border-2 border-dashed border-lavender dark:border-white/20 text-deepInk dark:text-lavender-light hover:border-deepInk text-xs font-bold flex items-center gap-1.5 shadow-sm hover:scale-105 active:scale-95"
@@ -783,7 +947,7 @@ export default function LiveProjectCaseStudy({
                 )}
 
                 {/* ---------------- Actual Stack Item ---------------- */}
-                <div className="relative group/block">
+                <div className="relative group/block" style={itemSpacingStyle}>
                   
                   {/* Admin Mini Action Bar for each Block (Top Right) */}
                   {isAdmin && isEditMode && (
@@ -873,7 +1037,10 @@ export default function LiveProjectCaseStudy({
 
                   {(item.type === 'image' || !item.type) && item.mediaUrl && (
                     <div className="space-y-3">
-                      <div className="relative w-full rounded-[32px] overflow-hidden border border-lavender/50 dark:border-white/10 shadow-[0_12px_32px_rgba(46,42,79,0.06)] bg-bg dark:bg-[#161426]">
+                      <div
+                        style={cardCornerStyle}
+                        className={`relative w-full overflow-hidden border border-lavender/50 dark:border-white/10 ${shadowClass} bg-bg dark:bg-[#161426] transition-all duration-200`}
+                      >
                         <img
                           src={item.mediaUrl}
                           alt={item.title || `${project.title} - View ${index + 1}`}
