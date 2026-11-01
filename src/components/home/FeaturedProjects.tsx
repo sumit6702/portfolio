@@ -43,7 +43,7 @@ export default function FeaturedProjects({ projects }: FeaturedProjectsProps) {
         </div>
 
         {/* Projects Card Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 items-start">
           {displayProjects.map((project, index) => (
             <ProjectCard key={project.id} project={project} priority={index === 0} />
           ))}

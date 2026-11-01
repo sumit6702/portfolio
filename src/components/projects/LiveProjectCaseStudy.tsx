@@ -998,7 +998,7 @@ export default function LiveProjectCaseStudy({
               </ClayButton>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
               {relatedProjects.map((p) => (
                 <ProjectCard key={p.id} project={p} />
               ))}

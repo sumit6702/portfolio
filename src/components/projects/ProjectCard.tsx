@@ -1,6 +1,5 @@
 import React from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import { ArrowUpRight, Play } from 'lucide-react';
 import { Project } from '@/lib/types';
 
@@ -45,31 +44,35 @@ export default function ProjectCard({ project, priority = false }: ProjectCardPr
   };
 
   return (
-    <div className="group relative bg-white dark:bg-[#1E1B33] rounded-[28px] border border-lavender/50 dark:border-white/10 p-4 transition-all duration-300 card-float card-shimmer flex flex-col h-full">
-      {/* Cover Image Container */}
+    <div className="group relative bg-white dark:bg-[#1E1B33] rounded-[28px] border border-lavender/50 dark:border-white/10 overflow-hidden transition-all duration-300 card-float card-shimmer flex flex-col h-auto">
+      {/* Cover Image Container: 100% width of card, full natural height */}
       <Link
         href={`/projects/${project.slug}`}
-        className="relative block w-full aspect-[16/10] rounded-2xl overflow-hidden bg-bg dark:bg-[#161426] mb-4"
+        className="relative block w-full overflow-hidden bg-bg dark:bg-[#161426]"
       >
-        <Image
-          src={project.coverImage}
-          alt={project.title}
-          fill
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          priority={priority}
-          className="object-cover transition-transform duration-700 ease-out group-hover:scale-108"
-        />
+        {project.coverImage ? (
+          <img
+            src={project.coverImage}
+            alt={project.title}
+            loading={priority ? 'eager' : 'lazy'}
+            className="w-full h-auto block object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+          />
+        ) : (
+          <div className="w-full aspect-[16/10] flex items-center justify-center bg-lavender-light dark:bg-[#161426]">
+            <span className="text-bodyText-muted text-xs font-semibold">No Image</span>
+          </div>
+        )}
 
         {/* Video indicator badge if applicable */}
         {Boolean(project.videoUrl && project.videoUrl.trim()) && (
-          <div className="absolute bottom-3 right-3 px-3 py-1.5 rounded-full bg-deepInk/85 backdrop-blur-md text-white text-xs font-bold flex items-center gap-1.5 shadow-md group-hover:scale-105 transition-transform">
+          <div className="absolute bottom-3 right-3 px-3 py-1.5 rounded-full bg-deepInk/85 backdrop-blur-md text-white text-xs font-bold flex items-center gap-1.5 shadow-md group-hover:scale-105 transition-transform z-10">
             <Play className="w-3 h-3 fill-white" />
             <span>Video Reel</span>
           </div>
         )}
 
         {/* Category sticker pill */}
-        <div className="absolute top-3 left-3">
+        <div className="absolute top-3 left-3 z-10">
           <span
             className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider border ${badge.bg} ${badge.text} ${badge.border} shadow-sm backdrop-blur-sm group-hover:scale-105 transition-transform`}
           >
@@ -79,7 +82,7 @@ export default function ProjectCard({ project, priority = false }: ProjectCardPr
       </Link>
 
       {/* Content */}
-      <div className="flex-1 flex flex-col justify-between">
+      <div className="p-5 sm:p-6 flex-1 flex flex-col justify-between">
         <div>
           <div className="flex items-center justify-between text-xs font-semibold text-bodyText-muted dark:text-lavender-light/60 mb-1.5">
             <span>{project.client || 'Featured Case Study'}</span>
