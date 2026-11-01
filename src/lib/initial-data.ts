@@ -54,7 +54,7 @@ export const INITIAL_EXPERIENCES: ExperienceItem[] = [
     companySubtitle: 'Language & Cultural Academy',
     role: 'Graphic Design Intern',
     location: 'Delhi, India',
-    period: 'Nov 2025 – Jan 2026',
+    period: 'Oct 2025 – Mar 2026',
     bullets: [
       'Created posters and social media creatives using provided content and brand guidelines.',
       'Made edits and revisions to existing design files as required across varied campaign formats.',
