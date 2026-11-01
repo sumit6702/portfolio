@@ -658,15 +658,18 @@ export default function LiveProjectCaseStudy({
         {/* ======================================================================== */}
         {/* BIG HERO COVER IMAGE (With Mini Change Cover Icon for Admin)             */}
         {/* ======================================================================== */}
-        <div className="relative group w-full aspect-[16/9] rounded-[32px] md:rounded-[40px] overflow-hidden border border-lavender/50 dark:border-white/10 shadow-[0_16px_40px_rgba(46,42,79,0.08)] mb-14 bg-bg dark:bg-[#161426]">
-          <Image
-            src={project.coverImage}
-            alt={project.title}
-            fill
-            priority
-            sizes="(max-width: 1200px) 100vw, 1200px"
-            className="object-cover"
-          />
+        <div className="relative group w-full rounded-[32px] md:rounded-[40px] overflow-hidden border border-lavender/50 dark:border-white/10 shadow-[0_16px_40px_rgba(46,42,79,0.08)] mb-14 bg-bg dark:bg-[#161426]">
+          {project.coverImage ? (
+            <img
+              src={project.coverImage}
+              alt={project.title}
+              className="w-full h-auto block"
+            />
+          ) : (
+            <div className="w-full aspect-[16/9] flex items-center justify-center bg-lavender-light dark:bg-[#161426]">
+              <span className="text-bodyText-muted text-sm font-semibold">No Cover Image</span>
+            </div>
+          )}
 
           {/* Admin Live Cover Change Button */}
           {isAdmin && isEditMode && (
@@ -870,13 +873,11 @@ export default function LiveProjectCaseStudy({
 
                   {(item.type === 'image' || !item.type) && item.mediaUrl && (
                     <div className="space-y-3">
-                      <div className="relative w-full aspect-[16/10] sm:aspect-[16/9] rounded-[32px] overflow-hidden border border-lavender/50 dark:border-white/10 shadow-[0_12px_32px_rgba(46,42,79,0.06)] bg-bg dark:bg-[#161426]">
-                        <Image
+                      <div className="relative w-full rounded-[32px] overflow-hidden border border-lavender/50 dark:border-white/10 shadow-[0_12px_32px_rgba(46,42,79,0.06)] bg-bg dark:bg-[#161426]">
+                        <img
                           src={item.mediaUrl}
                           alt={item.title || `${project.title} - View ${index + 1}`}
-                          fill
-                          sizes="(max-width: 1200px) 100vw, 1200px"
-                          className="object-cover"
+                          className="w-full h-auto block"
                         />
                       </div>
                       {item.mediaCaption && (
@@ -998,7 +999,7 @@ export default function LiveProjectCaseStudy({
               </ClayButton>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {relatedProjects.map((p) => (
                 <ProjectCard key={p.id} project={p} />
               ))}

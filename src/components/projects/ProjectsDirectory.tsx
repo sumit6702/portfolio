@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useMemo } from 'react';
-import { Project } from '@/lib/types';
+import { Project, ProjectCategory } from '@/lib/types';
 import ProjectCard from '@/components/projects/ProjectCard';
 import DecorSlot from '@/components/decor/DecorSlot';
 import { Sparkles, Search } from 'lucide-react';
@@ -112,13 +112,11 @@ export default function ProjectsDirectory({ initialProjects, categories }: Proje
           </div>
         </div>
 
-        {/* Project Card Masonry Grid */}
+        {/* Project Card Grid */}
         {filteredProjects.length > 0 ? (
-          <div className="columns-1 md:columns-2 lg:columns-3 gap-8 [column-fill:_balance]">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {filteredProjects.map((project, idx) => (
-              <div key={project.id} className="break-inside-avoid mb-8 inline-block w-full">
-                <ProjectCard project={project} priority={idx < 3} />
-              </div>
+              <ProjectCard key={project.id} project={project} priority={idx < 3} />
             ))}
           </div>
         ) : (
